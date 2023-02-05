@@ -1,59 +1,73 @@
-"""Services module"""
-from flask import jsonify, request
+"""User service
+
+Module contains User Service that provides methods with CRUD operations for
+user resource.
+"""
+
+from flask import jsonify, request, Response
 from marshmallow import ValidationError
+from requests import codes
 from sqlalchemy.exc import IntegrityError
 
-from bookshop_app.data_access_objects.user_dao import UserDao
-from bookshop_app.models.user_schema import UserSchema
+from bookshop_app.data_access_objects.user import UserDAO
+from bookshop_app.schemas.user import UserSchema
 
-userSchema = UserSchema()
-userListSchema = UserSchema(many=True)
+user_schema = UserSchema()
+user_list_schema = UserSchema(many=True)
 
 
 class UserService:
-    """To support CRUD operations for user resource"""
+    """User Service
+
+    Provides service methods that support CRUD operations for user resource
+    """
 
     @staticmethod
-    def get(user_id: int):
+    def get(user_id: int) -> dict:
         """Get user resource"""
-        user_data = UserDao.fetch_by_id(user_id)
-        return userSchema.dump(user_data)
+        user_data = UserDAO.get_by_id(user_id)
+        return user_schema.dump(user_data)
 
     @staticmethod
-    def get_all():
+    def get_all() -> list[dict]:
         """Get all user resources"""
-        return userListSchema.dump(UserDao.fetch_all())
+        all_users_data = UserDAO.get_all()
+        return user_list_schema.dump(all_users_data)
 
     @staticmethod
-    def create():
+    def create() -> Response | tuple[dict, int]:
         """Create user resource"""
         user_req_json = request.get_json()
         password = user_req_json.pop('password', None)
         if not password:
-            return jsonify(detail='Impossible to create a new user. Field "password" is not set.',
-                           status=400, title="Bad Request", type="about:blank")
-        user_data = userSchema.load(user_req_json)
+            return jsonify(
+                detail='Impossible to create a new user. Field "password" is not set.',
+                status=codes.bad_request,
+                title="Bad Request",
+                type="about:blank",
+            )
+        user_data = user_schema.load(user_req_json)
         user_data.hash_password(password)
-        UserDao.create(user_data)
-        return userSchema.dump(user_data), 201
+        UserDAO.create(user_data)
+        return user_schema.dump(user_data), codes.created
 
     @staticmethod
-    def delete(user_id: int):
+    def delete(user_id: int) -> tuple[dict[str, str], int]:
         """Delete user resource"""
-        UserDao.fetch_by_id(user_id)
-        UserDao.delete(user_id)
-        return {'message': 'User deleted successfully'}, 200
+        UserDAO.get_by_id(user_id)
+        UserDAO.delete(user_id)
+        return {'message': 'User deleted successfully'}, codes.ok
 
     @staticmethod
-    def update(user_id: int):
+    def update(user_id: int) -> Response | tuple[dict, int]:
         """Update user resource"""
         try:
-            user_data = userSchema.dump(UserDao.fetch_by_id(user_id))
+            user_data = user_schema.dump(UserDAO.get_by_id(user_id))
             user_data.update(request.get_json())
-            user_data = userSchema.load(user_data)
-            UserDao.update(user_data)
-            return userSchema.dump(user_data), 200
+            user_data = user_schema.load(user_data)
+            UserDAO.update(user_data)
+            return user_schema.dump(user_data), codes.ok
         except ValidationError as error:
-            return jsonify(detail=str(error), status=400, title="Bad Request", type="about:blank")
+            return jsonify(detail=str(error), status=codes.bad_request, title="Bad Request", type="about:blank")
         except IntegrityError as error:
-            return jsonify(detail=error.args[0], status=400, title="Bad Request", type="about:blank")
+            return jsonify(detail=error.args[0], status=codes.bad_request, title="Bad Request", type="about:blank")
