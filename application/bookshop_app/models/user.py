@@ -1,20 +1,33 @@
-"""Module to manage ORM User model"""
+"""ORM User Model"""
 
 import hashlib
 import os
+from enum import Enum
 
 from bookshop_app.database import db
 
 
-class User(db.Model):
-    """User table specification"""
+class UserRole(Enum):
+    """User roles"""
 
-    __tablename__ = "users"
+    ADMIN = "Admin"
+    MANAGER = "Manager"
+    CUSTOMER = "Customer"
+
+
+class UserModel(db.Model):
+    """User model"""
+
     id = db.Column(db.Integer, primary_key=True)
-    login = db.Column(db.String(256), unique=True, nullable=False)
-    first_name = db.Column(db.String(256), nullable=False)
-    last_name = db.Column(db.String(256), nullable=False)
+    login = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(64))
+
+    role = db.Column(db.String(256), nullable=False)
+
+    name = db.Column(db.String(256))
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    phone = db.Column(db.String(256))
+    address = db.Column(db.String(256))
 
     def __repr__(self) -> str:
         return f"<User {self.login}>"
