@@ -1,0 +1,146 @@
+openapi: 3.0.3
+info:
+  title: Sample REST APIs using Flask, OpenAPI and Connexion
+  description: Sample User Service
+  version: "1.0.0"
+
+servers:
+  - url: http://localhost:5000/api
+    description: Rest Server showing Swagger and Connexion capability
+
+paths:
+  /user:
+    get:
+      operationId: bookshop_app.controllers.user.UserController.get_all
+      tags:
+        - User
+      summary: Returns a list of users.
+      description: Returns a list of users.
+      responses:
+        "200": # status code
+          description: Return the entire list of users.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+      security:
+        - basicAuth: [ ]
+    post:
+      operationId: bookshop_app.controllers.user.UserController.create
+      tags:
+        - User
+      summary: Create a new User
+      description: Create a new User
+      requestBody:
+        content:
+          application/json:
+            schema:
+                type: object
+                properties:
+                  login:
+                    type: string
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
+                  password:
+                    type: string
+      responses:
+        "201":
+          description: User Created successfully
+  /user/{user_id}:
+    get:
+      operationId: bookshop_app.controllers.user.UserController.get
+      tags:
+        - User
+      summary: Return a User with given ID
+      description: Return a User with given ID
+      parameters:
+        - name: user_id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200": # status code
+          description: Return a User with given ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    delete:
+      operationId: bookshop_app.controllers.user.UserController.delete
+      tags:
+        - User
+      summary: Delete a User with given ID
+      description: Delete a User with given ID
+      parameters:
+        - name: user_id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200": # status code
+          description: Deleted an User with given ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    put:
+      operationId: bookshop_app.controllers.user.UserController.update
+      tags:
+        - User
+      summary: Update a User with given ID
+      description: Update a User with given ID
+      parameters:
+        - name: user_id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+      responses:
+        "200": # status code
+          description: Updated an Item with given ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        login:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      x-basicInfoFunc: app.basic_auth
