@@ -1,11 +1,17 @@
 """Product controller"""
 from flask import Response
+
 from bookshop_app.authenticator import auth
 from bookshop_app.services.product import ProductService
 
 
 class ProductController:
     """Controller for Product"""
+
+    @staticmethod
+    def get_all() -> list[dict]:
+        """Get all product resources"""
+        return ProductService.get_all()
 
     @staticmethod
     def get(product_id: int) -> dict:

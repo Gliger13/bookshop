@@ -20,6 +20,11 @@ class StoreDAO:
         db.session.commit()
 
     @staticmethod
+    def get_all() -> list[StoreModel]:
+        """Return all store items from database"""
+        return db.session.query(StoreModel).all()
+
+    @staticmethod
     def get_by_id(store_id: int) -> StoreModel:
         """Get store by id from database"""
         return db.session.query(StoreModel).get_or_404(

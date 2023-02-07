@@ -20,6 +20,11 @@ class BookingDAO:
         db.session.commit()
 
     @staticmethod
+    def get_all() -> list[BookingModel]:
+        """Return all bookings from database"""
+        return db.session.query(BookingModel).all()
+
+    @staticmethod
     def get_by_id(booking_id: int) -> BookingModel:
         """Get booking by id from database"""
         return db.session.query(BookingModel).get_or_404(
