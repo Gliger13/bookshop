@@ -28,6 +28,12 @@ class StoreService:
         return store_schema.dump(store_data)
 
     @staticmethod
+    def get_all() -> list[dict]:
+        """Get all store item resources"""
+        all_store_data = StoreDAO.get_all()
+        return store_schema.dump(all_store_data)
+
+    @staticmethod
     def create() -> Response | tuple[dict, int]:
         """Create store resource"""
         create_store_json = request.get_json()

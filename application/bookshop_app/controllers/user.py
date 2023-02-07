@@ -10,15 +10,15 @@ class UserController:
 
     @staticmethod
     @auth.login_required
-    def get(user_id: int) -> dict:
-        """Get user resource by user id"""
-        return UserService.get(user_id)
-
-    @staticmethod
-    @auth.login_required
     def get_all() -> list[dict]:
         """Get all user resources"""
         return UserService.get_all()
+
+    @staticmethod
+    @auth.login_required
+    def get(user_id: int) -> dict:
+        """Get user resource by user id"""
+        return UserService.get(user_id)
 
     @staticmethod
     def create() -> Response | tuple[dict, int]:

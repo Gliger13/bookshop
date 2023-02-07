@@ -1,11 +1,17 @@
 """Booking controller"""
 from flask import Response
+
 from bookshop_app.authenticator import auth
 from bookshop_app.services.booking import BookingService
 
 
 class BookingController:
     """Controller for Booking"""
+
+    @staticmethod
+    def get_all() -> list[dict]:
+        """Get all booking resources"""
+        return BookingService.get_all()
 
     @staticmethod
     def get(booking_id: int) -> dict:

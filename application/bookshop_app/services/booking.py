@@ -22,6 +22,12 @@ class BookingService:
     """
 
     @staticmethod
+    def get_all() -> list[dict]:
+        """Get all booking resources"""
+        all_booking_data = BookingDAO.get_all()
+        return booking_schema.dump(all_booking_data)
+
+    @staticmethod
     def get(booking_id: int) -> dict:
         """Get booking resource by id"""
         booking_data = BookingDAO.get_by_id(booking_id)
