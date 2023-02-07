@@ -1,39 +1,39 @@
-"""Store controller"""
+"""Store Item controller"""
 from flask import Response
 
 from bookshop_app.authenticator import auth
-from bookshop_app.services.store import StoreService
+from bookshop_app.services.store_item import StoreItemService
 
 
-class StoreController:
-    """Controller for Store"""
+class StoreItemController:
+    """Controller for Store Item"""
 
     @staticmethod
     @auth.login_required
     def get_all() -> list[dict]:
         """Get all store item resources"""
-        return StoreService.get_all()
+        return StoreItemService.get_all()
 
     @staticmethod
     @auth.login_required
-    def get(store_id: int) -> dict:
-        """Get store resource by store id"""
-        return StoreService.get(store_id)
+    def get(store_item_id: int) -> dict:
+        """Get store item resource by store item id"""
+        return StoreItemService.get(store_item_id)
 
     @staticmethod
     @auth.login_required
     def create() -> Response | tuple[dict, int]:
-        """Create store resource"""
-        return StoreService.create()
+        """Create store item resource"""
+        return StoreItemService.create()
 
     @staticmethod
     @auth.login_required
-    def delete(store_id: int) -> tuple[dict[str, str], int]:
-        """Delete store resource"""
-        return StoreService.delete(store_id)
+    def delete(store_item_id: int) -> tuple[dict[str, str], int]:
+        """Delete store item resource"""
+        return StoreItemService.delete(store_item_id)
 
     @staticmethod
     @auth.login_required
-    def update(store_id: int) -> Response | tuple[dict, int]:
-        """Update store resource"""
-        return StoreService.update(store_id)
+    def update(store_item_id: int) -> Response | tuple[dict, int]:
+        """Update store item resource"""
+        return StoreItemService.update(store_item_id)

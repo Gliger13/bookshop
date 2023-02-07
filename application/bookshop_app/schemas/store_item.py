@@ -1,14 +1,14 @@
-"""ORM Store Schema"""
+"""ORM Store Item Schema"""
 from bookshop_app.database import db
 from bookshop_app.dependencies import ma
-from bookshop_app.models.store import StoreModel
+from bookshop_app.models.store_item import StoreItemModel
 
 
-class StoreSchema(ma.SQLAlchemySchema):
-    """Store schema"""
+class StoreItemSchema(ma.SQLAlchemySchema):
+    """Store item schema"""
 
     class Meta:
-        model = StoreModel
+        model = StoreItemModel
         load_instance = True
         sqla_session = db.session
 
