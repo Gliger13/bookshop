@@ -22,6 +22,12 @@ class ProductService:
     """
 
     @staticmethod
+    def get_all() -> list[dict]:
+        """Get all product resources"""
+        all_product_data = ProductDAO.get_all()
+        return product_schema.dump(all_product_data)
+
+    @staticmethod
     def get(product_id: int) -> dict:
         """Get product resource by id"""
         product_data = ProductDAO.get_by_id(product_id)

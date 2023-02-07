@@ -10,6 +10,12 @@ class StoreController:
 
     @staticmethod
     @auth.login_required
+    def get_all() -> list[dict]:
+        """Get all store item resources"""
+        return StoreService.get_all()
+
+    @staticmethod
+    @auth.login_required
     def get(store_id: int) -> dict:
         """Get store resource by store id"""
         return StoreService.get(store_id)

@@ -20,6 +20,11 @@ class ProductDAO:
         db.session.commit()
 
     @staticmethod
+    def get_all() -> list[ProductModel]:
+        """Return all products from database"""
+        return db.session.query(ProductModel).all()
+
+    @staticmethod
     def get_by_id(product_id: int) -> ProductModel:
         """Get product by id from database"""
         return db.session.query(ProductModel).get_or_404(

@@ -1,7 +1,5 @@
 """User Data Access Object"""
 
-from typing import List
-
 from bookshop_app.database import db
 from bookshop_app.models.user import UserModel
 
@@ -29,7 +27,7 @@ class UserDAO:
             description=UserMessages.USER_NOT_FOUND.format(user_id=user_id))
 
     @staticmethod
-    def get_all() -> List[UserModel]:
+    def get_all() -> list[UserModel]:
         """Return all users from database"""
         return db.session.query(UserModel).all()
 
