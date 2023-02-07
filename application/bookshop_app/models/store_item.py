@@ -1,9 +1,9 @@
-"""ORM Store Model"""
+"""ORM Store Item Model"""
 from bookshop_app.database import db
 
 
-class StoreModel(db.Model):
-    """Store model"""
+class StoreItemModel(db.Model):
+    """Store Item model"""
 
     id = db.Column(db.Integer, primary_key=True)
 
