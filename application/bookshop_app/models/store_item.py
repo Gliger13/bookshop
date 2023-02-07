@@ -7,7 +7,7 @@ class StoreItemModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    product = db.relationship('Product', backref='store', lazy=True)
+    product = db.relationship('ProductModel', backref='store', lazy=True)
 
     available_quantity = db.Column(db.Integer)
     booked_quantity = db.Column(db.Integer)

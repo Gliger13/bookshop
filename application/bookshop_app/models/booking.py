@@ -21,8 +21,8 @@ class BookingModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    product = db.relationship('Product', backref='product', lazy=True)
-    user = db.relationship('User', backref='booking', lazy=True)
+    product = db.relationship('ProductModel', backref='product', lazy=True)
+    user = db.relationship('UserModel', backref='booking', lazy=True)
 
     delivery_address = db.Column(db.String(256))
     quantity = db.Column(db.Integer)
