@@ -1,5 +1,5 @@
 """Booking status schema"""
-from bookshop_app.database import db
+from bookshop_app.database.database import db
 from bookshop_app.dependencies import ma
 from bookshop_app.models.booking_status import BookingStatusModel
 

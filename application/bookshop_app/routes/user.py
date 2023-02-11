@@ -1,4 +1,7 @@
-"""Routes module."""
+"""User routes
+
+Module contains routes for user manipulations.
+"""
 
 from flask import request
 

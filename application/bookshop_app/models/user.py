@@ -3,7 +3,7 @@
 import hashlib
 import os
 
-from bookshop_app.database import db
+from bookshop_app.database.database import db
 from bookshop_app.models.role import RoleModel
 
 

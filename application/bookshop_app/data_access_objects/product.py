@@ -1,6 +1,6 @@
 """Product Data Access Object"""
 
-from bookshop_app.database import db
+from bookshop_app.database.database import db
 from bookshop_app.models.product import ProductModel
 
 
