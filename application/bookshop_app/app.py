@@ -1,4 +1,5 @@
 """Main application module"""
+from importlib.resources import files
 
 import connexion
 from flask import Flask
@@ -13,11 +14,13 @@ from bookshop_app.dependencies import ma
 def create_app() -> Flask:
     """Factory method for Flask provider"""
 
-    options = {'swagger_ui': True}
-    connexion_app = connexion.App("__name__",
-                                  specification_dir='./open_api/',
-                                  options=options)
-    connexion_app.add_api('swagger.yml')
+    options = {"swagger_ui": True}
+    connexion_app = connexion.App(
+        import_name="__name__",
+        specification_dir=str(files("open_api")),
+        options=options
+    )
+    connexion_app.add_api("swagger.yml")
     application = connexion_app.app
     application.config.from_object(get_environment_config())
     db.init_app(application)
@@ -35,7 +38,7 @@ def basic_auth(username, password):
 
 
 app = create_app()
-migrate = Migrate(app, db, render_as_batch=True)
+migrate = Migrate(app, db)
 
 if __name__ == "__main__":
     app.run()
