@@ -24,5 +24,5 @@ class BookingModel(db.Model):
     delivery_address = db.Column(db.String(256))
     quantity = db.Column(db.Integer)
 
-    date = db.Column(db.Date)
-    time = db.Column(db.DateTime)
+    delivery_date = db.Column(db.Date)
+    delivery_time = db.Column(db.Time)

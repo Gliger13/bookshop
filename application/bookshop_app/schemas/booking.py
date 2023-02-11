@@ -22,5 +22,5 @@ class BookingSchema(ma.SQLAlchemySchema):
     delivery_address = ma.auto_field()
     quantity = ma.auto_field()
 
-    date = ma.auto_field()
-    time = ma.auto_field()
+    delivery_date = ma.auto_field()
+    delivery_time = ma.auto_field()
