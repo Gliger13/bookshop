@@ -1,8 +1,17 @@
 """Module to store environment configs"""
-
+import logging
 import os
+from enum import Enum
 
 import click
+
+
+class Environment(Enum):
+    """Describes all environment types"""
+
+    DEVELOPMENT = "development"
+    TESTING = "testing"
+    PRODUCTION = "production"
 
 
 class Config(object):
@@ -29,10 +38,27 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
 
 
-def get_environment_config() -> str:
-    """To supports several environments"""
+class ProductionConfig(Config):
+    """Test environment config"""
 
-    if Config.ENV == "TESTING":
-        return "config.TestingConfig"
-    elif Config.ENV == "DEVELOPMENT":
-        return "config.DevelopmentConfig"
+    DEBUG = False
+    SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
+
+
+def get_environment_config() -> str:
+    """Get environment config depends on environment name
+
+    :return: package path for config for the current environment type
+    """
+    logging.info("Loading application config for `%s` environment", Config.ENV)
+    match Config.ENV:
+        case Environment.DEVELOPMENT.name:
+            return "config.DevelopmentConfig"
+        case Environment.TESTING.name:
+            return "config.TestingConfig"
+        case Environment.PRODUCTION.name:
+            return "config.ProductionConfig"
+        case _:
+            raise EnvironmentError(
+                f"Invalid environment name `{Config.ENV}` specified in environment variables. "
+                f"Please specify any of {[env.name for env in Environment]}")
