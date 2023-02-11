@@ -1,5 +1,5 @@
 """ORM Store Item Schema"""
-from bookshop_app.database import db
+from bookshop_app.database.database import db
 from bookshop_app.dependencies import ma
 from bookshop_app.models.store_item import StoreItemModel
 

@@ -1,6 +1,6 @@
 """ORM Booking model"""
 
-from bookshop_app.database import db
+from bookshop_app.database.database import db
 from bookshop_app.models.booking_status import BookingStatusModel
 from bookshop_app.models.product import ProductModel
 from bookshop_app.models.user import UserModel

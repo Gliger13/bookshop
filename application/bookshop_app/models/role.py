@@ -1,7 +1,7 @@
 """ORM Role model"""
 from enum import Enum
 
-from bookshop_app.database import db
+from bookshop_app.database.database import db
 
 
 class UserRole(Enum):
