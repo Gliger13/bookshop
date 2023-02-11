@@ -496,7 +496,7 @@ paths:
     delete:
       operationId: bookshop_app.controllers.store_item.StoreItemController.delete
       tags:
-        - Booking
+        - StoreItem
       summary: Delete a store item with given ID
       description: Delete a store item with given ID
       parameters:
@@ -538,11 +538,11 @@ components:
           format: int64
           description: |
             User role id to specify permissions. Predefined:
-            - 0 = Admin
-            - 1 = Manager
-            - 2 = Customer
-          enum: [0, 1, 2]
-          example: 2
+            - 1 = Admin
+            - 2 = Manager
+            - 3 = Customer
+          enum: [1, 2, 3]
+          example: 3
         name:
           type: string
           description: User first name and last name
@@ -589,10 +589,10 @@ components:
           format: int64
           description: |
             User role id to specify permissions. Predefined:
-            - 0 = Admin
-            - 1 = Manager
-            - 2 = Customer
-          enum: [0, 1, 2]
+            - 1 = Admin
+            - 2 = Manager
+            - 3 = Customer
+          enum: [1, 2, 3]
           example: 2
         name:
           type: string
@@ -635,10 +635,10 @@ components:
           format: int64
           description: |
             User role id to specify permissions. Predefined:
-            - 0 = Admin
-            - 1 = Manager
-            - 2 = Customer
-          enum: [0, 1, 2]
+            - 1 = Admin
+            - 2 = Manager
+            - 3 = Customer
+          enum: [1, 2, 3]
           example: 2
           nullable: true
         name:
@@ -867,25 +867,29 @@ components:
           description: Physical address for delivery
         delivery_date:
           type: string
-          description: Estimated or exacted date of delivery
+          format: date
+          description: Estimated or exacted date of delivery in RFC 3339, section 5.6 format
+          example: 2023-02-01
           nullable: true
         delivery_time:
           type: string
-          description: Estimated or exacted date of delivery
+          pattern: "^([01]?(\\d|2[0-3])?:[0-5]\\d)$"
+          description: Estimated or exacted date of delivery in HH:MM format
+          example: 16:00
           nullable: true
         status_id:
           type: integer
           format: int64
           description: | 
             Current booking status id. Predefined:
-            - 0 - submitted
-            - 1 - rejected
-            - 2 - approved
-            - 3 - cancelled
-            - 4 - in_delivery
-            - 5 - completed
-          enum: [ 0, 1, 2, 3, 4, 5 ]
-          example: 0
+            - 1 - submitted
+            - 2 - rejected
+            - 3 - approved
+            - 4 - cancelled
+            - 5 - in_delivery
+            - 6 - completed
+          enum: [ 1, 2, 3, 4, 5, 6 ]
+          example: 1
       required:
         - id
         - user_id
@@ -919,25 +923,29 @@ components:
           description: Physical address for delivery
         delivery_date:
           type: string
-          description: Estimated or exacted date of delivery
+          format: date
+          description: Estimated or exacted date of delivery in RFC 3339, section 5.6 format
+          example: 2023-02-01
           nullable: true
         delivery_time:
           type: string
-          description: Estimated or exacted date of delivery
+          pattern: "^([01]?(\\d|2[0-3])?:[0-5]\\d)$"
+          description: Estimated or exacted date of delivery in HH:MM format
+          example: 16:00
           nullable: true
         status_id:
           type: integer
           format: int64
           description: | 
             Booking status id. Predefined:
-            - 0 - submitted
-            - 1 - rejected
-            - 2 - approved
-            - 3 - cancelled
-            - 4 - in_delivery
-            - 5 - completed
-          enum: [ 0, 1, 2, 3, 4, 5 ]
-          example: 0
+            - 1 - submitted
+            - 2 - rejected
+            - 3 - approved
+            - 4 - cancelled
+            - 5 - in_delivery
+            - 6 - completed
+          enum: [ 1, 2, 3, 4, 5, 6 ]
+          example: 1
       required:
         - user_id
         - product_id
@@ -959,25 +967,29 @@ components:
           nullable: true
         delivery_date:
           type: string
-          description: Estimated or exacted date of delivery
+          format: date
+          description: Estimated or exacted date of delivery in RFC 3339, section 5.6 format
+          example: 2023-02-01
           nullable: true
         delivery_time:
           type: string
-          description: Estimated or exacted date of delivery
+          pattern: "^([01]?(\\d|2[0-3])?:[0-5]\\d)$"
+          description: Estimated or exacted date of delivery in HH:MM format
+          example: 16:00
           nullable: true
         status_id:
           type: integer
           format: int64
           description: | 
             Booking status id. Predefined:
-            - 0 - submitted
-            - 1 - rejected
-            - 2 - approved
-            - 3 - cancelled
-            - 4 - in_delivery
-            - 5 - completed
-          enum: [ 0, 1, 2, 3, 4, 5 ]
-          example: 0
+            - 1 - submitted
+            - 2 - rejected
+            - 3 - approved
+            - 4 - cancelled
+            - 5 - in_delivery
+            - 6 - completed
+          enum: [ 1, 2, 3, 4, 5, 6 ]
+          example: 1
           nullable: true
   securitySchemes:
     basicAuth:

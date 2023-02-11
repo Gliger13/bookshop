@@ -14,7 +14,7 @@ class StoreItemSchema(ma.SQLAlchemySchema):
 
     id = ma.auto_field()
 
-    product = ma.auto_field()
+    product_id = ma.auto_field()
 
     available_quantity = ma.auto_field()
     booked_quantity = ma.auto_field()
