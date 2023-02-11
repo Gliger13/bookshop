@@ -51,7 +51,7 @@ paths:
           description: Bad request, validation error
         "500":
           description: Server Error
-  /user/{id}:
+  /user/{user_id}:
     get:
       operationId: bookshop_app.controllers.user.UserController.get
       tags:
@@ -59,7 +59,7 @@ paths:
       summary: Return a User with given ID
       description: Return a User with given ID
       parameters:
-        - name: id
+        - name: user_id
           in: path
           description: User ID
           required: true
@@ -86,7 +86,7 @@ paths:
       summary: Update a User with given ID
       description: Update a User with given ID
       parameters:
-        - name: id
+        - name: user_id
           in: path
           description: User ID
           required: true
@@ -118,7 +118,7 @@ paths:
       summary: Delete a User with given ID
       description: Delete a User with given ID
       parameters:
-        - name: id
+        - name: user_id
           in: path
           description: ID of user to delete
           required: true
@@ -175,7 +175,7 @@ paths:
           description: Server Error
       security:
         - basicAuth: [ ]
-  /product/{id}:
+  /product/{product_id}:
     get:
       operationId: bookshop_app.controllers.product.ProductController.get
       tags:
@@ -183,7 +183,7 @@ paths:
       summary: Get a product with given ID
       description: Get a product with given ID
       parameters:
-        - name: id
+        - name: product_id
           in: path
           description: Product ID
           required: true
@@ -208,7 +208,7 @@ paths:
       summary: Update a product with given ID
       description: Update a product with given ID
       parameters:
-        - name: id
+        - name: product_id
           in: path
           description: Product ID
           required: true
@@ -240,7 +240,7 @@ paths:
       summary: Delete a product with given ID
       description: Delete a product with given ID
       parameters:
-        - name: id
+        - name: product_id
           in: path
           description: Product ID
           required: true
@@ -301,7 +301,7 @@ paths:
           description: Server Error
       security:
         - basicAuth: [ ]
-  /booking/{id}:
+  /booking/{booking_id}:
     get:
       operationId: bookshop_app.controllers.booking.BookingController.get
       tags:
@@ -309,7 +309,7 @@ paths:
       summary: Get a booking with given ID
       description: Get a booking with given ID
       parameters:
-        - name: id
+        - name: booking_id
           in: path
           description: Booking ID
           required: true
@@ -338,7 +338,7 @@ paths:
       summary: Update a booking with given ID
       description: Update a booking with given ID
       parameters:
-        - name: id
+        - name: booking_id
           in: path
           description: Booking ID
           required: true
@@ -370,7 +370,7 @@ paths:
       summary: Delete a booking with given ID
       description: Delete a booking with given ID
       parameters:
-        - name: id
+        - name: booking_id
           in: path
           description: Booking ID
           required: true
@@ -431,7 +431,7 @@ paths:
           description: Server Error
       security:
         - basicAuth: [ ]
-  /store-item/{id}:
+  /store-item/{store_item_id}:
     get:
       operationId: bookshop_app.controllers.store_item.StoreItemController.get
       tags:
@@ -439,7 +439,7 @@ paths:
       summary: Get a store item with given ID
       description: Get a store item with given ID
       parameters:
-        - name: id
+        - name: store_item_id
           in: path
           description: Store item ID
           required: true
@@ -468,7 +468,7 @@ paths:
       summary: Update a store item with given ID
       description: Update a store item with given ID
       parameters:
-        - name: id
+        - name: store_item_id
           in: path
           description: Store item ID
           required: true
@@ -500,7 +500,7 @@ paths:
       summary: Delete a store item with given ID
       description: Delete a store item with given ID
       parameters:
-        - name: id
+        - name: store_item_id
           in: path
           description: Store item ID
           required: true
@@ -533,11 +533,16 @@ components:
           type: string
           description: User login string for authentication
           example: BigBoy13
-        role:
-          type: string
-          description: User role to specify permissions
-          enum: [customer, manager, admin]
-          example: customer
+        role_id:
+          type: integer
+          format: int64
+          description: |
+            User role id to specify permissions. Predefined:
+            - 0 = Admin
+            - 1 = Manager
+            - 2 = Customer
+          enum: [0, 1, 2]
+          example: 2
         name:
           type: string
           description: User first name and last name
@@ -579,11 +584,16 @@ components:
         password:
           type: string
           writeOnly: true
-        role:
-          type: string
-          description: User role to specify permissions
-          enum: [customer, manager, admin]
-          example: customer
+        role_id:
+          type: integer
+          format: int64
+          description: |
+            User role id to specify permissions. Predefined:
+            - 0 = Admin
+            - 1 = Manager
+            - 2 = Customer
+          enum: [0, 1, 2]
+          example: 2
         name:
           type: string
           description: User first name and last name
@@ -605,7 +615,7 @@ components:
       required:
         - login
         - password
-        - role
+        - role_id
         - email
     UpdateUser:
       description: Model that represents attributes to update a user
@@ -620,11 +630,16 @@ components:
           type: string
           writeOnly: true
           nullable: true
-        role:
-          type: string
-          description: User role to specify permissions
-          enum: [ customer, manager, admin ]
-          example: customer
+        role_id:
+          type: integer
+          format: int64
+          description: |
+            User role id to specify permissions. Predefined:
+            - 0 = Admin
+            - 1 = Manager
+            - 2 = Customer
+          enum: [0, 1, 2]
+          example: 2
           nullable: true
         name:
           type: string
@@ -858,17 +873,25 @@ components:
           type: string
           description: Estimated or exacted date of delivery
           nullable: true
-        status:
-          type: string
-          description: Current booking status
-          enum: [ submitted, rejected, approved, cancelled, in_delivery, completed ]
-          example: submitted
+        status_id:
+          type: integer
+          format: int64
+          description: | 
+            Current booking status id. Predefined:
+            - 0 - submitted
+            - 1 - rejected
+            - 2 - approved
+            - 3 - cancelled
+            - 4 - in_delivery
+            - 5 - completed
+          enum: [ 0, 1, 2, 3, 4, 5 ]
+          example: 0
       required:
         - id
         - user_id
         - product_id
         - quantity
-        - status
+        - status_id
     BookingSet:
       description: Model that represents set of bookings
       type: array
@@ -902,11 +925,19 @@ components:
           type: string
           description: Estimated or exacted date of delivery
           nullable: true
-        status:
-          type: string
-          description: Current booking status
-          enum: [ submitted, rejected, approved, cancelled, in_delivery, completed ]
-          example: submitted
+        status_id:
+          type: integer
+          format: int64
+          description: | 
+            Booking status id. Predefined:
+            - 0 - submitted
+            - 1 - rejected
+            - 2 - approved
+            - 3 - cancelled
+            - 4 - in_delivery
+            - 5 - completed
+          enum: [ 0, 1, 2, 3, 4, 5 ]
+          example: 0
       required:
         - user_id
         - product_id
@@ -934,11 +965,19 @@ components:
           type: string
           description: Estimated or exacted date of delivery
           nullable: true
-        status:
-          type: string
-          description: Current booking status
-          enum: [ submitted, rejected, approved, cancelled, in_delivery, completed ]
-          example: submitted
+        status_id:
+          type: integer
+          format: int64
+          description: | 
+            Booking status id. Predefined:
+            - 0 - submitted
+            - 1 - rejected
+            - 2 - approved
+            - 3 - cancelled
+            - 4 - in_delivery
+            - 5 - completed
+          enum: [ 0, 1, 2, 3, 4, 5 ]
+          example: 0
           nullable: true
   securitySchemes:
     basicAuth:
