@@ -6,6 +6,7 @@ from bookshop_app.database import db
 class ProductModel(db.Model):
     """Product model"""
 
+    __tablename__ = "products"
     id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(db.String(256))
