@@ -1,7 +1,6 @@
 """ORM Store Item Model"""
+from bookshop_app.database.database import db
 from bookshop_app.models.product import ProductModel
-
-from bookshop_app.database import db
 
 
 class StoreItemModel(db.Model):
