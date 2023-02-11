@@ -6,9 +6,10 @@ from flask import Flask
 from flask_migrate import Migrate
 
 from bookshop_app.authenticator import verify_password
-from bookshop_app.config import get_environment_config
+from bookshop_app.config import Config, get_environment_config
 from bookshop_app.database import db
 from bookshop_app.dependencies import ma
+from bookshop_app.utils.logger import initialize_logger
 
 
 def create_app() -> Flask:
@@ -37,6 +38,7 @@ def basic_auth(username, password):
     return None
 
 
+initialize_logger(Config.ENV)
 app = create_app()
 migrate = Migrate(app, db)
 
