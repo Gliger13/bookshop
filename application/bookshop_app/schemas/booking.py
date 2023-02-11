@@ -15,13 +15,12 @@ class BookingSchema(ma.SQLAlchemySchema):
 
     id = ma.auto_field()
 
-    product = ma.auto_field()
-    user = ma.auto_field()
+    product_id = ma.auto_field()
+    user_id = ma.auto_field()
+    status_id = ma.auto_field()
 
     delivery_address = ma.auto_field()
     quantity = ma.auto_field()
 
     date = ma.auto_field()
     time = ma.auto_field()
-
-    status = ma.auto_field()
