@@ -10,30 +10,30 @@ class StoreItemController:
 
     @staticmethod
     @auth.login_required
-    def get_all() -> list[dict]:
+    def get_all() -> tuple[list[dict], int]:
         """Get all store item resources"""
         return StoreItemService.get_all()
 
     @staticmethod
     @auth.login_required
-    def get(store_item_id: int) -> dict:
+    def get(store_item_id: int) -> tuple[dict, int]:
         """Get store item resource by store item id"""
         return StoreItemService.get(store_item_id)
 
     @staticmethod
     @auth.login_required
-    def create() -> Response | tuple[dict, int]:
+    def create() -> tuple[Response | dict, int]:
         """Create store item resource"""
         return StoreItemService.create()
 
     @staticmethod
     @auth.login_required
-    def delete(store_item_id: int) -> tuple[dict[str, str], int]:
+    def delete(store_item_id: int) -> tuple[dict, int]:
         """Delete store item resource"""
         return StoreItemService.delete(store_item_id)
 
     @staticmethod
     @auth.login_required
-    def update(store_item_id: int) -> Response | tuple[dict, int]:
+    def update(store_item_id: int) -> tuple[Response | dict, int]:
         """Update store item resource"""
         return StoreItemService.update(store_item_id)

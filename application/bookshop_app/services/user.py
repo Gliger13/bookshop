@@ -34,7 +34,7 @@ class UserService:
         return user_schema.dump(user_data), codes.ok
 
     @staticmethod
-    def get_all() -> tuple[dict, int]:
+    def get_all() -> tuple[list[dict], int]:
         """Get all user resources
 
         :return: tuple of response json with all users and status code
