@@ -9,7 +9,7 @@ class StoreItemModel(db.Model):
     __tablename__ = "store_items"
     id = db.Column(db.Integer, primary_key=True)
 
-    product_id = db.Column(db.Integer, db.ForeignKey("products.id"))
+    product_id = db.Column(db.Integer, db.ForeignKey(f"{ProductModel.__tablename__}.id"))
     product = db.relationship(ProductModel.__name__)
 
     available_quantity = db.Column(db.Integer)
