@@ -9,12 +9,12 @@ class ProductController:
     """Controller for Product"""
 
     @staticmethod
-    def get_all() -> list[dict]:
+    def get_all() -> tuple[list[dict], int]:
         """Get all product resources"""
         return ProductService.get_all()
 
     @staticmethod
-    def get(product_id: int) -> dict:
+    def get(product_id: int) -> tuple[dict, int]:
         """Get product resource by product id"""
         return ProductService.get(product_id)
 
@@ -26,12 +26,12 @@ class ProductController:
 
     @staticmethod
     @auth.login_required
-    def delete(product_id: int) -> tuple[dict[str, str], int]:
+    def delete(product_id: int) -> tuple[dict, int]:
         """Delete product resource"""
         return ProductService.delete(product_id)
 
     @staticmethod
     @auth.login_required
-    def update(product_id: int) -> Response | tuple[dict, int]:
+    def update(product_id: int) -> tuple[Response | dict, int]:
         """Update product resource"""
         return ProductService.update(product_id)
