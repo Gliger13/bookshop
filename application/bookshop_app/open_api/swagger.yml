@@ -1012,4 +1012,4 @@ components:
     basicAuth:
       type: http
       scheme: basic
-      x-basicInfoFunc: app.basic_auth
+      x-basicInfoFunc: authenticator.basic_auth
