@@ -1,4 +1,5 @@
 """ORM Booking schema"""
+from marshmallow import validates, ValidationError
 
 from bookshop_app.database.database import db
 from bookshop_app.dependencies import ma
@@ -24,3 +25,13 @@ class BookingSchema(ma.SQLAlchemySchema):
 
     delivery_date = ma.auto_field()
     delivery_time = ma.auto_field()
+
+    @validates("quantity")
+    def validate_quantity(self, quantity: int) -> None:
+        """Validate product quantity
+
+        :param quantity: quantity of the product to validate
+        :raise ValidationError: if something wrong with the given quantity
+        """
+        if quantity < 0:
+            raise ValidationError("Product quantity must not be less than zero")

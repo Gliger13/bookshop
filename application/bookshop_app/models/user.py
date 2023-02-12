@@ -15,7 +15,7 @@ class UserModel(db.Model):
     login = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(64), nullable=False)
 
-    role_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
+    role_id = db.Column(db.Integer, db.ForeignKey(f"{RoleModel.__tablename__}.id"), nullable=False)
     role = db.relationship(RoleModel.__name__)
 
     name = db.Column(db.String(256))
