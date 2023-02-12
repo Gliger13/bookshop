@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Main application module"""
 from importlib.resources import files
 
@@ -21,7 +23,7 @@ def create_app() -> Flask:
     options = {"swagger_ui": True}
     connexion_app = connexion.App(
         import_name="__name__",
-        specification_dir=str(files("open_api")),
+        specification_dir=str(files("bookshop_app").joinpath("open_api")),
         options=options
     )
     connexion_app.add_api("swagger.yml")
@@ -62,5 +64,11 @@ initialize_logger(Config.ENV)
 app = create_app()
 migrate = Migrate(app, db)
 
-if __name__ == "__main__":
+
+def run_application() -> None:
+    """Run application"""
     app.run()
+
+
+if __name__ == "__main__":
+    run_application()
