@@ -161,7 +161,7 @@ paths:
       description: Create a new product
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: "#/components/schemas/CreateProduct"
       responses:
@@ -217,7 +217,7 @@ paths:
             format: int64
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: "#/components/schemas/UpdateProduct"
       responses:
@@ -558,6 +558,7 @@ components:
         phone:
           type: string
           description: User phone number
+          example: +000000000000
           nullable: true
         address:
           type: string
@@ -583,6 +584,8 @@ components:
           example: BigBoy13
         password:
           type: string
+          minLength: 8
+          maxLength: 256
           writeOnly: true
         role_id:
           type: integer
@@ -607,6 +610,7 @@ components:
         phone:
           type: string
           description: User phone number
+          example: +000000000000
           nullable: true
         address:
           type: string
@@ -628,6 +632,8 @@ components:
           nullable: true
         password:
           type: string
+          minLength: 8
+          maxLength: 256
           writeOnly: true
           nullable: true
         role_id:
@@ -655,6 +661,7 @@ components:
         phone:
           type: string
           description: User phone number
+          example: +000000000000
           nullable: true
         address:
           type: string
@@ -729,6 +736,11 @@ components:
           format: float
           example: 39.99
           minimum: 0
+        image:
+          type: string
+          format: binary
+          writeOnly: true
+          nullable: true
       required:
         - name
         - description
@@ -763,6 +775,11 @@ components:
           format: float
           example: 39.99
           minimum: 0
+          nullable: true
+        image:
+          type: string
+          format: binary
+          writeOnly: true
           nullable: true
 
     StoreItem:
