@@ -12,13 +12,13 @@ class BookingModel(db.Model):
     __tablename__ = "bookings"
     id = db.Column(db.Integer, primary_key=True)
 
-    product_id = db.Column(db.Integer, db.ForeignKey("products.id"))
+    product_id = db.Column(db.Integer, db.ForeignKey(f"{ProductModel.__tablename__}.id"))
     product = db.relationship(ProductModel.__name__)
 
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey(f"{UserModel.__tablename__}.id"))
     user = db.relationship(UserModel.__name__)
 
-    status_id = db.Column(db.Integer, db.ForeignKey("booking_statuses.id"))
+    status_id = db.Column(db.Integer, db.ForeignKey(f"{BookingStatusModel.__tablename__}.id"))
     status = db.relationship(BookingStatusModel.__name__)
 
     delivery_address = db.Column(db.String(256))
