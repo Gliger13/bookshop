@@ -3,13 +3,15 @@
 Module contains Product Service that provides methods with CRUD operations for
 product resource.
 """
-
-from flask import jsonify, request, Response
+from flask import abort, jsonify, request, Response
 from marshmallow import ValidationError
 from requests import codes
 from sqlalchemy.exc import IntegrityError
+from werkzeug.datastructures import FileStorage
 
 from bookshop_app.data_access_objects.product import ProductDAO
+from bookshop_app.models.file import FileManagerFactory, FileValidator
+from bookshop_app.models.product import ProductModel
 from bookshop_app.schemas.product import ProductSchema
 
 product_schema = ProductSchema()
@@ -47,15 +49,16 @@ class ProductService:
         """Create product resource
 
         Validate and load create product request json using product schema.
-        Create product model using Data Access Object.
+        Create product model using Data Access Object. If request contains
+        image then validate and save it using file manager.
 
         :raise HTTPException: raise if:
           - there are validation errors with create product request json
         :return: tuple of response json and status code
         """
         try:
-            create_product_json = request.get_json()
-            product_data = product_schema.load(create_product_json)
+            product_data = product_schema.load(request.form)
+            ProductService.update_product_with_image(product_data, request.files)
             ProductDAO.create(product_data)
             return product_schema.dump(product_data), codes.created
         except ValidationError as error:
@@ -81,7 +84,9 @@ class ProductService:
 
         Check if the product with the given ID exists. Merge old product data
         with new data from the update product request json. Validate and load
-        merged data. Update product model using Data Access Object.
+        merged data. If request contains image then validate and save it using
+        file manager, delete old attached image if it exists. Update product
+        model using Data Access Object.
 
         :raise HTTPException: raise if:
           - product with given ID does not exist
@@ -91,12 +96,47 @@ class ProductService:
         try:
             product_model = ProductDAO.get_by_id(product_id)
             product_data = product_schema.dump(product_model)
-            update_product_request_json = request.get_json()
-            product_data.update(update_product_request_json)
+            product_data.update(request.form)
             updated_product_data = product_schema.load(product_data)
+
+            ProductService.update_product_with_image(updated_product_data, request.files)
             ProductDAO.update(updated_product_data)
             return product_schema.dump(updated_product_data), codes.ok
         except ValidationError as error:
             return jsonify(detail=str(error), status=codes.bad_request), codes.bad_request
         except IntegrityError as error:
             return jsonify(detail=error.args[0], status=codes.bad_request), codes.bad_request
+
+    @staticmethod
+    def update_product_with_image(product_to_set_image: ProductModel, request_files: dict) -> None:
+        """Update given product with the image from request files
+
+        Get image from request files and validate it. Save image file using
+        file manager. Update the given product model with the saved image path.
+        If the product model already has an image path, delete the old saved
+        image.
+
+        :param product_to_set_image: product model to set image from files
+        :param request_files: files attributes from the request
+        :raise HTTPException: raise if
+          - request files do not have image with image mimetype
+          - there are verification errors with the image from the request files
+        """
+        image_to_save: FileStorage = request_files.get("image")
+        if not image_to_save:
+            return None
+
+        if "image" not in image_to_save.mimetype:
+            abort(codes.unsupported_media_type, "Unsupported media type. Given file is not image")
+
+        image_binary = image_to_save.read()
+        FileValidator.validate_image(image_to_save)
+
+        file_manager = FileManagerFactory.get_by_environment_config()
+        saved_image_path = file_manager.save(image_to_save.filename, image_binary)
+
+        if product_to_set_image.image_path:
+            file_manager.delete(product_to_set_image.image_path)
+
+        product_to_set_image.image_path = saved_image_path
+        return None
