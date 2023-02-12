@@ -10,13 +10,13 @@ class UserController:
 
     @staticmethod
     @auth.login_required
-    def get_all() -> list[dict]:
+    def get_all() -> tuple[list[dict], int]:
         """Get all user resources"""
         return UserService.get_all()
 
     @staticmethod
     @auth.login_required
-    def get(user_id: int) -> dict:
+    def get(user_id: int) -> tuple[dict, int]:
         """Get user resource by user id"""
         return UserService.get(user_id)
 
@@ -27,12 +27,12 @@ class UserController:
 
     @staticmethod
     @auth.login_required
-    def delete(user_id: int) -> tuple[dict[str, str], int]:
+    def delete(user_id: int) -> tuple[dict, int]:
         """Delete user resource"""
         return UserService.delete(user_id)
 
     @staticmethod
     @auth.login_required
-    def update(user_id: int) -> Response | tuple[dict, int]:
+    def update(user_id: int) -> tuple[Response | dict, int]:
         """Update user resource"""
         return UserService.update(user_id)

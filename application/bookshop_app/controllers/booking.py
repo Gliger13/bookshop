@@ -9,12 +9,12 @@ class BookingController:
     """Controller for Booking"""
 
     @staticmethod
-    def get_all() -> list[dict]:
+    def get_all() -> tuple[list[dict], int]:
         """Get all booking resources"""
         return BookingService.get_all()
 
     @staticmethod
-    def get(booking_id: int) -> dict:
+    def get(booking_id: int) -> tuple[dict, int]:
         """Get booking resource by booking id"""
         return BookingService.get(booking_id)
 

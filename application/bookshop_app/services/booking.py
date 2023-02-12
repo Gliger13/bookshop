@@ -25,16 +25,16 @@ class BookingService:
     """
 
     @staticmethod
-    def get_all() -> list[dict]:
+    def get_all() -> tuple[list[dict], int]:
         """Get all booking resources
 
         :return: list of all booking attributes
         """
         all_booking_data = BookingDAO.get_all()
-        return booking_list_schema.dump(all_booking_data)
+        return booking_list_schema.dump(all_booking_data), codes.ok
 
     @staticmethod
-    def get(booking_id: int) -> dict:
+    def get(booking_id: int) -> tuple[dict, int]:
         """Get booking resource attributes with given id
 
         :param booking_id: id of the booking resource to delete
@@ -42,7 +42,7 @@ class BookingService:
         :return: booking with given id
         """
         booking_data = BookingDAO.get_by_id(booking_id)
-        return booking_schema.dump(booking_data)
+        return booking_schema.dump(booking_data), codes.ok
 
     @staticmethod
     def create() -> tuple[dict | Response, int]:
