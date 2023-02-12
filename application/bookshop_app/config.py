@@ -42,7 +42,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///dev.db"
     FILE_MANAGER_CONFIG = {
         "manager_type": "local",
-        "dir_to_save": files("instance").joinpath("files")
+        "dir_to_save": files("media").joinpath("files")
     }
     click.echo(SQLALCHEMY_DATABASE_URI)
 
@@ -54,7 +54,7 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
     FILE_MANAGER_CONFIG = {
         "manager_type": "local",
-        "dir_to_save": files("instance").joinpath("files")
+        "dir_to_save": files("media").joinpath("files")
     }
 
 
@@ -65,7 +65,7 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
     FILE_MANAGER_CONFIG = {
         "manager_type": "local",
-        "dir_to_save": files("instance").joinpath("files")
+        "dir_to_save": files("media").joinpath("files")
     }
 
 
