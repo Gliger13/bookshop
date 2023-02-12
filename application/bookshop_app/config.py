@@ -42,7 +42,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///dev.db"
     FILE_MANAGER_CONFIG = {
         "manager_type": "local",
-        "dir_to_save": files("media").joinpath("files")
+        "dir_to_save": files("bookshop_app").joinpath("files").joinpath("media")
     }
     click.echo(SQLALCHEMY_DATABASE_URI)
 
@@ -54,7 +54,7 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
     FILE_MANAGER_CONFIG = {
         "manager_type": "local",
-        "dir_to_save": files("media").joinpath("files")
+        "dir_to_save": files("bookshop_app").joinpath("files").joinpath("media")
     }
 
 
@@ -62,10 +62,10 @@ class ProductionConfig(Config):
     """Test environment config"""
 
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///production.db"
     FILE_MANAGER_CONFIG = {
         "manager_type": "local",
-        "dir_to_save": files("media").joinpath("files")
+        "dir_to_save": files("bookshop_app").joinpath("files").joinpath("media")
     }
 
 
@@ -77,11 +77,11 @@ def get_environment_config_reference() -> str:
     logging.info("Loading application config for `%s` environment", Config.ENV)
     match Config.ENV:
         case Environment.DEVELOPMENT.name:
-            return "config.DevelopmentConfig"
+            return "bookshop_app.config.DevelopmentConfig"
         case Environment.TESTING.name:
-            return "config.TestingConfig"
+            return "bookshop_app.config.TestingConfig"
         case Environment.PRODUCTION.name:
-            return "config.ProductionConfig"
+            return "bookshop_app.config.ProductionConfig"
         case _:
             raise EnvironmentError(
                 f"Invalid environment name `{Config.ENV}` specified in environment variables. "
