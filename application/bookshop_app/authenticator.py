@@ -6,6 +6,18 @@ from bookshop_app.models.user import UserModel
 auth = HTTPBasicAuth()
 
 
+def basic_auth(username: str, password: str) -> None | dict[str, str]:
+    """Basic authentication
+
+    :param username: user to authenticate
+    :param password: password for the given username to verify
+    :return: None if verification failed else authentication
+    """
+    if verify_password(username, password):
+        return {"sub": username}
+    return None
+
+
 @auth.verify_password
 def verify_password(login: str, password: str) -> bool:
     """Verify given password for given login

@@ -19,7 +19,7 @@ def booking_control() -> tuple[Response | dict | list[dict], int]:
         return BookingController.get_all()
 
 
-def product_manipulation(booking_id: int) -> tuple[Response | dict | list[dict], int]:
+def booking_manipulation(booking_id: int) -> tuple[Response | dict | list[dict], int]:
     """URL to get, update or delete booking information
 
     :param booking_id: ID of the booking to manipulate
