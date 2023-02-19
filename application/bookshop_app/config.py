@@ -29,7 +29,7 @@ class Environment(Enum):
 class Config(metaclass=ABCMeta):
     """Parent class for environment configs"""
 
-    ENV = os.environ["ENV"] if "ENV" in os.environ else "DEVELOPMENT"
+    ENV = os.environ["ENV"].upper() if "ENV" in os.environ else "DEVELOPMENT"
     CSRF_ENABLED = True
     SECRET_KEY = "this_is_a_secret_key"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -42,7 +42,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///dev.db"
     FILE_MANAGER_CONFIG = {
         "manager_type": "local",
-        "dir_to_save": files("bookshop_app").joinpath("files").joinpath("media")
+        "dir_to_save": files("bookshop_app").joinpath("media")
     }
     click.echo(SQLALCHEMY_DATABASE_URI)
 
@@ -54,7 +54,7 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
     FILE_MANAGER_CONFIG = {
         "manager_type": "local",
-        "dir_to_save": files("bookshop_app").joinpath("files").joinpath("media")
+        "dir_to_save": files("bookshop_app").joinpath("media")
     }
 
 
@@ -65,7 +65,7 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///production.db"
     FILE_MANAGER_CONFIG = {
         "manager_type": "local",
-        "dir_to_save": files("bookshop_app").joinpath("files").joinpath("media")
+        "dir_to_save": files("bookshop_app").joinpath("media")
     }
 
 
