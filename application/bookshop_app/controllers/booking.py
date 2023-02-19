@@ -2,6 +2,7 @@
 from flask import Response
 
 from bookshop_app.authenticator import auth
+from bookshop_app.models.role import UserRole
 from bookshop_app.services.booking import BookingService
 
 
@@ -9,6 +10,7 @@ class BookingController:
     """Controller for Booking"""
 
     @staticmethod
+    @auth.login_required(role=[UserRole.ADMIN.value, UserRole.MANAGER.value])
     def get_all() -> tuple[list[dict], int]:
         """Get all booking resources"""
         return BookingService.get_all()
@@ -25,7 +27,7 @@ class BookingController:
         return BookingService.create()
 
     @staticmethod
-    @auth.login_required
+    @auth.login_required(role=[UserRole.ADMIN.value])
     def delete(booking_id: int) -> tuple[dict[str, str], int]:
         """Delete booking resource"""
         return BookingService.delete(booking_id)

@@ -1,5 +1,9 @@
 """Authenticator module"""
+import logging
+from typing import Generator
+
 from flask_httpauth import HTTPBasicAuth
+from werkzeug.datastructures import Authorization
 
 from bookshop_app.models.user import UserModel
 
@@ -30,3 +34,14 @@ def verify_password(login: str, password: str) -> bool:
     if not user or not user.verify_password(password):
         return False
     return True
+
+
+@auth.get_user_roles
+def get_user_roles(user_authorization: Authorization) -> str:
+    """Get all user role names to check role based authentication
+
+    :param user_authorization: user authorization
+    :return: user role
+    """
+    user = UserModel.query.filter_by(login=user_authorization.username).first()
+    return user.role.name.value
