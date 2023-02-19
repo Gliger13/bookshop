@@ -161,9 +161,12 @@ paths:
       description: Create a new product
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               $ref: "#/components/schemas/CreateProduct"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/CreateProductWithFiles"
       responses:
         "200":
           description: Product created
@@ -217,9 +220,12 @@ paths:
             format: int64
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               $ref: "#/components/schemas/UpdateProduct"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UpdateProductWithFiles"
       responses:
         "200":
           description: Product updated
@@ -584,6 +590,7 @@ components:
           example: BigBoy13
         password:
           type: string
+          example: Welcome1
           minLength: 8
           maxLength: 256
           writeOnly: true
@@ -596,7 +603,7 @@ components:
             - 2 = Manager
             - 3 = Customer
           enum: [1, 2, 3]
-          example: 2
+          example: 3
         name:
           type: string
           description: User first name and last name
@@ -610,11 +617,12 @@ components:
         phone:
           type: string
           description: User phone number
-          example: +000000000000
+          example: "+000000000000"
           nullable: true
         address:
           type: string
           description: User physical address
+          example: "Test District, 00-0"
           nullable: true
       required:
         - login
@@ -645,7 +653,7 @@ components:
             - 2 = Manager
             - 3 = Customer
           enum: [1, 2, 3]
-          example: 2
+          example: 3
           nullable: true
         name:
           type: string
@@ -661,7 +669,7 @@ components:
         phone:
           type: string
           description: User phone number
-          example: +000000000000
+          example: "+000000000000"
           nullable: true
         address:
           type: string
@@ -713,7 +721,7 @@ components:
     CreateProduct:
       type: object
       description: Represents attributes for creating a product
-      properties:
+      properties: &create_product_properties
         name:
           type: string
           description: Product short name
@@ -736,20 +744,25 @@ components:
           format: float
           example: 39.99
           minimum: 0
-        image:
-          type: string
-          format: binary
-          writeOnly: true
-          nullable: true
       required:
         - name
         - description
         - author
         - price
+    CreateProductWithFiles:
+      type: object
+      description: Represents attributes for creating a product with files
+      properties:
+        <<: *create_product_properties
+        image:
+          type: string
+          format: binary
+          writeOnly: true
+          nullable: true
     UpdateProduct:
       type: object
       description: Represents attributes for creating a product
-      properties:
+      properties: &update_product_properties
         name:
           type: string
           description: Product short name
@@ -776,6 +789,16 @@ components:
           example: 39.99
           minimum: 0
           nullable: true
+        image:
+          type: string
+          format: binary
+          writeOnly: true
+          nullable: true
+    UpdateProductWithFiles:
+      type: object
+      description: Represents attributes for creating a product with files
+      properties:
+        <<: *update_product_properties
         image:
           type: string
           format: binary
@@ -847,15 +870,12 @@ components:
           type: integer
           format: int64
           example: 0
-          readOnly: true
           nullable: true
         sold_quantity:
           type: integer
           format: int64
           example: 0
-          readOnly: true
           nullable: true
-
 
     Booking:
       description: Model that represents booking attributes
