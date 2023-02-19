@@ -160,5 +160,5 @@ class ProductService:
         if request.mimetype == "multipart/form-data":
             create_or_update_product_attributes = create_or_update_request.form.to_dict()
             create_or_update_product_attributes.pop("image", None)
-            return create_or_update_product_attributes
+            return {key: value for key, value in create_or_update_product_attributes.items() if value != ""}
         abort(codes.unsupported_media_type, "Unsupported Media Type")
