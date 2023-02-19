@@ -3,7 +3,9 @@
 Module contains Product Service that provides methods with CRUD operations for
 product resource.
 """
-from flask import abort, jsonify, request, Response
+from typing import Optional
+
+from flask import abort, jsonify, request, Request, Response
 from marshmallow import ValidationError
 from requests import codes
 from sqlalchemy.exc import IntegrityError
@@ -53,11 +55,13 @@ class ProductService:
         image then validate and save it using file manager.
 
         :raise HTTPException: raise if:
-          - there are validation errors with create product request json
+          - 415 - given request media type is not supported
+          - 400 - there are validation errors with create product request json
         :return: tuple of response json and status code
         """
         try:
-            product_data = product_schema.load(request.form)
+            create_product_attributes = ProductService.get_create_or_update_attributes_from_request(request)
+            product_data = product_schema.load(create_product_attributes)
             ProductService.update_product_with_image(product_data, request.files)
             ProductDAO.create(product_data)
             return product_schema.dump(product_data), codes.created
@@ -89,14 +93,16 @@ class ProductService:
         model using Data Access Object.
 
         :raise HTTPException: raise if:
-          - product with given ID does not exist
-          - there are validation errors with merged product data
+          - 415 - given request media type is not supported
+          - 404 - product with given ID does not exist
+          - 400 - there are validation errors with merged product data
         :return: tuple of response json and status code
         """
         try:
+            update_product_attributes = ProductService.get_create_or_update_attributes_from_request(request)
             product_model = ProductDAO.get_by_id(product_id)
             product_data = product_schema.dump(product_model)
-            product_data.update(request.form)
+            product_data.update(update_product_attributes)
             updated_product_data = product_schema.load(product_data)
 
             ProductService.update_product_with_image(updated_product_data, request.files)
@@ -140,3 +146,19 @@ class ProductService:
 
         product_to_set_image.image_path = saved_image_path
         return None
+
+    @staticmethod
+    def get_create_or_update_attributes_from_request(create_or_update_request: Request) -> Optional[dict]:
+        """Get create or update product attributes from the request
+
+        :param create_or_update_request: request to create or update product
+        :return: attributes of product to create or update or None if can not
+            get attributes from request
+        """
+        if request.is_json:
+            return create_or_update_request.get_json()
+        if request.mimetype == "multipart/form-data":
+            create_or_update_product_attributes = create_or_update_request.form.to_dict()
+            create_or_update_product_attributes.pop("image", None)
+            return create_or_update_product_attributes
+        abort(codes.unsupported_media_type, "Unsupported Media Type")
