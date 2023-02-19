@@ -1,0 +1,102 @@
+test_sets:
+  test_ddt_create_booking_by_valid_data:
+    test_name: "[Booking API] Check create booking by valid data"
+    data:
+      - test_set_name: "[Booking API] Check create booking by valid data"
+        mock_user_models:
+          - login: ActorCustomerTestUser
+            password: Welcome1
+            role_id: 1
+            email: test1@email.com
+        actor_credentials:
+          login: ActorCustomerTestUser
+          password: Welcome1
+        mock_product_models:
+          - name: Ultimate Product Name
+        new_booking_attributes:
+          product_id: 1
+          user_id: 1
+          status_id: 1
+          quantity: 1
+          delivery_address: "test address"
+
+  test_ddt_delete_valid_booking:
+    test_name: "[Booking API] Check delete valid booking"
+    data:
+      - test_set_name: "[Booking API] Check delete valid booking"
+        booking_id_to_delete: 1
+        mock_user_models:
+          - login: ActorAdminTestUser
+            password: Welcome1
+            role_id: 1
+            email: test1@email.com
+        mock_product_models:
+          - name: Ultimate Product Name
+        mock_booking_models:
+          - product_id: 1
+            user_id: 1
+            status_id: 1
+            quantity: 1
+            delivery_address: "test address"
+        actor_credentials:
+          login: ActorAdminTestUser
+          password: Welcome1
+
+  test_ddt_get_all_bookings:
+    test_name: "[Booking API] Check get all bookings"
+    data:
+      - test_set_name: "[Booking API] Check get all bookings"
+        mock_user_models:
+          - login: ActorAdminTestUser
+            password: Welcome1
+            role_id: 1
+            email: test1@email.com
+        actor_credentials:
+          login: ActorAdminTestUser
+          password: Welcome1
+
+  test_ddt_get_valid_booking:
+    test_name: "[Booking API] Check get booking by valid id"
+    data:
+      - test_set_name: "[Booking API] Check get booking by valid id using customer user"
+        booking_id_to_get: 1
+        mock_product_models:
+          - name: Ultimate Product Name
+        mock_user_models:
+          - login: ActorCustomerTestUser
+            password: Welcome1
+            role_id: 3
+            email: test1@email.com
+        mock_booking_models:
+          - product_id: 1
+            user_id: 1
+            status_id: 1
+            quantity: 1
+            delivery_address: "test address"
+        actor_credentials:
+          login: ActorCustomerTestUser
+          password: Welcome1
+
+  test_ddt_update_booking_by_valid_data:
+    test_name: "[Booking API] Check update booking by valid data"
+    data:
+      - test_set_name: "[Booking API] Check update booking by valid data"
+        booking_id_to_update: 1
+        mock_user_models:
+          - login: ActorManagerTestUser
+            password: Welcome1
+            role_id: 2
+            email: test1@email.com
+        mock_product_models:
+          - name: Ultimate Product Name
+        mock_booking_models:
+          - product_id: 1
+            user_id: 1
+            status_id: 1
+            quantity: 1
+            delivery_address: "test address"
+        new_booking_attributes:
+          status_id: 2
+        actor_credentials:
+          login: ActorManagerTestUser
+          password: Welcome1
