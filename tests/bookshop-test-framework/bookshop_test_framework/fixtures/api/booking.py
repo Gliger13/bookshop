@@ -127,19 +127,19 @@ async def created_booking(created_booking_response: ClientResponse, generated_bo
 
 @pytest.fixture
 async def deleted_booking_response(bookings_api: BookingApi, generated_booking: Booking,
-                                   session_manager_user: User) -> ClientResponse:
+                                   session_admin_user: User) -> ClientResponse:
     """Delete generated and created booking and return response
 
     :param bookings_api: initialized Booking API
     :param generated_booking: generated booking
-    :param session_manager_user: manager user model
+    :param session_admin_user: admin user model
     :return: delete created booking response
     """
-    create_booking_response = await bookings_api.create(generated_booking, auth=UserApi.get_auth(session_manager_user))
+    create_booking_response = await bookings_api.create(generated_booking, auth=UserApi.get_auth(session_admin_user))
     assert create_booking_response.ok, "Failed to create booking to delete later.\n" \
                                        f"Request status code: {create_booking_response.status}\n" \
                                        f"Response message: {await create_booking_response.text()}"
 
     create_booking_response_json = await create_booking_response.json()
     created_booking_id = create_booking_response_json["id"]
-    return await bookings_api.delete(created_booking_id, auth=UserApi.get_auth(session_manager_user))
+    return await bookings_api.delete(created_booking_id, auth=UserApi.get_auth(session_admin_user))
