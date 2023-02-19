@@ -101,7 +101,7 @@ class StoreItemService:
             update_store_request_json = request.get_json()
             store_item_data.update(update_store_request_json)
             updated_store_item_data = store_item_schema.load(store_item_data)
-            if product_id_to_update := updated_store_item_data.get("product_id"):
+            if product_id_to_update := updated_store_item_data.product_id:
                 ProductDAO.get_by_id(product_id_to_update)
             StoreItemDAO.update(updated_store_item_data)
             return store_item_schema.dump(updated_store_item_data), codes.ok
