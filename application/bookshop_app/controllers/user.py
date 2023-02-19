@@ -10,7 +10,7 @@ class UserController:
     """Controller for User"""
 
     @staticmethod
-    @auth.login_required(role=[UserRole.ADMIN.value, UserRole.MANAGER.value])
+    @auth.login_required(role=[UserRole.ADMIN.name, UserRole.MANAGER.name])
     def get_all() -> tuple[list[dict], int]:
         """Get all user resources"""
         return UserService.get_all()

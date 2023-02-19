@@ -1,4 +1,5 @@
 """User Data Access Object"""
+from typing import Optional
 
 from bookshop_app.database.database import db
 from bookshop_app.models.user import UserModel
@@ -25,6 +26,11 @@ class UserDAO:
         return db.session.query(UserModel).get_or_404(
             user_id,
             description=UserMessages.USER_NOT_FOUND.format(user_id=user_id))
+
+    @staticmethod
+    def get_by_login(user_login: str) -> Optional[UserModel]:
+        """Get user by login from database"""
+        return db.session.query(UserModel).filter_by(login=user_login).first()
 
     @staticmethod
     def get_all() -> list[UserModel]:

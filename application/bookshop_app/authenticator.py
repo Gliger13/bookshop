@@ -1,11 +1,8 @@
 """Authenticator module"""
-import logging
-from typing import Generator
-
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.datastructures import Authorization
 
-from bookshop_app.models.user import UserModel
+from bookshop_app.data_access_objects.user import UserDAO
 
 auth = HTTPBasicAuth()
 
@@ -30,7 +27,7 @@ def verify_password(login: str, password: str) -> bool:
     :param password: user login for password to verify
     :return: True if given password valid for given login else False
     """
-    user = UserModel.query.filter_by(login=login).first()
+    user = UserDAO.get_by_login(login)
     if not user or not user.verify_password(password):
         return False
     return True
@@ -43,5 +40,5 @@ def get_user_roles(user_authorization: Authorization) -> str:
     :param user_authorization: user authorization
     :return: user role
     """
-    user = UserModel.query.filter_by(login=user_authorization.username).first()
-    return user.role.name.value
+    user = UserDAO.get_by_login(user_authorization.username)
+    return user.role.name.name
