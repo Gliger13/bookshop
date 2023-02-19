@@ -1,4 +1,4 @@
-"""Authenticator module"""
+"""Authenticator service module"""
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.datastructures import Authorization
 
