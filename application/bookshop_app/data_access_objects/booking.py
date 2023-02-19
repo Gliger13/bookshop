@@ -32,9 +32,9 @@ class BookingDAO:
             description=BookingMessages.BOOKING_NOT_FOUND.format(booking_id=booking_id))
 
     @staticmethod
-    def update(booking_data: dict) -> None:
+    def update(updated_booking: BookingModel) -> None:
         """Update booking in database"""
-        db.session.merge(booking_data)
+        db.session.merge(updated_booking)
         db.session.commit()
 
     @staticmethod
