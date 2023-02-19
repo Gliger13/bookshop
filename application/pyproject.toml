@@ -1,9 +1,9 @@
 [project]
-name = "bookshop_app"
+name = "bookshop"
 version = "1.0.0"
 description = "Web API application for small bookshop"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 maintainers = [
     {name = "Andrei Zaneuski", email = "***REMOVED***"}
 ]
@@ -52,6 +52,9 @@ dev = ["pylint", "mypy"]
 
 [tool.setuptools.package-data]
 "bookshop_app.open_api" = ["swagger.yml"]
+
+[tool.setuptools.packages.find]
+include = ["bookshop_app*"]
 
 [project.scripts]
 run_bookshop_app = "bookshop_app.app:run_application"
