@@ -123,20 +123,20 @@ async def created_store_item(created_store_item_response: ClientResponse,
 
 @pytest.fixture
 async def deleted_store_item_response(store_items_api: StoreItemApi, generated_store_item: StoreItem,
-                                      session_manager_user: User) -> ClientResponse:
+                                      session_admin_user: User) -> ClientResponse:
     """Delete generated and created store item and return response
 
     :param store_items_api: initialized StoreItem API
     :param generated_store_item: generated and created store item model
-    :param session_manager_user: manager user model
+    :param session_admin_user: manager user model
     :return: delete created store item response
     """
     create_store_item_response = await store_items_api.create(
-        generated_store_item, auth=UserApi.get_auth(session_manager_user))
+        generated_store_item, auth=UserApi.get_auth(session_admin_user))
     assert create_store_item_response.ok, "Failed to create store item to delete later.\n" \
                                           f"Request status code: {create_store_item_response.status}\n" \
                                           f"Response message: {await create_store_item_response.text()}"
 
     create_store_item_response_json = await create_store_item_response.json()
     created_store_item_id = create_store_item_response_json["id"]
-    return await store_items_api.delete(created_store_item_id, auth=UserApi.get_auth(session_manager_user))
+    return await store_items_api.delete(created_store_item_id, auth=UserApi.get_auth(session_admin_user))

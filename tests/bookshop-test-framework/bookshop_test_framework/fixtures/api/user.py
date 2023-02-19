@@ -68,6 +68,31 @@ async def session_manager_user(config: Config, users_api: UserApi, http_task_gro
     http_task_group.create_task(users_api.delete(manager_user.id, auth=UserApi.get_auth(manager_user)))
 
 
+@pytest.fixture(scope="session")
+async def session_admin_user(config: Config, users_api: UserApi, http_task_group: TaskGroup) -> User:
+    """Generate, create and return manager user in session scope
+
+    :param config: current test environment config
+    :param users_api: initialized User API
+    :param http_task_group: async task group for executing http requests
+    :return: created manager user model
+    """
+    admin_user = TestDataGenerator.generate_basic_user()
+    admin_user.role_id = config.role_name_id_map["admin"]
+    create_manager_user_response = await users_api.create(admin_user)
+
+    assert create_manager_user_response.ok, "Failed to create session admin user.\n" \
+                                            f"Request status code: {create_manager_user_response.status}\n" \
+                                            f"Response message: {await create_manager_user_response.text()}"
+
+    create_user_response_json = await create_manager_user_response.json()
+    admin_user.id = create_user_response_json["id"]
+
+    yield admin_user
+
+    http_task_group.create_task(users_api.delete(admin_user.id, auth=UserApi.get_auth(admin_user)))
+
+
 @pytest.fixture
 async def customer_user(config: Config, users_api: UserApi, generated_user: User, http_task_group: TaskGroup) -> User:
     """Generate, create and return customer user in functional scope
@@ -177,11 +202,11 @@ async def get_customer_user_response(customer_user: User, users_api: UserApi) ->
 
 
 @pytest.fixture
-async def get_all_users_response(session_customer_user: User, users_api: UserApi) -> ClientResponse:
+async def get_all_users_response(session_manager_user: User, users_api: UserApi) -> ClientResponse:
     """Send request to get all users and return response
 
-    :param session_customer_user: existing users for creds to use
+    :param session_manager_user: existing users for creds to use
     :param users_api: initialized User API
     :return: get all users response
     """
-    return await users_api.get_all(auth=UserApi.get_auth(session_customer_user))
+    return await users_api.get_all(auth=UserApi.get_auth(session_manager_user))
