@@ -42,7 +42,8 @@ class UserSchema(ma.SQLAlchemySchema):
         :param name: name to validate
         :raise ValidationError: if something wrong with the given name
         """
-        validate.Length(min=2, max=256)(name)
+        if name:
+            validate.Length(min=2, max=256)(name)
 
     @validates("email")
     def validate_email(self, email: str) -> None:
@@ -69,7 +70,8 @@ class UserSchema(ma.SQLAlchemySchema):
         :param phone: phone to validate
         :raise ValidationError: if something wrong with the given phone
         """
-        validate.Regexp(regex=r"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$")(phone)
+        if phone:
+            validate.Regexp(regex=r"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$")(phone)
 
     @validates("address")
     def validate_address(self, address: str) -> None:
@@ -78,4 +80,5 @@ class UserSchema(ma.SQLAlchemySchema):
         :param address: address to validate
         :raise ValidationError: if something wrong with the given address
         """
-        validate.Length(min=2, max=256)(address)
+        if address:
+            validate.Length(min=2, max=256)(address)
