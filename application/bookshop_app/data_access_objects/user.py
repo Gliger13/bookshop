@@ -38,14 +38,14 @@ class UserDAO:
         return db.session.query(UserModel).all()
 
     @staticmethod
-    def delete(user_id) -> None:
+    def delete(user_id: int) -> None:
         """Delete user from database"""
         item = db.session.query(UserModel).filter_by(id=user_id).first()
         db.session.delete(item)
         db.session.commit()
 
     @staticmethod
-    def update(user_data) -> None:
+    def update(updated_user: UserModel) -> None:
         """Update user in database"""
-        db.session.merge(user_data)
+        db.session.merge(updated_user)
         db.session.commit()

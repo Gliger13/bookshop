@@ -32,9 +32,9 @@ class ProductDAO:
             description=ProductMessages.PRODUCT_NOT_FOUND.format(product_id=product_id))
 
     @staticmethod
-    def update(product_data: dict) -> None:
+    def update(updated_product: ProductModel) -> None:
         """Update product in database"""
-        db.session.merge(product_data)
+        db.session.merge(updated_product)
         db.session.commit()
 
     @staticmethod
