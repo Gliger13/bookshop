@@ -29,7 +29,7 @@ class StoreItemSchema(ma.SQLAlchemySchema):
         :param booked_quantity: quantity of product that were booked to validate
         :raise ValidationError: if something wrong with the given quantity
         """
-        if booked_quantity < 0:
+        if booked_quantity is not None and booked_quantity < 0:
             raise ValidationError("Product booked quantity must not be less than zero")
 
     @validates("sold_quantity")
@@ -39,5 +39,5 @@ class StoreItemSchema(ma.SQLAlchemySchema):
         :param sold_quantity: quantity of product that were sold to validate
         :raise ValidationError: if something wrong with the given quantity
         """
-        if sold_quantity < 0:
+        if sold_quantity is not None and sold_quantity < 0:
             raise ValidationError("Product sold quantity must not be less than zero")
