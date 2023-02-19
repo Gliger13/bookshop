@@ -12,6 +12,6 @@ class StoreItemModel(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey(f"{ProductModel.__tablename__}.id"))
     product = db.relationship(ProductModel.__name__)
 
-    available_quantity = db.Column(db.Integer)
-    booked_quantity = db.Column(db.Integer)
-    sold_quantity = db.Column(db.Integer)
+    available_quantity = db.Column(db.Integer, default=0)
+    booked_quantity = db.Column(db.Integer, default=0)
+    sold_quantity = db.Column(db.Integer, default=0)
