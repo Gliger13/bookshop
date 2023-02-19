@@ -29,7 +29,8 @@ class ProductSchema(ma.SQLAlchemySchema):
         :param name: name of the product to validate
         :raise ValidationError: if something wrong with the given name
         """
-        validate.Length(min=2, max=256)(name)
+        if name:
+            validate.Length(min=2, max=256)(name)
 
     @validates("author")
     def validate_author(self, author: str) -> None:
@@ -38,7 +39,8 @@ class ProductSchema(ma.SQLAlchemySchema):
         :param author: name of the author to validate
         :raise ValidationError: if something wrong with the given author
         """
-        validate.Length(min=2, max=256)(author)
+        if author:
+            validate.Length(min=2, max=256)(author)
 
     @validates("price")
     def validate_price(self, price: float) -> None:
@@ -47,5 +49,5 @@ class ProductSchema(ma.SQLAlchemySchema):
         :param price: price of the product to validate
         :raise ValidationError: if something wrong with the given price
         """
-        if price < 0:
+        if price is not None and price < 0:
             raise ValidationError("Product price must not be less than zero")
