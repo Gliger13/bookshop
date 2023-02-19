@@ -15,5 +15,11 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pylint", "mypy"]
 
+[tool.setuptools.package-data]
+"bookshop_unit_tests.endpoints.booking" = ["test_data.yaml"]
+"bookshop_unit_tests.endpoints.product" = ["test_data.yaml"]
+"bookshop_unit_tests.endpoints.store_item" = ["test_data.yaml"]
+"bookshop_unit_tests.endpoints.user" = ["test_data.yaml"]
+
 [project.urls]
 repository = "***REMOVED***"
