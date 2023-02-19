@@ -21,7 +21,7 @@ Please see [Application README.md](application/README.md) for more information a
 
 ### Tests
 
-All tests related things are located in the **empty** [tests](tests) folder. 
+All tests related things are located in the [tests](tests) folder. 
 Please see [Tests README.md](tests/README.md) for more information about tests.
 
 
