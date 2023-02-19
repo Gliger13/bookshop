@@ -162,8 +162,8 @@ class FileManagerFactory:
             in the current environment config
         """
         file_manager_config = get_environment_config().FILE_MANAGER_CONFIG
-        raw_file_manager_type = file_manager_config.pop("file_manager_type", None)
-        if raw_file_manager_type in FileMangerType.__members__:
+        raw_file_manager_type = file_manager_config.pop("manager_type", None)
+        if raw_file_manager_type in [manager_type.value for manager_type in FileMangerType]:
             file_manager_type = FileMangerType(raw_file_manager_type)
         else:
             raise ConfigError("File manager type specified in the current environment configuration was not found. "
