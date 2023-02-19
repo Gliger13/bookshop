@@ -10,7 +10,7 @@ class BookingController:
     """Controller for Booking"""
 
     @staticmethod
-    @auth.login_required(role=[UserRole.ADMIN.value, UserRole.MANAGER.value])
+    @auth.login_required(role=[UserRole.ADMIN.name, UserRole.MANAGER.name])
     def get_all() -> tuple[list[dict], int]:
         """Get all booking resources"""
         return BookingService.get_all()
@@ -27,7 +27,7 @@ class BookingController:
         return BookingService.create()
 
     @staticmethod
-    @auth.login_required(role=[UserRole.ADMIN.value])
+    @auth.login_required(role=[UserRole.ADMIN.name])
     def delete(booking_id: int) -> tuple[dict[str, str], int]:
         """Delete booking resource"""
         return BookingService.delete(booking_id)
