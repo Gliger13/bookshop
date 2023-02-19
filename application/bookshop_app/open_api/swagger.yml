@@ -895,4 +895,4 @@ components:
     basicAuth:
       type: http
       scheme: basic
-      x-basicInfoFunc: bookshop_app.authenticator.basic_auth
+      x-basicInfoFunc: bookshop_app.services.authentication.basic_auth
