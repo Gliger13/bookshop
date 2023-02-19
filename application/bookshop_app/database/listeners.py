@@ -15,6 +15,9 @@ from bookshop_app.models.booking_status import BookingStatus, BookingStatusModel
 from bookshop_app.models.role import RoleModel, UserRole
 
 
+__all__ = ["create_roles_after_table_creation", "create_booking_statuses_after_table_creation"]
+
+
 @listens_for(RoleModel.__table__, "after_create")
 def create_roles_after_table_creation(target: Table, connection: Connection, **_: Any) -> None:
     """Create roles specified in UserRole enum after creating roles table

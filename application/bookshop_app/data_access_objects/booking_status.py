@@ -1,6 +1,6 @@
 """Booking Status Data Access Object"""
-from bookshop_app import BookingStatusModel
 from bookshop_app.database.database import db
+from bookshop_app.models.booking_status import BookingStatusModel
 
 
 class BookingStatusMessages:
