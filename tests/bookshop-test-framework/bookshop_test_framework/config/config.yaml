@@ -1,0 +1,19 @@
+common:
+  api_url: http://127.0.0.1:5000
+  role_name_id_map:
+    admin: 1
+    manager: 2
+    customer: 3
+  status_name_id_map:
+    submitted: 1
+    rejected: 2
+    approved: 3
+    canceled: 4
+    in_delivery: 5
+    completed: 6
+development:
+  db_uri: "sqlite:///dev.db"
+testing:
+  db_uri: "sqlite:///test.db"
+production:
+  db_uri: "sqlite:///production.db"
