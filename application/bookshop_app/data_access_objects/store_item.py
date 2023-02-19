@@ -32,9 +32,9 @@ class StoreItemDAO:
             description=StoreItemMessages.STORE_NOT_FOUND.format(store_item_id=store_item_id))
 
     @staticmethod
-    def update(store_data: dict) -> None:
+    def update(updated_store_item: StoreItemModel) -> None:
         """Update store item in database"""
-        db.session.merge(store_data)
+        db.session.merge(updated_store_item)
         db.session.commit()
 
     @staticmethod
