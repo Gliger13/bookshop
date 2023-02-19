@@ -1,0 +1,136 @@
+tests:
+  test_smoke_create_user:
+    test_set_name: "[User API][Smoke] Check create user"
+  test_smoke_get_user:
+    test_set_name: "[User API][Smoke] Check get user"
+  test_smoke_get_all_users:
+    test_set_name: "[User API][Smoke] Check get all users"
+  test_smoke_update_user:
+    test_set_name: "[User API][Smoke] Check update user"
+  test_smoke_delete_user:
+    test_set_name: "[User API][Smoke] Check delete user"
+
+test_sets:
+  test_ddt_create_user_by_invalid_data:
+    test_name: "[User API] Check create user by invalid data"
+    data:
+      - test_set_name: "[User API] Check create user with invalid login"
+        user:
+          login: A
+      - test_set_name: "[User API] Check create user with invalid password"
+        user:
+          password: 2
+      - test_set_name: "[User API] Check create user with invalid email"
+        user:
+          email: not valid email
+      - test_set_name: "[User API] Check create user with invalid address"
+        user:
+          address: A
+      - test_set_name: "[User API] Check create user with invalid telephone"
+        user:
+          phone: "+123"
+      - test_set_name: "[User API] Check create user with role id"
+        user:
+          role_id: Ab
+      - test_set_name: "[User API] Check create user with invalid name"
+        user:
+          name: A
+  test_ddt_create_user_by_valid_data:
+    test_name: "[User API] Check create user by valid data"
+    data:
+      - test_set_name: "[User API] Check create user using valid login"
+        user:
+          login: TestLogin12345
+      - test_set_name: "[User API] Check create user using valid password"
+        user:
+          password: Welcome1
+      - test_set_name: "[User API] Check create user using valid email"
+        user:
+          email: test12345@example.com
+      - test_set_name: "[User API] Check create user using valid address"
+        user:
+          address: Test address 12345
+      - test_set_name: "[User API] Check create user using valid telephone"
+        user:
+          phone: "+0000111111"
+      - test_set_name: "[User API] Check create user using valid role id"
+        user:
+          role_id: 2
+      - test_set_name: "[User API] Check create user using valid name"
+        user:
+          name: Test Test
+      - test_set_name: "[User API] Check create user with all valid fields"
+        user:
+          login: TestLogin13234567891
+          password: Welcome1
+          email: test12113456789@example.com
+          name: Test Test
+          address: Test address 12345
+          phone: "+0000222222"
+          role_id: 1
+  test_ddt_get_user:
+    test_name: "[User API] Check get user"
+    data:
+      - test_set_name: "[User API] Check get user with all specified attributes"
+        user:
+          name: Test Test
+          address: Test address 12345
+          phone: "+0000332222"
+          role_id: 1
+  test_ddt_update_user_by_invalid_data:
+    test_name: "[User API] Check update user by invalid data"
+    data:
+      - test_set_name: "[User API] Check update user by invalid login"
+        new_user_attributes:
+          login: A
+      - test_set_name: "[User API] Check update user by invalid password"
+        new_user_attributes:
+          password: 2
+      - test_set_name: "[User API] Check update user by invalid email"
+        new_user_attributes:
+          email: not valid email
+      - test_set_name: "[User API] Check update user by invalid address"
+        new_user_attributes:
+          address: A
+      - test_set_name: "[User API] Check update user by invalid telephone"
+        new_user_attributes:
+          phone: "+123"
+      - test_set_name: "[User API] Check update user by invalid role id"
+        new_user_attributes:
+          role_id: Ab
+      - test_set_name: "[User API] Check update user by invalid name"
+        new_user_attributes:
+          name: A
+  test_ddt_update_user_by_valid_data:
+    test_name: "[User API] Check update user by valid data"
+    data:
+      - test_set_name: "[User API] Check update user login"
+        new_user_attributes:
+          login: TestLogin12345
+      - test_set_name: "[User API] Check update user password"
+        new_user_attributes:
+          password: Welcome1
+      - test_set_name: "[User API] Check update user email"
+        new_user_attributes:
+          email: test12345@example.com
+      - test_set_name: "[User API] Check update user address"
+        new_user_attributes:
+          address: Test address 12345
+      - test_set_name: "[User API] Check update user telephone"
+        new_user_attributes:
+          phone: "+0000001111"
+      - test_set_name: "[User API] Check update user role id"
+        new_user_attributes:
+          role_id: 2
+      - test_set_name: "[User API] Check update user name"
+        new_user_attributes:
+          name: Test Test
+      - test_set_name: "[User API] Check update user with all valid fields"
+        new_user_attributes:
+          login: TestLogin1234567891
+          password: Welcome1
+          email: test123456789@example.com
+          name: Test Test
+          address: Test address 12345
+          phone: "+0000002222"
+          role_id: 1
