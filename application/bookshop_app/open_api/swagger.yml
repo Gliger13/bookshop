@@ -36,6 +36,8 @@ paths:
       summary: Create a new User
       description: Create a new User
       requestBody:
+        description: attributes for new user
+        required: true
         content:
           application/json:
             schema:
@@ -94,6 +96,8 @@ paths:
             type: integer
             format: int64
       requestBody:
+        description: user attributes to update
+        required: true
         content:
           application/json:
             schema:
@@ -160,6 +164,8 @@ paths:
       summary: Create a new product
       description: Create a new product
       requestBody:
+        description: attributes of the product to create
+        required: true
         content:
           application/json:
             schema:
@@ -219,6 +225,8 @@ paths:
             type: integer
             format: int64
       requestBody:
+        description: attributes of the product to update
+        required: true
         content:
           application/json:
             schema:
@@ -292,6 +300,8 @@ paths:
       summary: Create a new booking
       description: Create a new booking
       requestBody:
+        description: attributes of the booking to update
+        required: true
         content:
           application/json:
             schema:
@@ -352,6 +362,8 @@ paths:
             type: integer
             format: int64
       requestBody:
+        description: attributes of the booking to update
+        required: true
         content:
           application/json:
             schema:
@@ -422,6 +434,8 @@ paths:
       summary: Create a new store item
       description: Create a new store item
       requestBody:
+        description: attributes of the store item to create
+        required: true
         content:
           application/json:
             schema:
@@ -482,6 +496,8 @@ paths:
             type: integer
             format: int64
       requestBody:
+        description: attributes of the store item to update
+        required: true
         content:
           application/json:
             schema:
@@ -531,15 +547,14 @@ components:
       description: Model that represents user attributes
       type: object
       properties:
-        id:
+        id: &user_id_field
           type: integer
           format: int64
-          readOnly: true
-        login:
+        login: &user_login_field
           type: string
           description: User login string for authentication
           example: BigBoy13
-        role_id:
+        role_id: &user_role_id_field
           type: integer
           format: int64
           description: |
@@ -549,27 +564,25 @@ components:
             - 3 = Customer
           enum: [1, 2, 3]
           example: 3
-        name:
+        name: &user_name_field
           type: string
           description: User first name and last name
           minLength: 1
           maxLength: 1024
           example: Ivan Ivanov
-          nullable: true
-        email:
+        email: &user_email_field
           type: string
           description: User email
           format: email
           example: user@example.com
-        phone:
+        phone: &user_phone_field
           type: string
           description: User phone number
-          example: +000000000000
-          nullable: true
-        address:
+          example: "+000000000000"
+        address: &user_address_field
           type: string
           description: User physical address
-          nullable: true
+          example: "Some Country, Some City, Some District, Some House Number, 00-000"
       required:
         - id
         - login
@@ -584,45 +597,23 @@ components:
       description: Model that represents attributes to create a user
       type: object
       properties:
-        login:
-          type: string
-          description: User login string for authentication
-          example: BigBoy13
-        password:
+        login: *user_login_field
+        password: &user_password_fild
           type: string
           example: Welcome1
           minLength: 8
           maxLength: 256
           writeOnly: true
-        role_id:
-          type: integer
-          format: int64
-          description: |
-            User role id to specify permissions. Predefined:
-            - 1 = Admin
-            - 2 = Manager
-            - 3 = Customer
-          enum: [1, 2, 3]
-          example: 3
+        email: *user_email_field
+        role_id: *user_role_id_field
         name:
-          type: string
-          description: User first name and last name
-          example: Ivan Ivanov
+          <<: *user_name_field
           nullable: true
-        email:
-          type: string
-          description: User email
-          format: email
-          example: user@example.com
         phone:
-          type: string
-          description: User phone number
-          example: "+000000000000"
+          <<: *user_phone_field
           nullable: true
         address:
-          type: string
-          description: User physical address
-          example: "Test District, 00-0"
+          <<: *user_address_field
           nullable: true
       required:
         - login
@@ -634,74 +625,52 @@ components:
       type: object
       properties:
         login:
-          type: string
-          description: User login string for authentication
-          example: BigBoy13
+          <<: *user_login_field
           nullable: true
         password:
-          type: string
-          minLength: 8
-          maxLength: 256
-          writeOnly: true
+          <<: *user_password_fild
           nullable: true
         role_id:
-          type: integer
-          format: int64
-          description: |
-            User role id to specify permissions. Predefined:
-            - 1 = Admin
-            - 2 = Manager
-            - 3 = Customer
-          enum: [1, 2, 3]
-          example: 3
+          <<: *user_role_id_field
           nullable: true
         name:
-          type: string
-          description: User first name and last name
-          example: Ivan Ivanov
+          <<: *user_name_field
           nullable: true
         email:
-          type: string
-          description: User email
-          format: email
-          example: user@example.com
+          <<: *user_email_field
           nullable: true
         phone:
-          type: string
-          description: User phone number
-          example: "+000000000000"
+          <<: *user_phone_field
           nullable: true
         address:
-          type: string
-          description: User physical address
+          <<: *user_address_field
           nullable: true
 
     Product:
       type: object
       description: Represents product attributes
       properties:
-        id:
+        id: &product_id_field
           type: integer
           format: int64
-          readOnly: true
-        name:
+        name: &product_name_field
           type: string
           description: Product short name
           minLength: 1
           maxLength: 1024
           example: Harry Potter and the Philosophers Stone
-        description:
+        description: &product_description_field
           type: string
           description: Product full description and specifications
           minLength: 1
           maxLength: 1024
           example: Harry Potter and the Philosopher’s Stone, also called Harry Potter and the Sorcerer’s Stone, the first novel in the immensely popular Harry Potter series by British writer J.K. Rowling. It was first published in Britain in 1997 and appeared in the United States the following year under the title Harry Potter and the Sorcerer’s Stone. The book’s imaginative story line about a boy wizard made it an enduring hit with both children and adult
-        author:
+        author: &product_author_field
           type: string
           minLength: 1
           maxLength: 1024
           example: Rowling
-        price:
+        price: &product_price_field
           type: number
           format: float
           example: 39.99
@@ -712,7 +681,6 @@ components:
         - description
         - author
         - price
-
     ProductSet:
       description: Model that represents set of products
       type: array
@@ -722,28 +690,10 @@ components:
       type: object
       description: Represents attributes for creating a product
       properties: &create_product_properties
-        name:
-          type: string
-          description: Product short name
-          example: Harry Potter and the Philosophers Stone
-          minLength: 1
-          maxLength: 1024
-        description:
-          type: string
-          description: Product full description and specifications
-          minLength: 1
-          maxLength: 1024
-          example: Harry Potter and the Philosopher’s Stone, also called Harry Potter and the Sorcerer’s Stone, the first novel in the immensely popular Harry Potter series by British writer J.K. Rowling. It was first published in Britain in 1997 and appeared in the United States the following year under the title Harry Potter and the Sorcerer’s Stone. The book’s imaginative story line about a boy wizard made it an enduring hit with both children and adult
-        author:
-          type: string
-          minLength: 1
-          maxLength: 1024
-          example: Rowling
-        price:
-          type: number
-          format: float
-          example: 39.99
-          minimum: 0
+        name: *product_name_field
+        description: *product_description_field
+        author: *product_author_field
+        price: *product_price_field
       required:
         - name
         - description
@@ -754,7 +704,7 @@ components:
       description: Represents attributes for creating a product with files
       properties:
         <<: *create_product_properties
-        image:
+        image: &product_image_field
           type: string
           format: binary
           writeOnly: true
@@ -764,46 +714,24 @@ components:
       description: Represents attributes for creating a product
       properties: &update_product_properties
         name:
-          type: string
-          description: Product short name
-          example: Harry Potter and the Philosophers Stone
-          minLength: 1
-          maxLength: 1024
+          <<: *product_name_field
           nullable: true
         description:
-          type: string
-          description: Product full description and specifications
-          minLength: 1
-          maxLength: 1024
-          example: Harry Potter and the Philosopher’s Stone, also called Harry Potter and the Sorcerer’s Stone, the first novel in the immensely popular Harry Potter series by British writer J.K. Rowling. It was first published in Britain in 1997 and appeared in the United States the following year under the title Harry Potter and the Sorcerer’s Stone. The book’s imaginative story line about a boy wizard made it an enduring hit with both children and adult
+          <<: *product_description_field
           nullable: true
         author:
-          type: string
-          minLength: 1
-          maxLength: 1024
-          example: Rowling
+          <<: *product_author_field
           nullable: true
         price:
-          type: number
-          format: float
-          example: 39.99
-          minimum: 0
+          <<: *product_price_field
           nullable: true
-        image:
-          type: string
-          format: binary
-          writeOnly: true
-          nullable: true
+        image: *product_image_field
     UpdateProductWithFiles:
       type: object
       description: Represents attributes for creating a product with files
       properties:
         <<: *update_product_properties
-        image:
-          type: string
-          format: binary
-          writeOnly: true
-          nullable: true
+        image: *product_image_field
 
     StoreItem:
       type: object
@@ -813,23 +741,22 @@ components:
           type: integer
           format: int64
           readOnly: true
-        product_id:
+        product_id: *product_id_field
+        available_quantity: &store_item_available_quantity_field
           type: integer
-          format: int64
-        available_quantity:
-          type: integer
+          description: Available products quantity
           format: int64
           example: 1
-        booked_quantity:
+        booked_quantity: &store_item_booked_quantity_field
           type: integer
+          description: Booked products quantity
           format: int64
           example: 0
-          readOnly: true
-        sold_quantity:
+        sold_quantity: &store_item_sold_quantity_field
           type: integer
+          description: Sold products quantity
           format: int64
           example: 0
-          readOnly: true
       required:
         - id
         - product_id
@@ -845,14 +772,8 @@ components:
       type: object
       description: Represents attributes for creating or updating store item
       properties:
-        product_id:
-          type: integer
-          format: int64
-        available_quantity:
-          type: integer
-          format: int64
-          minimum: 0
-          example: 50
+        product_id: *product_id_field
+        available_quantity: *store_item_available_quantity_field
       required:
         - product_id
         - available_quantity
@@ -861,20 +782,13 @@ components:
       description: Represents attributes for creating or updating store item
       properties:
         available_quantity:
-          type: integer
-          format: int64
-          minimum: 0
-          example: 50
+          <<: *store_item_available_quantity_field
           nullable: true
         booked_quantity:
-          type: integer
-          format: int64
-          example: 0
+          <<: *store_item_booked_quantity_field
           nullable: true
         sold_quantity:
-          type: integer
-          format: int64
-          example: 0
+          <<: *store_item_sold_quantity_field
           nullable: true
 
     Booking:
@@ -886,35 +800,31 @@ components:
           format: int64
           readOnly: true
         user_id:
-          type: integer
-          format: int64
-          description: User id that made booking
-          readOnly: true
+          <<: *user_id_field
+          description: ID of the user that made booking
         product_id:
+          <<: *product_id_field
+          description: ID of the product for booking
+        quantity: &booking_quantity_field
           type: integer
           format: int64
-          description: User id that made booking
-          readOnly: true
-        quantity:
-          type: integer
-          format: int64
-          description: Product amount to book
-        delivery_address:
-          type: string
-          description: Physical address for delivery
-        delivery_date:
+          description: Amount of product to book
+        delivery_address: &booking_delivery_address_field
+          <<: *user_address_field
+          description: Physical address for product delivery
+        delivery_date: &booking_delivery_date_field
           type: string
           format: date
           description: Estimated or exacted date of delivery in RFC 3339, section 5.6 format
           example: 2023-02-01
           nullable: true
-        delivery_time:
+        delivery_time: &booking_delivery_time_field
           type: string
           pattern: "^([01]?(\\d|2[0-3])?:[0-5]\\d)$"
           description: Estimated or exacted date of delivery in HH:MM format
           example: 16:00
           nullable: true
-        status_id:
+        status_id: &booking_status_id_field
           type: integer
           format: int64
           description: | 
@@ -943,46 +853,20 @@ components:
       type: object
       properties:
         user_id:
-          type: integer
-          format: int64
-          description: User id that made booking
+          <<: *user_id_field
+          description: ID of the user that made booking
         product_id:
-          type: integer
-          format: int64
-          description: User id that made booking
-        quantity:
-          type: integer
-          format: int64
-          minimum: 0
-          description: Product amount to book
-        delivery_address:
-          type: string
-          description: Physical address for delivery
+          <<: *product_id_field
+          description: ID of the product to book
+        quantity: *booking_quantity_field
+        delivery_address: *booking_delivery_address_field
         delivery_date:
-          type: string
-          format: date
-          description: Estimated or exacted date of delivery in RFC 3339, section 5.6 format
-          example: 2023-02-01
+          <<: *booking_delivery_date_field
           nullable: true
         delivery_time:
-          type: string
-          pattern: "^([01]?(\\d|2[0-3])?:[0-5]\\d)$"
-          description: Estimated or exacted date of delivery in HH:MM format
-          example: 16:00
+          <<: *booking_delivery_time_field
           nullable: true
-        status_id:
-          type: integer
-          format: int64
-          description: | 
-            Booking status id. Predefined:
-            - 1 - submitted
-            - 2 - rejected
-            - 3 - approved
-            - 4 - cancelled
-            - 5 - in_delivery
-            - 6 - completed
-          enum: [ 1, 2, 3, 4, 5, 6 ]
-          example: 1
+        status_id: *booking_status_id_field
       required:
         - user_id
         - product_id
@@ -993,40 +877,19 @@ components:
       type: object
       properties:
         quantity:
-          type: integer
-          format: int64
-          minimum: 0
-          description: Product amount to book
+          <<: *booking_quantity_field
           nullable: true
         delivery_address:
-          type: string
-          description: Physical address for delivery
+          <<: *booking_delivery_address_field
           nullable: true
         delivery_date:
-          type: string
-          format: date
-          description: Estimated or exacted date of delivery in RFC 3339, section 5.6 format
-          example: 2023-02-01
+          <<: *booking_delivery_date_field
           nullable: true
         delivery_time:
-          type: string
-          pattern: "^([01]?(\\d|2[0-3])?:[0-5]\\d)$"
-          description: Estimated or exacted date of delivery in HH:MM format
-          example: 16:00
+          <<: *booking_delivery_time_field
           nullable: true
         status_id:
-          type: integer
-          format: int64
-          description: | 
-            Booking status id. Predefined:
-            - 1 - submitted
-            - 2 - rejected
-            - 3 - approved
-            - 4 - cancelled
-            - 5 - in_delivery
-            - 6 - completed
-          enum: [ 1, 2, 3, 4, 5, 6 ]
-          example: 1
+          <<: *booking_status_id_field
           nullable: true
   securitySchemes:
     basicAuth:
