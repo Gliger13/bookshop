@@ -15,6 +15,11 @@ dependencies = [
 [tool.setuptools.packages.find]
 include = ["bookshop_api_tests*"]
 
+[tool.setuptools.package-data]
+"bookshop_api_tests.bookings" = ["test_data.yaml"]
+"bookshop_api_tests.products" = ["test_data.yaml"]
+"bookshop_api_tests.store_items" = ["test_data.yaml"]
+"bookshop_api_tests.users" = ["test_data.yaml"]
 
 [project.optional-dependencies]
 dev = ["pylint", "mypy"]
