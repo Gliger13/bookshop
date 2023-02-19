@@ -653,6 +653,7 @@ components:
         id: &product_id_field
           type: integer
           format: int64
+          example: 1
         name: &product_name_field
           type: string
           description: Product short name
@@ -741,7 +742,9 @@ components:
           type: integer
           format: int64
           readOnly: true
-        product_id: *product_id_field
+        product_id:
+          <<: *product_id_field
+          example: 1
         available_quantity: &store_item_available_quantity_field
           type: integer
           description: Available products quantity
@@ -802,13 +805,16 @@ components:
         user_id:
           <<: *user_id_field
           description: ID of the user that made booking
+          example: 1
         product_id:
           <<: *product_id_field
           description: ID of the product for booking
+          example: 1
         quantity: &booking_quantity_field
           type: integer
           format: int64
           description: Amount of product to book
+          example: 1
         delivery_address: &booking_delivery_address_field
           <<: *user_address_field
           description: Physical address for product delivery
@@ -822,7 +828,7 @@ components:
           type: string
           pattern: "^([01]?(\\d|2[0-3])?:[0-5]\\d)$"
           description: Estimated or exacted date of delivery in HH:MM format
-          example: 16:00
+          example: "16:00"
           nullable: true
         status_id: &booking_status_id_field
           type: integer
@@ -855,6 +861,7 @@ components:
         user_id:
           <<: *user_id_field
           description: ID of the user that made booking
+          example: 1
         product_id:
           <<: *product_id_field
           description: ID of the product to book
