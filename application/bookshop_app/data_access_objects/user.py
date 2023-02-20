@@ -1,14 +1,10 @@
 """User Data Access Object"""
-from typing import Optional
+from typing import Final, Optional
 
 from bookshop_app.database.database import db
 from bookshop_app.models.user import UserModel
 
-
-class UserMessages:
-    """User messages and templates"""
-
-    USER_NOT_FOUND = "User not found for id: {user_id}"
+USER_NOT_FOUND: Final = "User not found for id: {user_id}"
 
 
 class UserDAO:
@@ -25,7 +21,7 @@ class UserDAO:
         """Get user by id from database"""
         return db.session.query(UserModel).get_or_404(
             user_id,
-            description=UserMessages.USER_NOT_FOUND.format(user_id=user_id))
+            description=USER_NOT_FOUND.format(user_id=user_id))
 
     @staticmethod
     def get_by_login(user_login: str) -> Optional[UserModel]:

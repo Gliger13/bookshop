@@ -1,12 +1,10 @@
 """Booking Status Data Access Object"""
+from typing import Final
+
 from bookshop_app.database.database import db
 from bookshop_app.models.booking_status import BookingStatusModel
 
-
-class BookingStatusMessages:
-    """Booking statuses messages and templates"""
-
-    BOOKING_STATUS_NOT_FOUND = "Booking status was not found with id: {booking_status_id}"
+BOOKING_STATUS_NOT_FOUND: Final = "Booking status was not found with id: {booking_status_id}"
 
 
 class BookingStatusDAO:
@@ -22,4 +20,4 @@ class BookingStatusDAO:
         """Get booking status by id from database"""
         return db.session.query(BookingStatusModel).get_or_404(
             booking_status_id,
-            description=BookingStatusMessages.BOOKING_STATUS_NOT_FOUND.format(booking_status_id=booking_status_id))
+            description=BOOKING_STATUS_NOT_FOUND.format(booking_status_id=booking_status_id))
