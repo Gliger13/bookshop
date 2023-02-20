@@ -1,13 +1,10 @@
 """Store Item Data Access Object"""
+from typing import Final
 
 from bookshop_app.database.database import db
 from bookshop_app.models.store_item import StoreItemModel
 
-
-class StoreItemMessages:
-    """Store item messages and templates"""
-
-    STORE_NOT_FOUND = "Store item not found for id: {store_item_id}"
+STORE_NOT_FOUND: Final = "Store item not found for id: {store_item_id}"
 
 
 class StoreItemDAO:
@@ -29,7 +26,7 @@ class StoreItemDAO:
         """Get store item by id from database"""
         return db.session.query(StoreItemModel).get_or_404(
             store_item_id,
-            description=StoreItemMessages.STORE_NOT_FOUND.format(store_item_id=store_item_id))
+            description=STORE_NOT_FOUND.format(store_item_id=store_item_id))
 
     @staticmethod
     def update(updated_store_item: StoreItemModel) -> None:

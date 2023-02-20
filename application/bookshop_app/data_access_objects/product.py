@@ -1,13 +1,10 @@
 """Product Data Access Object"""
+from typing import Final
 
 from bookshop_app.database.database import db
 from bookshop_app.models.product import ProductModel
 
-
-class ProductMessages:
-    """Booking messages and templates"""
-
-    PRODUCT_NOT_FOUND = "Product not found for id: {product_id}"
+PRODUCT_NOT_FOUND: Final = "Product not found for id: {product_id}"
 
 
 class ProductDAO:
@@ -29,7 +26,7 @@ class ProductDAO:
         """Get product by id from database"""
         return db.session.query(ProductModel).get_or_404(
             product_id,
-            description=ProductMessages.PRODUCT_NOT_FOUND.format(product_id=product_id))
+            description=PRODUCT_NOT_FOUND.format(product_id=product_id))
 
     @staticmethod
     def update(updated_product: ProductModel) -> None:
