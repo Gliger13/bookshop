@@ -1,0 +1,11 @@
+tests:
+  test_smoke_create_product:
+    test_set_name: "[Product API][Smoke] Check create product"
+  test_smoke_get_product:
+    test_set_name: "[Product API][Smoke] Check get product"
+  test_smoke_get_all_products:
+    test_set_name: "[Product API][Smoke] Check get all products"
+  test_smoke_update_product:
+    test_set_name: "[Product API][Smoke] Check update product"
+  test_smoke_delete_product:
+    test_set_name: "[Product API][Smoke] Check delete product"

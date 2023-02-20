@@ -1,0 +1,92 @@
+test_sets:
+  test_ddt_create_store_item_by_valid_data:
+    test_name: "[StoreItem API] Check create store item by valid data"
+    data:
+      - test_set_name: "[StoreItem API] Check create store item by valid data"
+        mock_user_models:
+          - login: ActorManagerTestUser
+            password: Welcome1
+            role_id: 2
+            email: test1@email.com
+        actor_credentials:
+          login: ActorManagerTestUser
+          password: Welcome1
+        mock_product_models:
+          - name: Ultimate Product Name
+        new_store_item_attributes:
+          product_id: 1
+          available_quantity: 50
+
+  test_ddt_delete_valid_store_item:
+    test_name: "[StoreItem API] Check delete valid store item"
+    data:
+      - test_set_name: "[StoreItem API] Check delete valid store item"
+        store_item_id_to_delete: 1
+        mock_user_models:
+          - login: ActorAdminTestUser
+            password: Welcome1
+            role_id: 1
+            email: test1@email.com
+        mock_product_models:
+          - name: Ultimate Product Name
+        mock_store_item_models:
+          - product_id: 1
+            available_quantity: 50
+        actor_credentials:
+          login: ActorAdminTestUser
+          password: Welcome1
+
+  test_ddt_get_all_store_items:
+    test_name: "[StoreItem API] Check get all store items"
+    data:
+      - test_set_name: "[StoreItem API] Check get all store items"
+        mock_user_models:
+          - login: ActorManagerTestUser
+            password: Welcome1
+            role_id: 2
+            email: test1@email.com
+        mock_product_models:
+          - name: Ultimate Product Name
+        actor_credentials:
+          login: ActorManagerTestUser
+          password: Welcome1
+
+  test_ddt_get_valid_store_item:
+    test_name: "[StoreItem API] Check get store item by valid id"
+    data:
+      - test_set_name: "[StoreItem API] Check get store item by valid id"
+        store_item_id_to_get: 1
+        mock_user_models:
+          - login: ActorManagerTestUser
+            password: Welcome1
+            role_id: 2
+            email: test1@email.com
+        mock_product_models:
+          - name: Ultimate Product Name
+        mock_store_item_models:
+          - product_id: 1
+            available_quantity: 50
+        actor_credentials:
+          login: ActorManagerTestUser
+          password: Welcome1
+
+  test_ddt_update_store_item_by_valid_data:
+    test_name: "[StoreItem API] Check update store item by valid data"
+    data:
+      - test_set_name: "[StoreItem API] Check update store item by valid data"
+        store_item_id_to_update: 1
+        new_store_item_attributes:
+          available_quantity: 100
+        mock_user_models:
+          - login: ActorManagerTestUser
+            password: Welcome1
+            role_id: 2
+            email: test1@email.com
+        mock_product_models:
+          - name: Ultimate Product Name
+        mock_store_item_models:
+          - product_id: 1
+            available_quantity: 50
+        actor_credentials:
+          login: ActorManagerTestUser
+          password: Welcome1

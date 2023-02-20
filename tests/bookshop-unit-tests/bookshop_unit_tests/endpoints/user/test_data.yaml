@@ -1,0 +1,99 @@
+test_sets:
+  test_ddt_create_user_by_valid_data:
+    test_name: "[User API] Check create user by valid data"
+    data:
+      - test_set_name: "[User API] Check create customer user by valid data"
+        new_user_attributes:
+          login: NewTestUser
+          password: Welcome1
+          role_id: 3
+          email: test1@email.com
+
+  test_ddt_delete_valid_user:
+    test_name: "[User API] Check delete customer user"
+    data:
+      - test_set_name: "[User API] Check delete customer user"
+        user_id_to_delete: 1
+        mock_user_models:
+          - login: ActorCustomerTestUser
+            password: Welcome1
+            role_id: 3
+            email: test1@email.com
+        actor_credentials:
+          login: ActorCustomerTestUser
+          password: Welcome1
+
+  test_ddt_get_all_users:
+    test_name: "[User API] Check get all users"
+    data:
+      - test_set_name: "[User API] Check get all users"
+        mock_user_models:
+          - login: ActorAdminTestUser
+            password: Welcome1
+            role_id: 1
+            email: test1@email.com
+        actor_credentials:
+          login: ActorAdminTestUser
+          password: Welcome1
+
+  test_ddt_get_valid_user:
+    test_name: "[User API] Check get user by valid id"
+    data:
+      - test_set_name: "[User API] Check get customer user by valid id using admin user"
+        mock_user_models:
+          - login: TargetCustomerTestUser
+            password: Welcome1
+            role_id: 3
+            email: test1@email.com
+          - login: ActorAdminTestUser
+            password: Welcome1
+            role_id: 1
+            email: test1@email.com
+        actor_credentials:
+          login: ActorAdminTestUser
+          password: Welcome1
+        user_id_to_get: 1
+      - test_set_name: "[User API] Check get customer user by valid id using manager user"
+        mock_user_models:
+          - login: TargetCustomerTestUser
+            password: Welcome1
+            role_id: 3
+            email: test1@email.com
+          - login: ActorManagerTestUser
+            password: Welcome1
+            role_id: 2
+            email: test1@email.com
+        actor_credentials:
+          login: ActorManagerTestUser
+          password: Welcome1
+        user_id_to_get: 1
+      - test_set_name: "[User API] Check get customer user by valid id using customer user"
+        mock_user_models:
+          - login: TargetCustomerTestUser
+            password: Welcome1
+            role_id: 3
+            email: test1@email.com
+          - login: ActorCustomerTestUser
+            password: Welcome1
+            role_id: 3
+            email: test1@email.com
+        actor_credentials:
+          login: ActorCustomerTestUser
+          password: Welcome1
+        user_id_to_get: 1
+
+  test_ddt_update_user_by_valid_data:
+    test_name: "[User API] Check update user by valid data"
+    data:
+      - test_set_name: "[User API] Check update customer user by valid data"
+        user_id_to_update: 1
+        new_user_attributes:
+          address: "Test address"
+        mock_user_models:
+          - login: ActorCustomerTestUser
+            password: Welcome1
+            role_id: 3
+            email: test1@email.com
+        actor_credentials:
+          login: ActorCustomerTestUser
+          password: Welcome1

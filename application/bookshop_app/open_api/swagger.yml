@@ -1,0 +1,905 @@
+openapi: 3.0.3
+info:
+  title: Book Shop REST API
+  description: Sample User Service
+  version: 0.1.0
+
+servers:
+  - url: http://localhost:5000/api
+    description: Bookshop API Swagger
+
+paths:
+  /user:
+    get:
+      operationId: bookshop_app.controllers.user.UserController.get_all
+      tags:
+        - User
+      summary: Returns a list of users.
+      description: Returns a list of users.
+      responses:
+        "200":
+          description: User/users
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserSet"
+        "403":
+          description: Forbidden
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+    post:
+      operationId: bookshop_app.controllers.user.UserController.create
+      tags:
+        - User
+      summary: Create a new User
+      description: Create a new User
+      requestBody:
+        description: attributes for new user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUser"
+      responses:
+        "200":
+          description: User created with given attributes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Bad request, validation error
+        "500":
+          description: Server Error
+  /user/{user_id}:
+    get:
+      operationId: bookshop_app.controllers.user.UserController.get
+      tags:
+        - User
+      summary: Return a User with given ID
+      description: Return a User with given ID
+      parameters:
+        - name: user_id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: User attributes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: User does not exist
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+    put:
+      operationId: bookshop_app.controllers.user.UserController.update
+      tags:
+        - User
+      summary: Update a User with given ID
+      description: Update a User with given ID
+      parameters:
+        - name: user_id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: user attributes to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUser"
+      responses:
+        "200":
+          description: User attributes updated
+        "400":
+          description: Bad request, validation error
+        "403":
+          description: Forbidden
+        "404":
+          description: User not found with given ID
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+    delete:
+      operationId: bookshop_app.controllers.user.UserController.delete
+      tags:
+        - User
+      summary: Delete a User with given ID
+      description: Delete a User with given ID
+      parameters:
+        - name: user_id
+          in: path
+          description: ID of user to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: User deleted
+        "403":
+          description: Forbidden
+        "404":
+          description: User does not exist
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+
+  /product:
+    get:
+      operationId: bookshop_app.controllers.product.ProductController.get_all
+      tags:
+        - Product
+      summary: Returns a list of products
+      description: Returns a list of products
+      responses:
+        "200":
+          description: Products fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductSet"
+        "500":
+          description: Server Error
+    post:
+      operationId: bookshop_app.controllers.product.ProductController.create
+      tags:
+        - Product
+      summary: Create a new product
+      description: Create a new product
+      requestBody:
+        description: attributes of the product to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProduct"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/CreateProductWithFiles"
+      responses:
+        "200":
+          description: Product created
+        "400":
+          description: Bad request, validation error
+        "403":
+          description: Forbidden
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+  /product/{product_id}:
+    get:
+      operationId: bookshop_app.controllers.product.ProductController.get
+      tags:
+        - Product
+      summary: Get a product with given ID
+      description: Get a product with given ID
+      parameters:
+        - name: product_id
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Product attributes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Product does not exist
+        "500":
+          description: Server Error
+    put:
+      operationId: bookshop_app.controllers.product.ProductController.update
+      tags:
+        - Product
+      summary: Update a product with given ID
+      description: Update a product with given ID
+      parameters:
+        - name: product_id
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: attributes of the product to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProduct"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UpdateProductWithFiles"
+      responses:
+        "200":
+          description: Product updated
+        "400":
+          description: Bad request, validation error
+        "403":
+          description: Forbidden
+        "404":
+          description: Product does not exist
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+    delete:
+      operationId: bookshop_app.controllers.product.ProductController.delete
+      tags:
+        - Product
+      summary: Delete a product with given ID
+      description: Delete a product with given ID
+      parameters:
+        - name: product_id
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Product deleted
+        "403":
+          description: Forbidden
+        "404":
+          description: Product does not exist
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+
+  /booking:
+    get:
+      operationId: bookshop_app.controllers.booking.BookingController.get_all
+      tags:
+        - Booking
+      summary: Returns a list of bookings
+      description: Returns a list of bookings
+      responses:
+        "200":
+          description: Bookings fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingSet"
+        "403":
+          description: Forbidden
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+    post:
+      operationId: bookshop_app.controllers.booking.BookingController.create
+      tags:
+        - Booking
+      summary: Create a new booking
+      description: Create a new booking
+      requestBody:
+        description: attributes of the booking to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBooking"
+      responses:
+        "200":
+          description: Booking created
+        "400":
+          description: Bad request, validation error
+        "403":
+          description: Forbidden
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+  /booking/{booking_id}:
+    get:
+      operationId: bookshop_app.controllers.booking.BookingController.get
+      tags:
+        - Booking
+      summary: Get a booking with given ID
+      description: Get a booking with given ID
+      parameters:
+        - name: booking_id
+          in: path
+          description: Booking ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Booking attributes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+        "403":
+          description: Forbidden
+        "404":
+          description: Booking does not exist
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+    put:
+      operationId: bookshop_app.controllers.booking.BookingController.update
+      tags:
+        - Booking
+      summary: Update a booking with given ID
+      description: Update a booking with given ID
+      parameters:
+        - name: booking_id
+          in: path
+          description: Booking ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: attributes of the booking to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateBooking"
+      responses:
+        "200":
+          description: Booking updated
+        "400":
+          description: Bad request, validation error
+        "403":
+          description: Forbidden
+        "404":
+          description: Booking does not exist
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+    delete:
+      operationId: bookshop_app.controllers.booking.BookingController.delete
+      tags:
+        - Booking
+      summary: Delete a booking with given ID
+      description: Delete a booking with given ID
+      parameters:
+        - name: booking_id
+          in: path
+          description: Booking ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Booking deleted
+        "403":
+          description: Forbidden
+        "404":
+          description: Booking does not exist
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+
+  /store-item:
+    get:
+      operationId: bookshop_app.controllers.store_item.StoreItemController.get_all
+      tags:
+        - StoreItem
+      summary: Returns a set of store items
+      description: Returns a set of store items
+      responses:
+        "200":
+          description: Set of store items
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoreItemSet"
+        "403":
+          description: Forbidden
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+    post:
+      operationId: bookshop_app.controllers.store_item.StoreItemController.create
+      tags:
+        - StoreItem
+      summary: Create a new store item
+      description: Create a new store item
+      requestBody:
+        description: attributes of the store item to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateStoreItem"
+      responses:
+        "200":
+          description: Store item created
+        "400":
+          description: Bad request, validation error
+        "403":
+          description: Forbidden
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+  /store-item/{store_item_id}:
+    get:
+      operationId: bookshop_app.controllers.store_item.StoreItemController.get
+      tags:
+        - StoreItem
+      summary: Get a store item with given ID
+      description: Get a store item with given ID
+      parameters:
+        - name: store_item_id
+          in: path
+          description: Store item ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Store item attributes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoreItem"
+        "403":
+          description: Forbidden
+        "404":
+          description: Store item does not exist
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+    put:
+      operationId: bookshop_app.controllers.store_item.StoreItemController.update
+      tags:
+        - StoreItem
+      summary: Update a store item with given ID
+      description: Update a store item with given ID
+      parameters:
+        - name: store_item_id
+          in: path
+          description: Store item ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: attributes of the store item to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStoreItem"
+      responses:
+        "200":
+          description: Store item updated
+        "400":
+          description: Bad request, validation error
+        "403":
+          description: Forbidden
+        "404":
+          description: Store item does not exist
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+    delete:
+      operationId: bookshop_app.controllers.store_item.StoreItemController.delete
+      tags:
+        - StoreItem
+      summary: Delete a store item with given ID
+      description: Delete a store item with given ID
+      parameters:
+        - name: store_item_id
+          in: path
+          description: Store item ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Store item deleted
+        "403":
+          description: Forbidden
+        "404":
+          description: Store item does not exist
+        "500":
+          description: Server Error
+      security:
+        - basicAuth: [ ]
+
+components:
+  schemas:
+    User:
+      description: Model that represents user attributes
+      type: object
+      properties:
+        id: &user_id_field
+          type: integer
+          format: int64
+        login: &user_login_field
+          type: string
+          description: User login string for authentication
+          example: BigBoy13
+        role_id: &user_role_id_field
+          type: integer
+          format: int64
+          description: |
+            User role id to specify permissions. Predefined:
+            - 1 = Admin
+            - 2 = Manager
+            - 3 = Customer
+          enum: [1, 2, 3]
+          example: 3
+        name: &user_name_field
+          type: string
+          description: User first name and last name
+          minLength: 1
+          maxLength: 1024
+          example: Ivan Ivanov
+        email: &user_email_field
+          type: string
+          description: User email
+          format: email
+          example: user@example.com
+        phone: &user_phone_field
+          type: string
+          description: User phone number
+          example: "+000000000000"
+        address: &user_address_field
+          type: string
+          description: User physical address
+          example: "Some Country, Some City, Some District, Some House Number, 00-000"
+      required:
+        - id
+        - login
+        - role
+        - email
+    UserSet:
+      description: Model that represents set of users
+      type: array
+      items:
+        $ref: "#/components/schemas/User"
+    CreateUser:
+      description: Model that represents attributes to create a user
+      type: object
+      properties:
+        login: *user_login_field
+        password: &user_password_fild
+          type: string
+          example: Welcome1
+          minLength: 8
+          maxLength: 256
+          writeOnly: true
+        email: *user_email_field
+        role_id: *user_role_id_field
+        name:
+          <<: *user_name_field
+          nullable: true
+        phone:
+          <<: *user_phone_field
+          nullable: true
+        address:
+          <<: *user_address_field
+          nullable: true
+      required:
+        - login
+        - password
+        - role_id
+        - email
+    UpdateUser:
+      description: Model that represents attributes to update a user
+      type: object
+      properties:
+        login:
+          <<: *user_login_field
+          nullable: true
+        password:
+          <<: *user_password_fild
+          nullable: true
+        role_id:
+          <<: *user_role_id_field
+          nullable: true
+        name:
+          <<: *user_name_field
+          nullable: true
+        email:
+          <<: *user_email_field
+          nullable: true
+        phone:
+          <<: *user_phone_field
+          nullable: true
+        address:
+          <<: *user_address_field
+          nullable: true
+
+    Product:
+      type: object
+      description: Represents product attributes
+      properties:
+        id: &product_id_field
+          type: integer
+          format: int64
+          example: 1
+        name: &product_name_field
+          type: string
+          description: Product short name
+          minLength: 1
+          maxLength: 1024
+          example: Harry Potter and the Philosophers Stone
+        description: &product_description_field
+          type: string
+          description: Product full description and specifications
+          minLength: 1
+          maxLength: 1024
+          example: Harry Potter and the Philosopher’s Stone, also called Harry Potter and the Sorcerer’s Stone, the first novel in the immensely popular Harry Potter series by British writer J.K. Rowling. It was first published in Britain in 1997 and appeared in the United States the following year under the title Harry Potter and the Sorcerer’s Stone. The book’s imaginative story line about a boy wizard made it an enduring hit with both children and adult
+        author: &product_author_field
+          type: string
+          minLength: 1
+          maxLength: 1024
+          example: Rowling
+        price: &product_price_field
+          type: number
+          format: float
+          example: 39.99
+          minimum: 0
+      required:
+        - id
+        - name
+        - description
+        - author
+        - price
+    ProductSet:
+      description: Model that represents set of products
+      type: array
+      items:
+        $ref: "#/components/schemas/Product"
+    CreateProduct:
+      type: object
+      description: Represents attributes for creating a product
+      properties: &create_product_properties
+        name: *product_name_field
+        description: *product_description_field
+        author: *product_author_field
+        price: *product_price_field
+      required:
+        - name
+        - description
+        - author
+        - price
+    CreateProductWithFiles:
+      type: object
+      description: Represents attributes for creating a product with files
+      properties:
+        <<: *create_product_properties
+        image: &product_image_field
+          type: string
+          format: binary
+          writeOnly: true
+          nullable: true
+    UpdateProduct:
+      type: object
+      description: Represents attributes for creating a product
+      properties: &update_product_properties
+        name:
+          <<: *product_name_field
+          nullable: true
+        description:
+          <<: *product_description_field
+          nullable: true
+        author:
+          <<: *product_author_field
+          nullable: true
+        price:
+          <<: *product_price_field
+          nullable: true
+        image: *product_image_field
+    UpdateProductWithFiles:
+      type: object
+      description: Represents attributes for creating a product with files
+      properties:
+        <<: *update_product_properties
+        image: *product_image_field
+
+    StoreItem:
+      type: object
+      description: Represents store item attributes
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        product_id:
+          <<: *product_id_field
+          example: 1
+        available_quantity: &store_item_available_quantity_field
+          type: integer
+          description: Available products quantity
+          format: int64
+          example: 1
+        booked_quantity: &store_item_booked_quantity_field
+          type: integer
+          description: Booked products quantity
+          format: int64
+          example: 0
+        sold_quantity: &store_item_sold_quantity_field
+          type: integer
+          description: Sold products quantity
+          format: int64
+          example: 0
+      required:
+        - id
+        - product_id
+        - available_quantity
+        - booked_quantity
+        - sold_quantity
+    StoreItemSet:
+      description: Model that represents set of store items
+      type: array
+      items:
+        $ref: "#/components/schemas/StoreItem"
+    CreateStoreItem:
+      type: object
+      description: Represents attributes for creating or updating store item
+      properties:
+        product_id: *product_id_field
+        available_quantity: *store_item_available_quantity_field
+      required:
+        - product_id
+        - available_quantity
+    UpdateStoreItem:
+      type: object
+      description: Represents attributes for creating or updating store item
+      properties:
+        available_quantity:
+          <<: *store_item_available_quantity_field
+          nullable: true
+        booked_quantity:
+          <<: *store_item_booked_quantity_field
+          nullable: true
+        sold_quantity:
+          <<: *store_item_sold_quantity_field
+          nullable: true
+
+    Booking:
+      description: Model that represents booking attributes
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        user_id:
+          <<: *user_id_field
+          description: ID of the user that made booking
+          example: 1
+        product_id:
+          <<: *product_id_field
+          description: ID of the product for booking
+          example: 1
+        quantity: &booking_quantity_field
+          type: integer
+          format: int64
+          description: Amount of product to book
+          example: 1
+        delivery_address: &booking_delivery_address_field
+          <<: *user_address_field
+          description: Physical address for product delivery
+        delivery_date: &booking_delivery_date_field
+          type: string
+          format: date
+          description: Estimated or exacted date of delivery in RFC 3339, section 5.6 format
+          example: 2023-02-01
+          nullable: true
+        delivery_time: &booking_delivery_time_field
+          type: string
+          pattern: "^([01]?(\\d|2[0-3])?:[0-5]\\d)$"
+          description: Estimated or exacted date of delivery in HH:MM format
+          example: "16:00"
+          nullable: true
+        status_id: &booking_status_id_field
+          type: integer
+          format: int64
+          description: | 
+            Current booking status id. Predefined:
+            - 1 - submitted
+            - 2 - rejected
+            - 3 - approved
+            - 4 - cancelled
+            - 5 - in_delivery
+            - 6 - completed
+          enum: [ 1, 2, 3, 4, 5, 6 ]
+          example: 1
+      required:
+        - id
+        - user_id
+        - product_id
+        - quantity
+        - status_id
+    BookingSet:
+      description: Model that represents set of bookings
+      type: array
+      items:
+        $ref: "#/components/schemas/Booking"
+    CreateBooking:
+      description: Model that represents attributes for creating booking attributes
+      type: object
+      properties:
+        user_id:
+          <<: *user_id_field
+          description: ID of the user that made booking
+          example: 1
+        product_id:
+          <<: *product_id_field
+          description: ID of the product to book
+        quantity: *booking_quantity_field
+        delivery_address: *booking_delivery_address_field
+        delivery_date:
+          <<: *booking_delivery_date_field
+          nullable: true
+        delivery_time:
+          <<: *booking_delivery_time_field
+          nullable: true
+        status_id: *booking_status_id_field
+      required:
+        - user_id
+        - product_id
+        - quantity
+        - delivery_address
+    UpdateBooking:
+      description: Model that represents attributes for updating booking
+      type: object
+      properties:
+        quantity:
+          <<: *booking_quantity_field
+          nullable: true
+        delivery_address:
+          <<: *booking_delivery_address_field
+          nullable: true
+        delivery_date:
+          <<: *booking_delivery_date_field
+          nullable: true
+        delivery_time:
+          <<: *booking_delivery_time_field
+          nullable: true
+        status_id:
+          <<: *booking_status_id_field
+          nullable: true
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      x-basicInfoFunc: bookshop_app.services.authentication.basic_auth
