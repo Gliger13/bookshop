@@ -1,0 +1,11 @@
+tests:
+  test_smoke_create_booking:
+    test_set_name: "[Booking API][Smoke] Check create booking"
+  test_smoke_get_booking:
+    test_set_name: "[Booking API][Smoke] Check get booking"
+  test_smoke_get_all_bookings:
+    test_set_name: "[Booking API][Smoke] Check get all bookings"
+  test_smoke_update_booking:
+    test_set_name: "[Booking API][Smoke] Check update booking"
+  test_smoke_delete_booking:
+    test_set_name: "[Booking API][Smoke] Check delete booking"
