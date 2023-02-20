@@ -48,7 +48,12 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pylint", "mypy"]
+dev = [
+    "pylint",
+    "pylint-flask",
+    "pylint-flask-sqlalchemy",
+    "mypy",
+]
 
 [tool.setuptools.package-data]
 "bookshop_app.open_api" = ["swagger.yml"]

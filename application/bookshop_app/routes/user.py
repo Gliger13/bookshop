@@ -15,8 +15,7 @@ def user_control() -> tuple[Response | dict | list[dict], int]:
     """
     if request.method == "POST":
         return UserController.create()
-    else:
-        return UserController.get_all()
+    return UserController.get_all()
 
 
 def user_manipulation(user_id: int) -> tuple[Response | dict | list[dict], int]:
@@ -27,7 +26,6 @@ def user_manipulation(user_id: int) -> tuple[Response | dict | list[dict], int]:
     """
     if request.method == "GET":
         return UserController.get(user_id)
-    elif request.method == "PUT":
+    if request.method == "PUT":
         return UserController.update(user_id)
-    else:
-        return UserController.delete(user_id)
+    return UserController.delete(user_id)

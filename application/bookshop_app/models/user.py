@@ -26,12 +26,21 @@ class UserModel(db.Model):
     def __repr__(self) -> str:
         return f"<User {self.login}>"
 
-    def hash_password(self, password: str):
+    def hash_password(self, password: str) -> None:
+        """Hash given password and set hashed password to the user model
+
+        :param password: password to hash and set
+        """
         salt = os.urandom(32)
         key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
         self.password_hash = salt + key
 
-    def verify_password(self, password: str):
+    def verify_password(self, password: str) -> bool:
+        """Verify given password matches current user hashed password
+
+        :param password: password to hash and verify
+        :return: True if the given hashed password matches hashed current
+        """
         salt, key = self.password_hash[:32], self.password_hash[32:]
         new_key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
         return key == new_key

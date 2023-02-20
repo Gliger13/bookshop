@@ -8,6 +8,8 @@ class RoleSchema(ma.SQLAlchemySchema):
     """Role schema"""
 
     class Meta:
+        """Configure Schema behavior"""
+
         model = RoleModel
         load_instance = True
         sqla_session = db.session

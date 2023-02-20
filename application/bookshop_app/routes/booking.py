@@ -15,8 +15,7 @@ def booking_control() -> tuple[Response | dict | list[dict], int]:
     """
     if request.method == 'POST':
         return BookingController.create()
-    else:
-        return BookingController.get_all()
+    return BookingController.get_all()
 
 
 def booking_manipulation(booking_id: int) -> tuple[Response | dict | list[dict], int]:
@@ -27,7 +26,6 @@ def booking_manipulation(booking_id: int) -> tuple[Response | dict | list[dict],
     """
     if request.method == 'GET':
         return BookingController.get(booking_id)
-    elif request.method == 'PUT':
+    if request.method == 'PUT':
         return BookingController.update(booking_id)
-    else:
-        return BookingController.delete(booking_id)
+    return BookingController.delete(booking_id)

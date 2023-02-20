@@ -10,6 +10,8 @@ class BookingSchema(ma.SQLAlchemySchema):
     """Booking schema"""
 
     class Meta:
+        """Configure Schema behavior"""
+
         model = BookingModel
         load_instance = True
         sqla_session = db.session
