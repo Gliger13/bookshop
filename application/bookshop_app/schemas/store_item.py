@@ -10,6 +10,8 @@ class StoreItemSchema(ma.SQLAlchemySchema):
     """Store item schema"""
 
     class Meta:
+        """Configure Schema behavior"""
+
         model = StoreItemModel
         load_instance = True
         sqla_session = db.session

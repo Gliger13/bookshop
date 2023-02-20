@@ -12,7 +12,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.datastructures import FileStorage
 
 from bookshop_app.data_access_objects.product import ProductDAO
-from bookshop_app.models.file import FileManagerFactory, FileValidator
+from bookshop_app.models.file import FileManagerFactory, validate_image
 from bookshop_app.models.product import ProductModel
 from bookshop_app.schemas.product import ProductSchema
 
@@ -136,7 +136,7 @@ class ProductService:
             abort(codes.unsupported_media_type, "Unsupported media type. Given file is not image")
 
         image_binary = image_to_save.read()
-        FileValidator.validate_image(image_to_save)
+        validate_image(image_to_save)
 
         file_manager = FileManagerFactory.get_by_environment_config()
         saved_image_path = file_manager.save(image_to_save.filename, image_binary)
@@ -162,3 +162,4 @@ class ProductService:
             create_or_update_product_attributes.pop("image", None)
             return {key: value for key, value in create_or_update_product_attributes.items() if value != ""}
         abort(codes.unsupported_media_type, "Unsupported Media Type")
+        return None

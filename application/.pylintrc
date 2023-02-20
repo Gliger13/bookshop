@@ -46,13 +46,15 @@ fail-under=10
 #from-stdin=
 
 # Files or directories to be skipped. They should be base names, not paths.
-ignore=CVS
+ignore=CVS,
+       migrations,
+       env.py
 
 # Add files or directories matching the regular expressions patterns to the
 # ignore-list. The regex matches against paths and can be in Posix or Windows
 # format. Because '\\' represents the directory delimiter on Windows systems,
 # it can't be used as an escape character.
-ignore-paths=
+ignore-paths=bookshop_app/migrations
 
 # Files or directories matching the regular expression patterns are skipped.
 # The regex matches against base names, not paths. The default value ignores
@@ -81,14 +83,15 @@ limit-inference-results=100
 
 # List of plugins (as comma separated values of python module names) to load,
 # usually to register additional checkers.
-load-plugins=
+load-plugins=pylint_flask,
+             pylint_flask_sqlalchemy,
 
 # Pickle collected data for later comparisons.
 persistent=yes
 
 # Minimum Python version to use for version dependent checks. Will default to
 # the version used to run pylint.
-py-version=3.10
+py-version=3.11
 
 # Discover python modules and packages in the file system subtree.
 recursive=no
@@ -266,7 +269,7 @@ valid-metaclass-classmethod-first-arg=mcs
 
 # List of regular expressions of class ancestor names to ignore when counting
 # public methods (see R0903)
-exclude-too-few-public-methods=
+exclude-too-few-public-methods=SQLAlchemySchema, Config, Model, Meta
 
 # List of qualified class names to ignore when counting class parents (see
 # R0901)
@@ -300,7 +303,7 @@ max-returns=6
 max-statements=50
 
 # Minimum number of public methods for a class (see R0903).
-min-public-methods=2
+min-public-methods=0  # Config, SQLAlchemy Model, Marshmallow Schema classes are not friendly with pylint :(
 
 
 [EXCEPTIONS]
@@ -543,7 +546,7 @@ contextmanager-decorators=contextlib.contextmanager
 # List of members which are set dynamically and missed by pylint inference
 # system, and so shouldn't trigger E1101 when accessed. Python regular
 # expressions are accepted.
-generated-members=
+generated-members=codes.*  # Ignore requests.codes warnings
 
 # Tells whether to warn about missing members when the owner of the attribute
 # is inferred to be None.
@@ -566,7 +569,12 @@ ignored-checks-for-mixins=no-member,
 # List of class names for which member attributes should not be checked (useful
 # for classes with dynamically set attributes). This supports the use of
 # qualified names.
-ignored-classes=optparse.Values,thread._local,_thread._local,argparse.Namespace
+ignored-classes=optparse.Values,
+                thread._local,
+                _thread._local,
+                argparse.Namespace,
+                scoped_session,  # Ignore flask scoped session that loads dynamically
+
 
 # Show a hint with possible names when a member name was not found. The aspect
 # of finding the hint is based on edit distance.
