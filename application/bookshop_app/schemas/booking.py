@@ -30,8 +30,10 @@ class BookingSchema(ma.SQLAlchemySchema):
     def validate_quantity(self, quantity: int) -> None:
         """Validate product quantity
 
+        Product quantity to book MUST be greater than 0.
+
         :param quantity: quantity of the product to validate
         :raise ValidationError: if something wrong with the given quantity
         """
-        if quantity < 0:
+        if quantity <= 0:
             raise ValidationError("Product quantity must not be less than zero")
