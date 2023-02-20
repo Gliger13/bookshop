@@ -1,6 +1,6 @@
 [project]
 name = "bookshop-unit-tests"
-version = "1.0.0"
+version = "0.1.0"
 description = "Unit tests for bookshop application"
 readme = "README.md"
 requires-python = ">=3.11"

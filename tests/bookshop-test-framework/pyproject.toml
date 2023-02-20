@@ -1,6 +1,6 @@
 [project]
 name = "bookshop-test-framework"
-version = "1.0.0"
+version = "0.1.0"
 description = "Test framework for different type of test cases for bookshop application"
 readme = "README.md"
 requires-python = ">=3.11"
