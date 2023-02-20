@@ -10,6 +10,8 @@ class UserSchema(ma.SQLAlchemySchema):
     """User schema"""
 
     class Meta:
+        """Configure Schema behavior"""
+
         model = UserModel
         load_instance = True
         sqla_session = db.session

@@ -15,8 +15,7 @@ def store_item_control() -> tuple[Response | dict | list[dict], int]:
     """
     if request.method == "POST":
         return StoreItemController.create()
-    else:
-        return StoreItemController.get_all()
+    return StoreItemController.get_all()
 
 
 def store_item_manipulation(store_item_id: int) -> tuple[Response | dict | list[dict], int]:
@@ -27,7 +26,6 @@ def store_item_manipulation(store_item_id: int) -> tuple[Response | dict | list[
     """
     if request.method == "GET":
         return StoreItemController.get(store_item_id)
-    elif request.method == "PUT":
+    if request.method == "PUT":
         return StoreItemController.update(store_item_id)
-    else:
-        return StoreItemController.delete(store_item_id)
+    return StoreItemController.delete(store_item_id)

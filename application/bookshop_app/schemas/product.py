@@ -10,6 +10,8 @@ class ProductSchema(ma.SQLAlchemySchema):
     """Product schema"""
 
     class Meta:
+        """Configure Schema behavior"""
+
         model = ProductModel
         load_instance = True
         sqla_session = db.session

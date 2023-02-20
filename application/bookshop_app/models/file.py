@@ -106,17 +106,17 @@ class LocalFileManager(BaseFileManager):
         logging.info("The file has been saved to the path: `%s`", file_path_to_save)
         return file_path_to_save
 
-    def get(self, file_path: str) -> bytes | None:
+    def get(self, file_name: str) -> bytes | None:
         """Get file bytes from the local filesystem with the given path
 
-        :param file_path: local filesystem path to get file
+        :param file_name: local filesystem path to get file
         :return: loaded file bytes or None if the file was not found
         """
-        logging.debug("Getting a file from the local filesystem by path `%s`", file_path)
-        file_name_to_get = os.path.basename(file_path)
+        logging.debug("Getting a file from the local filesystem by path `%s`", file_name)
+        file_name_to_get = os.path.basename(file_name)
         expected_file_path_to_get = os.path.join(self.directory_path_to_save, file_name_to_get)
         if os.path.exists(expected_file_path_to_get):
-            with open(file_path, "br") as file:
+            with open(file_name, "br") as file:
                 return file.read()
         else:
             logging.warning("File manager received file path to get outside the configured folder. Aborting")
@@ -154,6 +154,16 @@ class FileManagerFactory:
 
     @classmethod
     @lru_cache
+    def get_by_name(cls, name: str) -> BaseFileManager:
+        """Get and initialize file manager with the given name
+
+        :param name: name of the file manager to get
+        :return: initialize file manager with the given name
+        """
+        raise NotImplementedError
+
+    @classmethod
+    @lru_cache
     def get_by_environment_config(cls) -> BaseFileManager:
         """Get file manager using current environment config
 
@@ -172,17 +182,13 @@ class FileManagerFactory:
         return file_manager
 
 
-class FileValidator:
-    """Validator for all file related validations"""
+def validate_image(image: FileStorage) -> None:
+    """Validate that given image from the requests is an image
 
-    @staticmethod
-    def validate_image(image: FileStorage) -> None:
-        """Validate that given image from the requests is an image
-
-        :param image: image from the request files to check
-        """
-        image_to_validate = Image.open(image)
-        try:
-            image_to_validate.verify()
-        except Exception:
-            raise ValidationError("Verification of uploaded image failed")
+    :param image: image from the request files to check
+    """
+    image_to_validate = Image.open(image)
+    try:
+        image_to_validate.verify()
+    except Exception as error:
+        raise ValidationError("Verification of uploaded image failed") from error
