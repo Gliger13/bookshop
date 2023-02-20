@@ -60,7 +60,7 @@ class ProductService:
         :return: tuple of response json and status code
         """
         try:
-            create_product_attributes = ProductService.get_create_or_update_attributes_from_request(request)
+            create_product_attributes = ProductService.get_product_attributes_from_request(request)
             product_data = product_schema.load(create_product_attributes)
             ProductService.update_product_with_image(product_data, request.files)
             ProductDAO.create(product_data)
@@ -99,7 +99,7 @@ class ProductService:
         :return: tuple of response json and status code
         """
         try:
-            update_product_attributes = ProductService.get_create_or_update_attributes_from_request(request)
+            update_product_attributes = ProductService.get_product_attributes_from_request(request)
             product_model = ProductDAO.get_by_id(product_id)
             product_data = product_schema.dump(product_model)
             product_data.update(update_product_attributes)
@@ -148,17 +148,16 @@ class ProductService:
         return None
 
     @staticmethod
-    def get_create_or_update_attributes_from_request(create_or_update_request: Request) -> Optional[dict]:
-        """Get create or update product attributes from the request
+    def get_product_attributes_from_request(product_request: Request) -> Optional[dict]:
+        """Get product attributes from the request regardless of mimetype
 
-        :param create_or_update_request: request to create or update product
-        :return: attributes of product to create or update or None if can not
-            get attributes from request
+        :param product_request: request to manipulate wit a product
+        :return: attributes of the product to manipulate
         """
         if request.is_json:
-            return create_or_update_request.get_json()
+            return product_request.get_json()
         if request.mimetype == "multipart/form-data":
-            create_or_update_product_attributes = create_or_update_request.form.to_dict()
+            create_or_update_product_attributes = product_request.form.to_dict()
             create_or_update_product_attributes.pop("image", None)
             return {key: value for key, value in create_or_update_product_attributes.items() if value != ""}
         abort(codes.unsupported_media_type, "Unsupported Media Type")
