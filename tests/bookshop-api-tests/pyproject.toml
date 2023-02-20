@@ -1,0 +1,28 @@
+[project]
+name = "bookshop-api-tests"
+version = "0.1.0"
+description = "Test Cases for testing Bookshop API"
+readme = "README.md"
+requires-python = ">=3.11"
+maintainers = [
+    { name = "Andrei Zaneuski", email = "***REMOVED***" }
+]
+
+dependencies = [
+    "bookshop_test_framework~=1.0.0"
+]
+
+[tool.setuptools.packages.find]
+include = ["bookshop_api_tests*"]
+
+[tool.setuptools.package-data]
+"bookshop_api_tests.bookings" = ["test_data.yaml"]
+"bookshop_api_tests.products" = ["test_data.yaml"]
+"bookshop_api_tests.store_items" = ["test_data.yaml"]
+"bookshop_api_tests.users" = ["test_data.yaml"]
+
+[project.optional-dependencies]
+dev = ["pylint", "mypy"]
+
+[project.urls]
+repository = "***REMOVED***"

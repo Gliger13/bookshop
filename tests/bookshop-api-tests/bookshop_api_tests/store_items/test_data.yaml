@@ -1,0 +1,11 @@
+tests:
+  test_smoke_create_store_item:
+    test_set_name: "[StoreItem API][Smoke] Check create store item"
+  test_smoke_get_store_item:
+    test_set_name: "[StoreItem API][Smoke] Check get store item"
+  test_smoke_get_all_store_items:
+    test_set_name: "[StoreItem API][Smoke] Check get all store items"
+  test_smoke_update_store_item:
+    test_set_name: "[StoreItem API][Smoke] Check update store item"
+  test_smoke_delete_store_item:
+    test_set_name: "[StoreItem API][Smoke] Check delete store item"

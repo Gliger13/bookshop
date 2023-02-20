@@ -1,0 +1,62 @@
+test_sets:
+  test_ddt_create_product_by_valid_data:
+    test_name: "[Product API] Check create product by valid data"
+    data:
+      - test_set_name: "[Product API] Check create product by valid data"
+        mock_user_models:
+          - login: ActorManagerTestUser
+            password: Welcome1
+            role_id: 2
+            email: test1@email.com
+        actor_credentials:
+          login: ActorManagerTestUser
+          password: Welcome1
+        new_product_attributes:
+          name: Ultimate Product Name
+
+  test_ddt_delete_valid_product:
+    test_name: "[Product API] Check delete valid product"
+    data:
+      - test_set_name: "[Product API] Check delete valid product"
+        product_id_to_delete: 1
+        mock_user_models:
+          - login: ActorManagerTestUser
+            password: Welcome1
+            role_id: 2
+            email: test1@email.com
+        mock_product_models:
+          - name: Ultimate Product Name
+        actor_credentials:
+          login: ActorManagerTestUser
+          password: Welcome1
+
+  test_ddt_get_all_products:
+    test_name: "[Product API] Check get all products"
+    data:
+      - test_set_name: "[Product API] Check get all products"
+
+  test_ddt_get_valid_product:
+    test_name: "[Product API] Check get product by valid id"
+    data:
+      - test_set_name: "[Product API] Check get product by valid id using customer user"
+        product_id_to_get: 1
+        mock_product_models:
+          - name: Ultimate Product Name
+
+  test_ddt_update_product_by_valid_data:
+    test_name: "[Product API] Check update product by valid data"
+    data:
+      - test_set_name: "[Product API] Check update product by valid data"
+        product_id_to_update: 1
+        new_product_attributes:
+          description: "Test description"
+        mock_user_models:
+          - login: ActorManagerTestUser
+            password: Welcome1
+            role_id: 2
+            email: test1@email.com
+        mock_product_models:
+          - name: Ultimate Product Name
+        actor_credentials:
+          login: ActorManagerTestUser
+          password: Welcome1

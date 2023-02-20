@@ -39,3 +39,11 @@ venv/
 
 # Local git config
 .git/
+
+# Product related files
+/application/bookshop_app/media/*
+!/application/bookshop_app/media/__init__.py
+
+# log files
+logs/
+log/

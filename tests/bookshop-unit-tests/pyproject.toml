@@ -1,0 +1,25 @@
+[project]
+name = "bookshop-unit-tests"
+version = "0.1.0"
+description = "Unit tests for bookshop application"
+readme = "README.md"
+requires-python = ">=3.11"
+maintainers = [
+    {name = "Andrei Zaneuski", email = "***REMOVED***"}
+]
+
+dependencies = [
+    "bookshop",
+]
+
+[project.optional-dependencies]
+dev = ["pylint", "mypy"]
+
+[tool.setuptools.package-data]
+"bookshop_unit_tests.endpoints.booking" = ["test_data.yaml"]
+"bookshop_unit_tests.endpoints.product" = ["test_data.yaml"]
+"bookshop_unit_tests.endpoints.store_item" = ["test_data.yaml"]
+"bookshop_unit_tests.endpoints.user" = ["test_data.yaml"]
+
+[project.urls]
+repository = "***REMOVED***"
