@@ -1,13 +1,10 @@
 """Booking Data Access Object"""
+from typing import Final
 
 from bookshop_app.database.database import db
 from bookshop_app.models.booking import BookingModel
 
-
-class BookingMessages:
-    """Booking messages and templates"""
-
-    BOOKING_NOT_FOUND = "Booking not found for id: {booking_id}"
+BOOKING_NOT_FOUND: Final = "Booking not found for id: {booking_id}"
 
 
 class BookingDAO:
@@ -29,7 +26,7 @@ class BookingDAO:
         """Get booking by id from database"""
         return db.session.query(BookingModel).get_or_404(
             booking_id,
-            description=BookingMessages.BOOKING_NOT_FOUND.format(booking_id=booking_id))
+            description=BOOKING_NOT_FOUND.format(booking_id=booking_id))
 
     @staticmethod
     def update(updated_booking: BookingModel) -> None:

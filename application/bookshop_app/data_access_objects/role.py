@@ -1,12 +1,10 @@
 """Roles Data Access Object"""
+from typing import Final
+
 from bookshop_app.database.database import db
 from bookshop_app.models.role import RoleModel
 
-
-class RolesMessages:
-    """Roles messages and templates"""
-
-    ROLE_NOT_FOUND = "Role not found with id: {role_id}"
+ROLE_NOT_FOUND: Final = "Role not found with id: {role_id}"
 
 
 class RoleDAO:
@@ -22,4 +20,4 @@ class RoleDAO:
         """Get role by id from database"""
         return db.session.query(RoleModel).get_or_404(
             role_id,
-            description=RolesMessages.ROLE_NOT_FOUND.format(role_id=role_id))
+            description=ROLE_NOT_FOUND.format(role_id=role_id))
