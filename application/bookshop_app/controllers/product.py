@@ -1,8 +1,8 @@
 """Product controller"""
 from flask import Response
 
-from bookshop_app.services.authentication import auth
 from bookshop_app.models.role import UserRole
+from bookshop_app.services.authentication import auth
 from bookshop_app.services.product import ProductService
 
 

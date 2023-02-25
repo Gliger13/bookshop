@@ -15,6 +15,7 @@ from bookshop_app.routes.product import product_control, product_manipulation
 from bookshop_app.routes.store_item import store_item_control, store_item_manipulation
 from bookshop_app.routes.user import user_control, user_manipulation
 from bookshop_app.utils.logger import initialize_logger
+from bookshop_app.views.blueprints import register_all_blueprints
 
 
 def create_app() -> Flask:
@@ -29,6 +30,7 @@ def create_app() -> Flask:
     connexion_app.add_api("swagger.yml")
     application = connexion_app.app
     application.config.from_object(get_environment_config_reference())
+    register_all_blueprints(application)
     db.init_app(application)
     ma.init_app(application)
 
