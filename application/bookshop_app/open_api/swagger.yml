@@ -140,6 +140,25 @@ paths:
           description: Server Error
       security:
         - basicAuth: [ ]
+  /generate_token:
+    get:
+      operationId: bookshop_app.services.user.UserService.generate_jwt_token
+      tags:
+        - User
+      summary: Login user in the system and returns Authentication Token.
+      description: Login user in the system and returns Authentication Token.
+      responses:
+        "200":
+          description: Login user in the system and returns Authentication Token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  AuthToken:
+                    type: string
+      security:
+        - basicAuth: [ ]
 
   /product:
     get:

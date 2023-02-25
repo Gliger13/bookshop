@@ -148,3 +148,11 @@ class UserService:
             user_schema.validate_password(password_to_validate)
         if role_id_to_validate := update_user_request_json.get("role_id"):
             RoleDAO.get_by_id(role_id_to_validate)
+
+    @staticmethod
+    def generate_jwt_token() -> tuple[dict | Response, int]:
+        """Generates JWT for the user and returns it."""
+        login = request.authorization.username
+        user = UserDAO.get_by_login(login)
+        access_token = user.generate_jwt_token()
+        return jsonify(AuthToken=access_token), codes.ok
