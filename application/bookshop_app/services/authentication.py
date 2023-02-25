@@ -1,8 +1,12 @@
 """Authenticator service module"""
+from typing import Optional
+
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.datastructures import Authorization
+from werkzeug.exceptions import Unauthorized
 
 from bookshop_app.data_access_objects.user import UserDAO
+from bookshop_app.models.user import UserModel
 
 auth = HTTPBasicAuth()
 
@@ -17,6 +21,14 @@ def basic_auth(username: str, password: str) -> None | dict[str, str]:
     if verify_password(username, password):
         return {"sub": username}
     return None
+
+
+def jwt_authentication(token: str) -> Optional[dict]:
+    """Used by swagger for JWT authentication."""
+    try:
+        return UserModel.decode_token(token)
+    except Unauthorized:
+        return None
 
 
 @auth.verify_password
