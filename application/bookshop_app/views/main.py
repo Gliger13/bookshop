@@ -15,12 +15,6 @@ main_blueprint = Blueprint(
 )
 
 
-@main_blueprint.route('/')
-def home_page():
-    """Default route for home page"""
-    return render_template("main/home.html")
-
-
 @main_blueprint.route('/about')
 def about_page():
     """Default route for home page"""
