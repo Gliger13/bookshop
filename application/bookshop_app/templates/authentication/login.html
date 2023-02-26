@@ -1,4 +1,5 @@
 {% extends '_base/base.html' %}
+{% import "authentication/_macros.html" as auth_macros %}
 
 {% block title %}
 Login
@@ -16,34 +17,9 @@ Login
                             <p class="text-white-50 mb-5">Please enter your login and password!</p>
                             <form action="/login" method="POST">
                                 {{ form.csrf_token }}
-                                <div class="form-outline form-white mb-4">
-                                    {{ form.login(class_='form-control', size=32) }}
-                                </div>
-                                {% if form.login.errors %}
-                                <ul class="errors">
-                                    {% for error in form.login.errors %}
-                                    <li>{{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                                {% endif %}
-
-                                <div class="form-outline form-white mb-4">
-                                    {{ form.password(class_='form-control', size=32) }}
-                                </div>
-                                {% if form.password.errors %}
-                                <ul class="errors">
-                                    {% for error in form.password.errors %}
-                                    <li>{{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                                {% endif %}
-                                {% if error %}
-                                <div class="card text-bg-danger mx-auto my-4 opacity-85">
-                                    <div class="card-body py-2">
-                                        <p class="card-text">{{ error }}</p>
-                                    </div>
-                                </div>
-                                {% endif %}
+                                {{ auth_macros.form_field(form.login, show_label=False) }}
+                                {{ auth_macros.form_field(form.password, show_label=False) }}
+                                {{ auth_macros.all_errors_banner(error) }}
                                 <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
                             </form>
                         </div>

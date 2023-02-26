@@ -1,0 +1,26 @@
+{% macro form_field(field, show_label=True) %}
+<div class="form-outline form-white mb-4">
+    {% if show_label %}
+        {{ field.label(class_="form-label") }}
+    {% endif %}
+    {{ field(class_="form-control", size=32) }}
+</div>
+{% if field.errors %}
+<ul class="errors">
+    {% for error in field.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endmacro %}
+
+
+{% macro all_errors_banner(errors) %}
+{% if errors %}
+<div class="card text-bg-danger mx-auto my-4 opacity-85">
+    <div class="card-body py-2 ">
+        <p class="card-text text-center">{{ errors }}</p>
+    </div>
+</div>
+{% endif %}
+{% endmacro %}
