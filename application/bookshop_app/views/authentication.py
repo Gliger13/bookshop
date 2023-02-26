@@ -3,10 +3,12 @@
 Module contains routes for authentication blueprint, which includes the
 functionality of user registration, login, log out functionality.
 """
+from requests import codes
 
-from flask import Blueprint, redirect, render_template, url_for
+from bookshop_app.controllers.user import UserController
+from flask import Blueprint, redirect, render_template, request, Response, url_for
 
-from bookshop_app.forms.authentication import LoginForm
+from bookshop_app.forms.authentication import LoginForm, RegistrationForm
 from bookshop_app.services.authentication import verify_password
 
 __all__ = ["authentication_blueprint"]
@@ -45,10 +47,20 @@ def log_out_post() -> str:
 @authentication_blueprint.route("/registration", methods=["GET"])
 def registration_page() -> str:
     """Route for the GET request to the registration endpoint"""
-    return render_template("authentication/registration.html")
+    registration_form = RegistrationForm()
+    return render_template("authentication/registration.html", form=registration_form)
 
 
 @authentication_blueprint.route("/registration", methods=["POST"])
-def registration_post() -> str:
+def registration_post() -> Response | str:
     """Route for the POST request to the registration endpoint"""
-    raise NotImplementedError()
+    registration_form = RegistrationForm()
+    if not registration_form.validate_on_submit():
+        return render_template("authentication/registration.html", form=registration_form)
+
+    create_user_response_data, status_code = UserController.create()
+    if status_code is not codes.created:
+        error = create_user_response_data.json.get("error", "Failed to create new user")
+        return render_template("authentication/registration.html", form=registration_form, error=error)
+
+    return redirect(url_for("products_blueprint.products_page"))
