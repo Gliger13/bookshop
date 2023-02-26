@@ -1,5 +1,5 @@
 """ORM User Schemas"""
-from marshmallow import validate, validates, ValidationError
+from marshmallow import EXCLUDE, validate, validates, ValidationError
 
 from bookshop_app.database.database import db
 from bookshop_app.dependencies import ma
@@ -15,6 +15,7 @@ class UserSchema(ma.SQLAlchemySchema):
         model = UserModel
         load_instance = True
         sqla_session = db.session
+        unknown = EXCLUDE
 
     id = ma.auto_field()
     login = ma.auto_field()
