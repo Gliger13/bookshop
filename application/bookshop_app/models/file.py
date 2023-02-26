@@ -104,7 +104,7 @@ class LocalFileManager(BaseFileManager):
         with open(file_path_to_save, "bw") as file:
             file.write(file_binary)
         logging.info("The file has been saved to the path: `%s`", file_path_to_save)
-        return file_path_to_save
+        return os.path.relpath(file_path_to_save, self.directory_path_to_save)
 
     def get(self, file_name: str) -> bytes | None:
         """Get file bytes from the local filesystem with the given path
