@@ -3,8 +3,10 @@
 Module contains routes for the products blueprint, which includes the
 functionality of creating, reading, updating, and deleting a product.
 """
-
 from flask import Blueprint, render_template
+
+from bookshop_app.controllers.product import ProductController
+from bookshop_app.views.main import main_blueprint
 
 __all__ = ["products_blueprint"]
 
@@ -16,10 +18,12 @@ products_blueprint = Blueprint(
 )
 
 
+@main_blueprint.route('/')
 @products_blueprint.route("/products", methods=["GET"])
 def products_page() -> str:
     """Route for the GET request to the products endpoint"""
-    return render_template("products/products.html")
+    products, status_code = ProductController.get_all()
+    return render_template("products/products.html", products=products)
 
 
 @products_blueprint.route("/product/<product_id>", methods=["GET"])

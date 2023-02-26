@@ -1,9 +1,26 @@
-{% extends '_base.html' %}
+{% extends '_base/base.html' %}
+{% import "products/_macros.html" as products_macros %}
 
 {% block title %}
 Products
 {% endblock %}
 
 {% block content %}
-<h1>Products page</h1>
-{% endblock %}
+{% if products %}
+<div class="row row-cols-auto row-cols-md-auto g-4 mx-2 my-1">
+    {% for product in products %}
+        {{ products_macros.product_card(product) }}
+    {% endfor %}
+</div>
+{{ products_macros.product_paginator() }}
+{% else %}
+<div class="card text-bg-secondary mb-3 mx-auto" style="max-width: 18rem; margin: 1rem;">
+    <div class="card-body">
+        <h5 class="card-title text-center">No products available</h5>
+        <p class="card-text">
+            At the moment, BookShop does not have available products for viewing and booking. Please return later.
+        </p>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
