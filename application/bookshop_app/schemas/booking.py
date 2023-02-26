@@ -1,5 +1,5 @@
 """ORM Booking schema"""
-from marshmallow import validates, ValidationError
+from marshmallow import EXCLUDE, validates, ValidationError
 
 from bookshop_app.database.database import db
 from bookshop_app.dependencies import ma
@@ -15,6 +15,7 @@ class BookingSchema(ma.SQLAlchemySchema):
         model = BookingModel
         load_instance = True
         sqla_session = db.session
+        unknown = EXCLUDE
 
     id = ma.auto_field()
 
