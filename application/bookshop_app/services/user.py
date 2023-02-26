@@ -56,11 +56,14 @@ class UserService:
         :return: tuple of response json and status code
         """
         try:
-            create_user_request_json = request.get_json()
-            password_to_hash = create_user_request_json.pop("password")
+            if request.is_json:
+                user_attributes = request.get_json()
+            else:
+                user_attributes = dict(request.form)
 
-            user_data = user_schema.load(create_user_request_json)
-            UserService.validate_user_creation_request({**create_user_request_json, "password": password_to_hash})
+            password_to_hash = user_attributes.pop("password")
+            user_data = user_schema.load(user_attributes)
+            UserService.validate_user_creation_request({**user_attributes, "password": password_to_hash})
 
             user_data.hash_password(password_to_hash)
             UserDAO.create(user_data)
@@ -82,7 +85,8 @@ class UserService:
         :raise HTTPException: if role ID was provided, but it does not exist
         """
         user_schema.validate_password(create_user_request_json.get("password"))
-        RoleDAO.get_by_id(create_user_request_json.get("role_id"))
+        if role_id := create_user_request_json.get("role_id"):
+            RoleDAO.get_by_id(role_id)
 
     @staticmethod
     def delete(user_id: int) -> tuple[dict[str, str], int]:
