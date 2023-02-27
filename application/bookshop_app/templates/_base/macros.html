@@ -7,3 +7,14 @@
     </a>
 </li>
 {% endmacro %}
+
+
+{% macro logout_link() %}
+<li class="nav-item">
+    <form action="/log-out" method="POST">
+        <button class=nav-link style="background: transparent; border: none !important;" type="submit">
+            Log Out
+        </button>
+    </form>
+</li>
+{% endmacro %}

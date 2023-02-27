@@ -2,22 +2,22 @@
 
 import hashlib
 import os
-from datetime import timedelta
-from typing import Final
+import time
+from typing import Final, Optional
 
-from flask_jwt_extended import create_access_token, decode_token
+import jwt
 from flask_login import UserMixin
-from jwt import ExpiredSignatureError, InvalidTokenError
 from werkzeug.exceptions import Unauthorized
 
 from bookshop_app.database.database import db
 from bookshop_app.models.role import RoleModel
 
 
-class UserModel(db.Model, UserMixin):
+class UserModel(UserMixin, db.Model):
     """User ORM model"""
 
-    JWT_LIFETIME_IN_SECONDS: Final[int] = 600
+    JWT_LIFETIME_SECONDS: Final[int] = 600
+    JWT_ALGORITHM: Final[str] = "HS256"
 
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -32,15 +32,21 @@ class UserModel(db.Model, UserMixin):
     phone = db.Column(db.String(256), unique=True)
     address = db.Column(db.String(256))
 
-    # is_authenticated: bool = True
-    # is_active: bool = True
-    # is_anonymous: bool = False
+    token: Optional[str] = None
+
+    def get_id(self) -> str:
+        """Get user ID for Login Manager"""
+        if self.token:
+            try:
+                self.decode_token(self.token)
+            except Unauthorized:
+                self.generate_token()
+        else:
+            self.generate_jwt_token()
+        return self.token
 
     def __repr__(self) -> str:
         return f"<User {self.login}>"
-
-    # def get_id(self):
-    #     return self.id
 
     def hash_password(self, password: str) -> None:
         """Hash given password and set hashed password to the user model
@@ -48,7 +54,7 @@ class UserModel(db.Model, UserMixin):
         :param password: password to hash and set
         """
         salt = os.urandom(32)
-        key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+        key = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, 100000)
         self.password_hash = salt + key
 
     def verify_password(self, password: str) -> bool:
@@ -58,23 +64,33 @@ class UserModel(db.Model, UserMixin):
         :return: True if the given hashed password matches hashed current
         """
         salt, key = self.password_hash[:32], self.password_hash[32:]
-        new_key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+        new_key = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, 100000)
         return key == new_key
 
     def generate_jwt_token(self) -> str:
-        """Generate JWT token for the current user"""
-        token = create_access_token(
-            identity=self.login,
-            expires_delta=timedelta(seconds=self.JWT_LIFETIME_IN_SECONDS))
-        return token
+        """Generates JWT token"""
+        timestamp = int(time.time())
+        payload = {
+            "iat": int(timestamp),
+            "exp": int(timestamp + self.JWT_LIFETIME_SECONDS),
+            "sub": str(self.id),
+        }
+        self.token = jwt.encode(payload, "SECRET_KEY", algorithm=self.JWT_ALGORITHM)
+        return self.token
 
-    @staticmethod
-    def decode_token(token: str):
+    @classmethod
+    def decode_token(cls, token: str) -> dict:
+        """Decode and return data from the given JWT token
+
+        :raise Unauthorized: if the token is invalid
+        :param token: token to decode
+        :return: decoded data from the given JWT token
+        """
         try:
-            return decode_token(token)
-        except ExpiredSignatureError:
-            raise Unauthorized('Signature expired. Please log in again.')
-        except InvalidTokenError:
-            raise Unauthorized('Invalid token. Please log in again.')
+            return jwt.decode(token, "SECRET_KEY", algorithms=[cls.JWT_ALGORITHM])
+        except jwt.ExpiredSignatureError:
+            raise Unauthorized("Signature expired. Please log in again.")
+        except jwt.InvalidTokenError:
+            raise Unauthorized("Invalid token. Please log in again.")
         except TypeError:
-            raise Unauthorized('Invalid token. Please log in again.')
+            raise Unauthorized("Invalid token. Please log in again.")

@@ -29,7 +29,6 @@ class UserController:
         return UserService.delete(user_id)
 
     @staticmethod
-    @auth.login_required
     def update(user_id: int) -> tuple[Response | dict, int]:
         """Update user resource"""
         return UserService.update(user_id)
