@@ -1,4 +1,10 @@
 """ORM Booking schema"""
+from bookshop_app.schemas.booking_status import BookingStatusSchema
+
+from bookshop_app.schemas.user import UserSchema
+from marshmallow_sqlalchemy.fields import Nested
+
+from bookshop_app.schemas.product import ProductSchema
 from marshmallow import EXCLUDE, validates, ValidationError
 
 from bookshop_app.database.database import db
@@ -20,8 +26,13 @@ class BookingSchema(ma.SQLAlchemySchema):
     id = ma.auto_field()
 
     product_id = ma.auto_field()
+    product = ma.Nested(ProductSchema)
+
     user_id = ma.auto_field()
+    user = ma.Nested(UserSchema)
+
     status_id = ma.auto_field()
+    status = ma.Nested(BookingStatusSchema)
 
     delivery_address = ma.auto_field()
     quantity = ma.auto_field()

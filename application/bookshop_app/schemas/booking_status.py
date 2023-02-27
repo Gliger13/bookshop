@@ -3,7 +3,7 @@ from marshmallow import EXCLUDE
 
 from bookshop_app.database.database import db
 from bookshop_app.dependencies import ma
-from bookshop_app.models.booking_status import BookingStatusModel
+from bookshop_app.models.booking_status import BookingStatus, BookingStatusModel
 
 
 class BookingStatusSchema(ma.SQLAlchemySchema):
@@ -18,4 +18,4 @@ class BookingStatusSchema(ma.SQLAlchemySchema):
         unknown = EXCLUDE
 
     id = ma.auto_field()
-    name = ma.auto_field()
+    name = ma.Enum(BookingStatus)
