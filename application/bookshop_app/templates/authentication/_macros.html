@@ -1,26 +1,37 @@
-{% macro form_field(field, show_label=True) %}
+{% macro form_field(field) %}
 <div class="form-outline form-white mb-4">
-    {% if show_label %}
-        {{ field.label(class_="form-label") }}
-    {% endif %}
+    {{ field.label(class_="form-label") }}
     {{ field(class_="form-control", size=32) }}
 </div>
 {% if field.errors %}
-<ul class="errors">
-    {% for error in field.errors %}
-    <li>{{ error }}</li>
-    {% endfor %}
-</ul>
+    <ul class="errors">
+        {% for error in field.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
 {% endif %}
 {% endmacro %}
 
 
 {% macro all_errors_banner(errors) %}
-{% if errors %}
-<div class="card text-bg-danger mx-auto my-4 opacity-85">
+<div class="card text-bg-danger mx-auto my-4 {{'opacity-85' if errors else 'opacity-0'}}" id="error-message-banner">
     <div class="card-body py-2 ">
-        <p class="card-text text-center">{{ errors }}</p>
+        <p class="card-text text-center" id="error-message">{{ errors }}</p>
     </div>
 </div>
-{% endif %}
+{% endmacro %}
+
+
+{% macro submit_button(name) %}
+<div class="d-flex justify-content-center">
+    <button class="btn btn-outline-light btn-lg px-5" id="submit" type="submit">
+        {{ name }}
+    </button>
+</div>
+{% endmacro %}
+
+{% macro after_form_link(title, url, button_name) %}
+<p class="text-center text-muted mt-5 mb-0">{{ title }}
+    <a class="text-white-50 text-body fw-bold" href="{{ url }}">{{ button_name }}</a>
+</p>
 {% endmacro %}
