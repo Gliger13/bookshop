@@ -6,6 +6,8 @@ functionality of creating, reading, updating, and deleting all users.
 
 from flask import Blueprint, render_template
 
+from flask_login import current_user
+
 __all__ = ["users_blueprint"]
 
 users_blueprint = Blueprint(
@@ -19,13 +21,13 @@ users_blueprint = Blueprint(
 @users_blueprint.route("/users", methods=["GET"])
 def users_page() -> str:
     """Route for the GET request to the users endpoint"""
-    return render_template("users/users.html")
+    return render_template("users/users.html", user=current_user)
 
 
 @users_blueprint.route("/user/<user_id>", methods=["GET"])
 def user_page(user_id: str) -> str:
     """Route for the GET request to the user endpoint"""
-    return render_template("users/user.html")
+    return render_template("users/user.html", user=current_user)
 
 
 @users_blueprint.route("/user/<user_id>", methods=["POST"])

@@ -73,7 +73,7 @@ class UserModel(UserMixin, db.Model):
         payload = {
             "iat": int(timestamp),
             "exp": int(timestamp + self.JWT_LIFETIME_SECONDS),
-            "sub": str(self.id),
+            "sub": str(self.login),
         }
         self.token = jwt.encode(payload, "SECRET_KEY", algorithm=self.JWT_ALGORITHM)
         return self.token

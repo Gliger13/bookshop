@@ -4,6 +4,7 @@ from marshmallow import EXCLUDE, validate, validates, ValidationError
 from bookshop_app.database.database import db
 from bookshop_app.dependencies import ma
 from bookshop_app.models.user import UserModel
+from bookshop_app.schemas.role import RoleSchema
 
 
 class UserSchema(ma.SQLAlchemySchema):
@@ -20,6 +21,7 @@ class UserSchema(ma.SQLAlchemySchema):
     id = ma.auto_field()
     login = ma.auto_field()
 
+    role = ma.Nested(RoleSchema)
     role_id = ma.auto_field()
 
     name = ma.auto_field()
