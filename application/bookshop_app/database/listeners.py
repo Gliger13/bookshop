@@ -40,7 +40,7 @@ def create_booking_statuses_after_table_creation(target: Table, connection: Conn
     :param connection: engine connection
     """
     logging.info("Booking statuses table has just been created. Populating it with all defined enum statuses...")
-    statuses_to_create = [{"id": index + 1, "name": status.name} for index, status in enumerate(BookingStatus)]
+    statuses_to_create = [{"id": status.code, "name": status.status} for status in BookingStatus]
     connection.execute(target.insert(), *statuses_to_create)
     logging.debug("Inserted booking statuses `%s`", statuses_to_create)
     logging.info("Booking statuses table has been populated with all defined enum statuses")
