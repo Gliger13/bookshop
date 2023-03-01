@@ -6,6 +6,8 @@ functionality of creating, reading, updating, and deleting a store item.
 
 from flask import Blueprint, render_template
 
+from flask_jwt_extended import current_user
+
 __all__ = ["store_items_blueprint"]
 
 store_items_blueprint = Blueprint(
@@ -19,28 +21,28 @@ store_items_blueprint = Blueprint(
 @store_items_blueprint.route("/store-items", methods=["GET"])
 def store_items_page() -> str:
     """Route for the GET request to the  store_items endpoint"""
-    return render_template("store_items/store_items.html")
+    return render_template("store_items/store_items.html", user=current_user)
 
 
 @store_items_blueprint.route("/store-items/<store_item_id>", methods=["GET"])
 def store_item_page(store_item_id: str) -> str:
     """Route for the GET request to the store item endpoint"""
-    return render_template("store_items/store_item.html")
+    return render_template("store_items/store_item.html", user=current_user)
 
 
 @store_items_blueprint.route("/store-items/<store_item_id>", methods=["POST"])
-def  store_item_post(store_item_id: str) -> str:
+def store_item_post(store_item_id: str) -> str:
     """Route for the POST request to the store item endpoint"""
     raise NotImplementedError()
 
 
 @store_items_blueprint.route("/store-items/<store_item_id>", methods=["PUT"])
-def  store_item_update(store_item_id: str) -> str:
+def store_item_update(store_item_id: str) -> str:
     """Route for the PUT request to the store item endpoint"""
     raise NotImplementedError()
 
 
 @store_items_blueprint.route("/store-items/<store_item_id>", methods=["DELETE"])
-def  store_item_delete(store_item_id: str) -> str:
+def store_item_delete(store_item_id: str) -> str:
     """Route for the DELETE request to the store item endpoint"""
     raise NotImplementedError()
