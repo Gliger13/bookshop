@@ -12,6 +12,9 @@ from bookshop_app.data_access_objects.booking import BookingDAO
 from bookshop_app.data_access_objects.booking_status import BookingStatusDAO
 from bookshop_app.data_access_objects.product import ProductDAO
 from bookshop_app.data_access_objects.user import UserDAO
+from bookshop_app.models.booking import BookingModel
+from bookshop_app.models.role import UserRole
+from bookshop_app.models.user import UserModel
 from bookshop_app.schemas.booking import BookingSchema
 
 booking_schema = BookingSchema()
@@ -32,6 +35,21 @@ class BookingService:
         """
         all_booking_data = BookingDAO.get_all()
         return booking_list_schema.dump(all_booking_data), codes.ok
+
+    @staticmethod
+    def get_permitted_bookings(actor_user: UserModel) -> list[BookingModel]:
+        """Get bookings that can view given actor user
+
+        TODO: Replace method by
+
+        :param actor_user:
+        :return:
+        """
+        permitted_bookings: list[BookingModel] = []
+        for booking in BookingDAO.get_all():
+            if booking.user_id == actor_user.id or actor_user.role.name.name in [UserRole.MANAGER, UserRole.ADMIN]:
+                permitted_bookings.append(booking)
+        return permitted_bookings
 
     @staticmethod
     def get(booking_id: int) -> tuple[dict, int]:

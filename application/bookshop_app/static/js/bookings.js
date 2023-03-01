@@ -7,6 +7,12 @@ $(document).ready(function(){
         $.ajax('/api/booking/' + id, {
             data: JSON.stringify(data),
             contentType: 'application/json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', `Bearer ${window.localStorage.getItem('AuthToken')}`);
+            },
+            success: function(data, textStatus) {
+                history.go(0);
+            },
             type: 'PUT',
             error: function(request, status, error) {
                 alert(request.responseText);
