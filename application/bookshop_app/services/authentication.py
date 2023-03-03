@@ -131,7 +131,7 @@ def required_same_user_id_or_roles(roles: Collection[object] = ()) -> Callable:
             user = UserDAO.get_by_login(current_user)
             if user.id == user_id:
                 return function(user_id, *args, **kwargs)
-            if user.role in roles:
+            if user.role.name in roles:
                 return function(user_id, *args, **kwargs)
             return jsonify(**ACCESS_DENIED_RESPONSE_JSON), codes.forbidden
 
@@ -153,7 +153,7 @@ def filter_bookings_by_roles(roles: Collection[object] = ()) -> Callable:
             bookings_data, status_code = function(*args, **kwargs)
             current_user = multi_auth.current_user()
             user = UserDAO.get_by_login(current_user)
-            if user.role in roles:
+            if user.role.name in roles:
                 return bookings_data, status_code
             return jsonify([booking for booking in bookings_data if booking.get("user_id") == user.id]), status_code
 
@@ -177,7 +177,7 @@ def required_own_given_booking_id_or_roles(roles: Collection[object] = ()) -> Ca
             booking = BookingDAO.get_by_id(booking_id)
             if booking and user.id == booking.user_id:
                 return function(booking_id, *args, **kwargs)
-            if user.role in roles:
+            if user.role.name in roles:
                 return function(booking_id, *args, **kwargs)
             return jsonify(**ACCESS_DENIED_RESPONSE_JSON), codes.forbidden
 
@@ -208,7 +208,7 @@ def required_creating_booking_for_self_or_roles(roles: Collection[object] = ()) 
             if user.id == user_id_to_create_booking:
                 return function(*args, **kwargs)
 
-            if user.role in roles:
+            if user.role.name in roles:
                 return function(*args, **kwargs)
             return jsonify(**ACCESS_DENIED_RESPONSE_JSON), codes.forbidden
 
