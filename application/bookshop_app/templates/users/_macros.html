@@ -1,0 +1,115 @@
+{% import "authentication/_macros.html" as auth_macros %}
+
+
+{% macro users_table(users) %}
+<table class="table" id="users_table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Login</th>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Phone</th>
+        <th>Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+    <tr>
+        <td class="id_cell">{{ user.id }}</td>
+        <td class="login_cell">{{ user.login }}</td>
+        <td class="email_cell">{{ user.email }}</td>
+        <td class="name_cell">{{ user.name }}</td>
+        <td class="name_cell">{{ user.address }}</td>
+        <td class="phone_cell">{{ user.phone }}</td>
+        <td class="role_cell">{{ user.role.name.title() }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endmacro %}
+
+{% macro create_user_modal(form) %}
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="add_user" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Create new user</h1>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <form id="add_user_form" method="POST">
+                <div class="modal-body">
+                    {{ auth_macros.form_field(form.login, field_id="create_user_login") }}
+                    {{ auth_macros.form_field(form.password, field_id="create_user_password") }}
+                    {{ auth_macros.form_field(form.email, field_id="create_user_email") }}
+                    {{ auth_macros.form_field(form.name, field_id="create_user_name") }}
+                    {{ auth_macros.form_field(form.phone, field_id="create_user_phone") }}
+                    {{ auth_macros.form_field(form.address, field_id="create_user_address") }}
+                    {{ auth_macros.form_field(form.role_id, field_id="create_user_role_id") }}
+                    {{ auth_macros.all_errors_banner(error) }}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+
+{% macro delete_user_modal(form) %}
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="delete_user" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Delete user</h1>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <form id="delete_user_form" method="POST">
+                <div class="modal-body">
+                    {{ auth_macros.form_field(form.id, field_id="delete_user_id") }}
+                    {{ auth_macros.all_errors_banner(error) }}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+
+{% macro update_user_modal(form) %}
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="update_user" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Update user</h1>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <form id="update_user_form" method="POST">
+                <div class="modal-body">
+                    {{ auth_macros.form_field(form.id, field_id="update_user_id") }}
+                    {{ auth_macros.form_field(form.login, field_id="update_user_login") }}
+                    {{ auth_macros.form_field(form.password, field_id="update_user_password") }}
+                    {{ auth_macros.form_field(form.email, field_id="update_user_email") }}
+                    {{ auth_macros.form_field(form.name, field_id="update_user_name") }}
+                    {{ auth_macros.form_field(form.phone, field_id="update_user_phone") }}
+                    {{ auth_macros.form_field(form.address, field_id="update_user_address") }}
+                    {{ auth_macros.form_field(form.role_id, field_id="update_user_role_id") }}
+                    {{ auth_macros.all_errors_banner(error) }}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endmacro %}
