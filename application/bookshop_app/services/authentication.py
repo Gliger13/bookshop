@@ -1,7 +1,7 @@
 """Authenticator service module"""
 from functools import wraps
 from typing import Any, Callable, Collection, Final, Optional
-
+from flask_login import current_user
 from flask import jsonify, request, Response
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth, MultiAuth
 from requests import codes
@@ -117,6 +117,26 @@ def __get_user_roles_for_token_auth(username: str) -> UserRole:
     return user.role.name
 
 
+def required_roles(roles: Collection[object]) -> Callable:
+    """User required to have listed roles
+
+    :param roles: collection of roles to have to access function
+    :return: result of wrapped function if access granted
+    """
+
+    def decorator(function: Callable) -> Callable:
+        @wraps(function)
+        def wrapper(*args: Any, **kwargs: Any) -> tuple[Response | dict, int]:
+            user = __get_current_user()
+            if user.role.name in roles:
+                return function(*args, **kwargs)
+            return jsonify(**ACCESS_DENIED_RESPONSE_JSON), codes.forbidden
+
+        return wrapper
+
+    return decorator
+
+
 def required_same_user_id_or_roles(roles: Collection[object] = ()) -> Callable:
     """User required to use only same user id or have listed roles
 
@@ -127,8 +147,7 @@ def required_same_user_id_or_roles(roles: Collection[object] = ()) -> Callable:
     def decorator(function: Callable) -> Callable:
         @wraps(function)
         def wrapper(user_id: int, *args: Any, **kwargs: Any) -> tuple[Response | dict, int]:
-            current_user = multi_auth.current_user()
-            user = UserDAO.get_by_login(current_user)
+            user = __get_current_user()
             if user.id == user_id:
                 return function(user_id, *args, **kwargs)
             if user.role.name in roles:
@@ -151,8 +170,7 @@ def filter_bookings_by_roles(roles: Collection[object] = ()) -> Callable:
         @wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> tuple[Response | dict, int]:
             bookings_data, status_code = function(*args, **kwargs)
-            current_user = multi_auth.current_user()
-            user = UserDAO.get_by_login(current_user)
+            user = __get_current_user()
             if user.role.name in roles:
                 return bookings_data, status_code
             return jsonify([booking for booking in bookings_data if booking.get("user_id") == user.id]), status_code
@@ -172,8 +190,7 @@ def required_own_given_booking_id_or_roles(roles: Collection[object] = ()) -> Ca
     def decorator(function: Callable) -> Callable:
         @wraps(function)
         def wrapper(booking_id: int, *args: Any, **kwargs: Any) -> tuple[Response | dict, int]:
-            current_user = multi_auth.current_user()
-            user = UserDAO.get_by_login(current_user)
+            user = __get_current_user()
             booking = BookingDAO.get_by_id(booking_id)
             if booking and user.id == booking.user_id:
                 return function(booking_id, *args, **kwargs)
@@ -203,8 +220,7 @@ def required_creating_booking_for_self_or_roles(roles: Collection[object] = ()) 
             if not user_id_to_create_booking:
                 return function(*args, **kwargs)
 
-            current_user = multi_auth.current_user()
-            user = UserDAO.get_by_login(current_user)
+            user = __get_current_user()
             if user.id == user_id_to_create_booking:
                 return function(*args, **kwargs)
 
@@ -215,3 +231,13 @@ def required_creating_booking_for_self_or_roles(roles: Collection[object] = ()) 
         return wrapper
 
     return decorator
+
+
+def __get_current_user() -> UserModel:
+    """Get current user for authentication and access control
+
+    :return: current user model
+    """
+    if username := multi_auth.current_user():
+        return UserDAO.get_by_login(username)
+    return current_user
