@@ -1,5 +1,5 @@
 function display_error(error) {
-    $("#error-message-banner").removeClass("opacity-0").addClass("opacity-85");
+    $("#error-message-banner").removeClass("visually-hidden").addClass("opacity-85");
     $("#error-message").html(error);
 }
 

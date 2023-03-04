@@ -1,9 +1,19 @@
 {% extends '_base/base.html' %}
+{% import "users/_macros.html" as users_macros %}
 
 {% block title %}
 Users
 {% endblock %}
 
 {% block content %}
-<h1>Users page</h1>
+<script src="{{ url_for('static', filename='js/users.js') }}"></script>
+<div class="w-75 mx-auto my-5">
+    <button class="btn btn-primary" data-bs-target="#add_user" data-bs-toggle="modal" type="button">Create</button>
+    <button class="btn btn-info" data-bs-target="#update_user" data-bs-toggle="modal" type="button">Update</button>
+    <button class="btn btn-danger" data-bs-target="#delete_user" data-bs-toggle="modal" type="button">Delete</button>
+    {{ users_macros.create_user_modal(create_user_form) }}
+    {{ users_macros.update_user_modal(update_user_form) }}
+    {{ users_macros.delete_user_modal(delete_user_form) }}
+    {{ users_macros.users_table(users) }}
+</div>
 {% endblock %}
