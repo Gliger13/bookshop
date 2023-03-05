@@ -1,4 +1,4 @@
-{% macro product_card(product) %}
+{% macro product_card(product, show_id=False) %}
 <div class="card my-2" style="width: 20%">
     <img class="card-img-top mx-auto"
          src="{{ url_for('media_blueprint.get_media', path=product.image_path) if product.image_path else url_for('static', filename='images/default_product_image.jpg') }}"
@@ -11,8 +11,11 @@
         </p>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">{{ product.author }}</li>
-        <li class="list-group-item">{{ product.price }}</li>
+        {% if show_id %}
+            <li class="list-group-item">ID: {{ product.id }}</li>
+        {% endif %}
+        <li class="list-group-item">Author: {{ product.author }}</li>
+        <li class="list-group-item">Price: {{ product.price }} </li>
     </ul>
     <div class="card-body align-self-end">
         <a class="btn btn-primary" href="{{ url_for('products_blueprint.product_page', product_id=product.id) }}">
