@@ -4,10 +4,12 @@ Module contains WTF-forms for user authentication, which includes user login,
 registration and update.
 """
 from collections import namedtuple
+from functools import cached_property
 
 from flask_wtf import FlaskForm
 from wtforms import EmailField, IntegerField, PasswordField, StringField, validators
 
+from bookshop_app.forms._base import BaseForm
 from bookshop_app.models.role import UserRole
 
 FieldProtocol = namedtuple("FieldProtocol", ["label", "validators"])
@@ -27,15 +29,19 @@ class UserForm:
     role_id = FieldProtocol(label="Role ID", validators=[validators.number_range(1, len(UserRole))])
 
 
-class LoginForm(FlaskForm):
+class LoginForm(FlaskForm, BaseForm):
     """Login form with login and password fields"""
     __base = UserForm()
 
     login = StringField(__base.login.label, [validators.input_required(), *__base.login.validators])
     password = PasswordField(__base.password.label, [validators.input_required(), *__base.password.validators])
 
+    @cached_property
+    def field_names(self) -> list[str]:
+        return ["login", "password"]
 
-class RegistrationForm(FlaskForm):
+
+class RegistrationForm(FlaskForm, BaseForm):
     """Registration form for user"""
     __base = UserForm()
 
@@ -47,8 +53,12 @@ class RegistrationForm(FlaskForm):
     address = StringField(__base.address.label, [validators.optional(), *__base.address.validators])
     role_id = IntegerField(__base.role_id.label, [validators.optional(), *__base.role_id.validators])
 
+    @cached_property
+    def field_names(self) -> list[str]:
+        return ["login", "password", "email", "phone", "name", "address", "role_id"]
 
-class UpdateUserForm(FlaskForm):
+
+class UpdateUserForm(FlaskForm, BaseForm):
     """Update user form"""
     __base = UserForm()
 
@@ -61,9 +71,17 @@ class UpdateUserForm(FlaskForm):
     address = StringField(__base.address.label, [validators.optional(), *__base.address.validators])
     role_id = IntegerField(__base.role_id.label, [validators.optional(), *__base.role_id.validators])
 
+    @cached_property
+    def field_names(self) -> list[str]:
+        return ["id", "login", "password", "email", "phone", "name", "address", "role_id"]
 
-class DeleteUserForm(FlaskForm):
+
+class DeleteUserForm(FlaskForm, BaseForm):
     """Update user form"""
     __base = UserForm()
 
     id = IntegerField(__base.id.label, [validators.input_required(), *__base.id.validators])
+
+    @cached_property
+    def field_names(self) -> list[str]:
+        return ["id"]
