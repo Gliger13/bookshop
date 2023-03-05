@@ -1,15 +1,23 @@
 {% extends '_base/base.html' %}
 {% import "products/_macros.html" as products_macros %}
+{% import "products/_management_panel.html" as management_panel %}
 
 {% block title %}
 Products
 {% endblock %}
 
 {% block content %}
+{% if user.is_authenticated and user.role.name.name in ["MANAGER", "ADMIN"] %}
+    {{ management_panel.panel(create_product_form, update_product_form, delete_product_form) }}
+{% endif %}
 {% if products %}
-<div class="row row-cols-auto row-cols-md-auto g-4 mx-2 my-1">
+<div class="row row-cols-auto row-cols-md-auto mx-2 my-2">
     {% for product in products %}
-        {{ products_macros.product_card(product) }}
+        {% if user.is_authenticated and user.role.name.name in ["MANAGER", "ADMIN"] %}
+            {{ products_macros.product_card(product, show_id=True) }}
+        {% else %}
+            {{ products_macros.product_card(product) }}
+        {% endif %}
     {% endfor %}
 </div>
 {{ products_macros.product_paginator() }}
