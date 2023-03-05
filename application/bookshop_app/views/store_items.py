@@ -3,10 +3,13 @@
 Module contains routes for the store items blueprint, which includes the
 functionality of creating, reading, updating, and deleting a store item.
 """
-
 from flask import Blueprint, render_template
+from flask_login import current_user, login_required
 
-from flask_jwt_extended import current_user
+from bookshop_app.forms.store_item import CreateStoreItemForm, DeleteStoreItemForm, UpdateStoreItemForm
+from bookshop_app.models.role import UserRole
+from bookshop_app.services.authentication import required_roles
+from bookshop_app.services.store_item import StoreItemService
 
 __all__ = ["store_items_blueprint"]
 
@@ -19,30 +22,19 @@ store_items_blueprint = Blueprint(
 
 
 @store_items_blueprint.route("/store-items", methods=["GET"])
+@login_required
+@required_roles([UserRole.MANAGER, UserRole.ADMIN])
 def store_items_page() -> str:
     """Route for the GET request to the  store_items endpoint"""
-    return render_template("store_items/store_items.html", user=current_user)
-
-
-@store_items_blueprint.route("/store-items/<store_item_id>", methods=["GET"])
-def store_item_page(store_item_id: str) -> str:
-    """Route for the GET request to the store item endpoint"""
-    return render_template("store_items/store_item.html", user=current_user)
-
-
-@store_items_blueprint.route("/store-items/<store_item_id>", methods=["POST"])
-def store_item_post(store_item_id: str) -> str:
-    """Route for the POST request to the store item endpoint"""
-    raise NotImplementedError()
-
-
-@store_items_blueprint.route("/store-items/<store_item_id>", methods=["PUT"])
-def store_item_update(store_item_id: str) -> str:
-    """Route for the PUT request to the store item endpoint"""
-    raise NotImplementedError()
-
-
-@store_items_blueprint.route("/store-items/<store_item_id>", methods=["DELETE"])
-def store_item_delete(store_item_id: str) -> str:
-    """Route for the DELETE request to the store item endpoint"""
-    raise NotImplementedError()
+    create_store_item_form = CreateStoreItemForm()
+    update_store_item_form = UpdateStoreItemForm()
+    delete_store_item_form = DeleteStoreItemForm()
+    store_items, status_code = StoreItemService.get_all()
+    return render_template(
+        template_name_or_list="store_items/store_items.html",
+        user=current_user,
+        store_items=store_items,
+        create_store_item_form=create_store_item_form,
+        update_store_item_form=update_store_item_form,
+        delete_store_item_form=delete_store_item_form,
+    )
