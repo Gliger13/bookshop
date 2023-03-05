@@ -1,0 +1,42 @@
+{% import "_base/forms.html" as forms_macros %}
+
+
+{% macro _modal_header(title) %}
+<div class="modal-header">
+    <h1 class="modal-title fs-5">{{ title }}</h1>
+    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+{% endmacro %}
+
+
+{% macro _modal_body(form_id, form, error_message=None) %}
+<div class="modal-body">
+    {% for field_name in form.field_names %}
+        {{ forms_macros.form_field(form[field_name], field_id="{}_{}".format(form_id, field_name)) }}
+    {% endfor %}
+    {{ forms_macros.form_all_errors(form_id, error_message) }}
+</div>
+{% endmacro %}
+
+
+{% macro _modal_footer(button_action) %}
+<div class="modal-footer">
+    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+    <button class="btn btn-primary" type="submit">{{ button_action }}</button>
+</div>
+{% endmacro %}
+
+
+{% macro modal(modal_id, modal_title, form, button_action, error_message=None) %}
+<div aria-hidden="true" class="modal fade" id="{{ modal_id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            {{ _modal_header(modal_title) }}
+            <form id="{{ '{}_form'.format(modal_id) }}">
+                {{ _modal_body(modal_id, form, error_message) }}
+                {{ _modal_footer(button_action) }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endmacro %}
