@@ -1,16 +1,23 @@
-from collections import namedtuple
+"""Store Item validation forms
+
+Module contains UI input validation forms for store item related actions.
+"""
 from functools import cached_property
 
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, validators
 
-from bookshop_app.forms._base import BaseForm
+from bookshop_app.forms._base import BaseForm, FieldProtocol
 
-FieldProtocol = namedtuple("FieldProtocol", ["label", "validators"])
+__all__ = [
+    "CreateStoreItemForm",
+    "UpdateStoreItemForm",
+    "DeleteStoreItemForm"
+]
 
 
 class StoreItemForm:
-    """Abstract form describes all store item properties"""
+    """Form describes all store item properties"""
 
     id = FieldProtocol(label="ID", validators=[])
     product_id = FieldProtocol(label="Product ID", validators=[])
@@ -20,6 +27,8 @@ class StoreItemForm:
 
 
 class CreateStoreItemForm(FlaskForm, BaseForm):
+    """Input validation form for creating a store item"""
+
     __base = StoreItemForm
 
     product_id = IntegerField(__base.product_id.label, [validators.input_required(), *__base.product_id.validators])
@@ -32,10 +41,13 @@ class CreateStoreItemForm(FlaskForm, BaseForm):
 
     @cached_property
     def field_names(self) -> list[str]:
+        """All required and optional field names"""
         return ["product_id", "available_quantity", "booked_quantity", "sold_quantity"]
 
 
 class UpdateStoreItemForm(FlaskForm, BaseForm):
+    """Input validation form for updating a store item"""
+
     __base = StoreItemForm
 
     id = IntegerField(__base.id.label, [validators.input_required(), *__base.id.validators])
@@ -49,14 +61,18 @@ class UpdateStoreItemForm(FlaskForm, BaseForm):
 
     @cached_property
     def field_names(self) -> list[str]:
+        """All required and optional field names"""
         return ["id", "product_id", "available_quantity", "booked_quantity", "sold_quantity"]
 
 
 class DeleteStoreItemForm(FlaskForm, BaseForm):
+    """Input validation form for deleting a store item"""
+
     __base = StoreItemForm
 
     id = IntegerField(__base.id.label, [validators.input_required(), *__base.id.validators])
 
     @cached_property
     def field_names(self) -> list[str]:
+        """All required and optional field names"""
         return ["id"]
