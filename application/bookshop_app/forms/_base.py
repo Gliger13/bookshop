@@ -11,6 +11,11 @@ FieldProtocol = namedtuple("FieldProtocol", ["label", "validators"])
 
 
 class BaseForm:
+    """Base UI input validation
+
+    Defines general interfaces for all forms
+    """
+
     @cached_property
     @abstractmethod
     def field_names(self) -> Collection[str]:

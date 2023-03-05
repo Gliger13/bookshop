@@ -1,10 +1,10 @@
-{% macro product_card(product, show_id=False) %}
+{% macro card(product, show_id=False) %}
 <div class="card my-2" style="width: 20%">
     <img class="card-img-top mx-auto"
          src="{{ url_for('media_blueprint.get_media', path=product.image_path) if product.image_path else url_for('static', filename='images/default_product_image.jpg') }}"
          style="height: 15em; width: 10em;"
     >
-    <div class="card-body">
+    <div class="card-body h-25">
         <h5 class="card-title">{{ product.name }}</h5>
         <p class="card-text">
             {{ "{}...".format(product.description[:128]) if product.description|length > 128 else product.description }}
@@ -21,24 +21,6 @@
         <a class="btn btn-primary" href="{{ url_for('products_blueprint.product_page', product_id=product.id) }}">
             View
         </a>
-        <a class="btn btn-primary" href="{{ url_for('bookings_blueprint.booking_page', booking_id=-1) }}">
-            Book
-        </a>
     </div>
 </div>
-{% endmacro %}
-
-
-{% macro product_paginator(current_page) %}
-<nav aria-label="...">
-  <ul class="pagination justify-content-end mx-2">
-    <li class="page-item disabled">
-      <a class="page-link">Previous</a>
-    </li>
-    <li class="page-item active" ><a class="page-link" href="#">1</a></li>
-    <li class="page-item">
-      <a class="page-link disabled" href="#">Next</a>
-    </li>
-  </ul>
-</nav>
 {% endmacro %}

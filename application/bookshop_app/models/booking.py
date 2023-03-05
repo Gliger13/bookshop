@@ -18,7 +18,7 @@ class BookingModel(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(f"{UserModel.__tablename__}.id"))
     user = db.relationship(UserModel.__name__)
 
-    status_id = db.Column(db.Integer, db.ForeignKey(f"{BookingStatusModel.__tablename__}.id"))
+    status_id = db.Column(db.Integer, db.ForeignKey(f"{BookingStatusModel.__tablename__}.id"), default=1)
     status = db.relationship(BookingStatusModel.__name__)
 
     delivery_address = db.Column(db.String(256))

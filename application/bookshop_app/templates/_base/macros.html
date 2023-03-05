@@ -1,7 +1,7 @@
 {% macro navigation_link(menu_item_name, url) %}
 <li class="nav-item">
     <a aria-current="page"
-       class="nav-link {{ 'active' if url_for(request.endpoint) == url else ''  }}"
+       class="nav-link {{ 'active' if url in request.url else ''  }}"
        href="{{ url }}">
         {{ menu_item_name }}
     </a>
