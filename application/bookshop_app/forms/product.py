@@ -5,14 +5,16 @@ Module contains UI input validation forms for product related actions.
 from functools import cached_property
 
 from flask_wtf import FlaskForm
-from wtforms import FileField, FloatField, IntegerField, StringField, TextAreaField, validators
+from wtforms import FileField, FloatField, HiddenField, IntegerField, StringField, TextAreaField, validators
 
 from bookshop_app.forms._base import BaseForm, FieldProtocol
 
 __all__ = [
     "CreateProductForm",
     "UpdateProductForm",
-    "DeleteProductForm"
+    "UpdateProductByIdForm",
+    "DeleteProductForm",
+    "DeleteProductByIdForm",
 ]
 
 
@@ -62,6 +64,12 @@ class UpdateProductForm(FlaskForm, BaseForm):
         return ["id", "name", "author", "description", "price", "image"]
 
 
+class UpdateProductByIdForm(UpdateProductForm):
+    """Input validation form for updating a product by id"""
+
+    id = HiddenField(label="")
+
+
 class DeleteProductForm(FlaskForm, BaseForm):
     """Input validation form for deleting a product"""
 
@@ -73,3 +81,9 @@ class DeleteProductForm(FlaskForm, BaseForm):
     def field_names(self) -> list[str]:
         """All required and optional field names"""
         return ["id"]
+
+
+class DeleteProductByIdForm(DeleteProductForm):
+    """Input validation form for deleting a product by id"""
+
+    id = HiddenField(label="")

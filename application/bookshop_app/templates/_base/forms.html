@@ -1,10 +1,12 @@
 {% macro form_field(field, field_id=None) %}
 <div class="form-outline form-white mb-4">
-    {{ field.label(class_="form-label") }}
+    {% if field.label.text %}
+        {{ field.label(class_="form-label") }}
+    {% endif %}
     {% if field_id %}
-    {{ field(id=field_id, class_="form-control") }}
+        {{ field(id=field_id, class_="form-control") }}
     {% else %}
-    {{ field(class_="form-control") }}
+        {{ field(class_="form-control") }}
     {% endif %}
 </div>
 {% if field.errors %}
