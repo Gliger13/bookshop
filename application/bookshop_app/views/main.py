@@ -5,6 +5,8 @@ information, home pages.
 """
 from flask import Blueprint, render_template
 
+from flask_login import current_user
+
 __all__ = ["main_blueprint"]
 
 main_blueprint = Blueprint(
@@ -17,5 +19,5 @@ main_blueprint = Blueprint(
 
 @main_blueprint.route('/about')
 def about_page():
-    """Default route for home page"""
-    return render_template("main/about.html")
+    """Default route for about page"""
+    return render_template("main/about.html", user=current_user)

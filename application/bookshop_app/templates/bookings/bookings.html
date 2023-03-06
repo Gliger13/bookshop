@@ -12,13 +12,13 @@ Bookings
 <div class="row row-cols-auto row-cols-md-auto g-4 mx-2 my-1">
     {% for booking in bookings %}
         {% if booking.user_id == user.id or user.role.name.name in ["MANAGER", "ADMIN"] %}
-            {{ booking_card_macros.booking_card(booking) }}
+            {{ booking_card_macros.booking_card(user, booking) }}
         {% endif %}
     {% endfor %}
 </div>
 {{ bookings_macros.booking_paginator() }}
 {% else %}
-<div class="card text-bg-secondary mb-3 mx-2" style="max-width: 18rem; margin: 1rem;">
+<div class="card text-bg-secondary mb-3 mx-auto" style="max-width: 18rem; margin: 1rem;">
     <div class="card-body">
         <h5 class="card-title text-center">No bookings available</h5>
         <p class="card-text">
