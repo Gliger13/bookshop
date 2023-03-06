@@ -69,9 +69,9 @@ class UserService:
             UserDAO.create(user_data)
             return user_schema.dump(user_data), codes.created
         except ValidationError as error:
-            return jsonify(error=str(error), status=codes.bad_request), codes.bad_request
+            return jsonify(detail=str(error), status=codes.bad_request), codes.bad_request
         except IntegrityError as error:
-            return jsonify(error=error.args[0], status=codes.bad_request), codes.bad_request
+            return jsonify(detail=error.args[0], status=codes.bad_request), codes.bad_request
 
     @staticmethod
     def validate_user_creation_request(create_user_request_json: dict) -> None:

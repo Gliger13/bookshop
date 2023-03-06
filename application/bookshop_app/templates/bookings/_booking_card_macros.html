@@ -7,21 +7,23 @@
 {% endmacro %}
 
 
-{% macro booking_card_actions(booking) %}
+{% macro booking_card_actions(user, booking) %}
 <div class="card-body align-self-end btn-group">
     {% set color_button_classes = {
         "submitted": "btn-outline-primary", "rejected": "btn-outline-danger", "approved": "btn-outline-success",
         "canceled": "btn-outline-secondary", "in delivery": "btn-outline-info", "completed": "btn-outline-success"
     } %}
     {% for next_status in booking.status.get_available_transitions() %}
-    <form id="change-booking-status-form-1" method="GET">
-        <input class="form-control" hidden id="booking_id" type="text" value="{{ booking.id }}">
-        <input class="form-control" hidden id="status_id" type="text" value="{{ next_status.code }}">
-        <button class="btn mx-1 {{ color_button_classes.get(next_status.status, 'btn-outline-danger') }}"
-                id="change_booking_status_button">
-            {{ next_status.transition_action.title() }}
-        </button>
-    </form>
+        {% if user.role.name.name in ["MANAGER", "ADMIN"] or next_status.status == "canceled" %}
+            <form id="change-booking-status-form-1" method="GET">
+                <input class="form-control" hidden id="booking_id" type="text" value="{{ booking.id }}">
+                <input class="form-control" hidden id="status_id" type="text" value="{{ next_status.code }}">
+                <button class="btn mx-1 {{ color_button_classes.get(next_status.status, 'btn-outline-danger') }}"
+                        id="change_booking_status_button">
+                    {{ next_status.transition_action.title() }}
+                </button>
+            </form>
+        {% endif %}
     {% endfor %}
 </div>
 {% endmacro %}
@@ -64,11 +66,11 @@
 {% endmacro %}
 
 
-{% macro booking_card(booking) %}
+{% macro booking_card(user, booking) %}
 <div class="card my-2 mx-2" style="width: 19%">
     {{ booking_card_image(booking) }}
     {{ booking_card_header(booking) }}
     {{ booking_card_body(booking) }}
-    {{ booking_card_actions(booking) }}
+    {{ booking_card_actions(user, booking) }}
 </div>
 {% endmacro %}
