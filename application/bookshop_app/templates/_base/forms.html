@@ -1,12 +1,12 @@
-{% macro form_field(field, field_id=None) %}
+{% macro form_field(field, field_id=None, hide=False) %}
 <div class="form-outline form-white mb-4">
     {% if field.label.text %}
-        {{ field.label(class_="form-label") }}
+        {{ field.label(class_="form-label {}".format('visually-hidden' if hide else '')) }}
     {% endif %}
     {% if field_id %}
-        {{ field(id=field_id, class_="form-control") }}
+        {{ field(id=field_id, class_="form-control {}".format('visually-hidden' if hide else '')) }}
     {% else %}
-        {{ field(class_="form-control") }}
+        {{ field(class_="form-control {}".format('visually-hidden' if hide else '')) }}
     {% endif %}
 </div>
 {% if field.errors %}

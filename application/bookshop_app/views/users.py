@@ -3,11 +3,13 @@
 Module contains routes for the users blueprint, which includes the
 functionality of creating, reading, updating, and deleting all users.
 """
-from bookshop_app.models.role import UserRole
 from flask import Blueprint, render_template
 from flask_login import current_user, login_required
 
-from bookshop_app.forms.authentication import DeleteUserForm, RegistrationForm, UpdateUserForm, UserForm
+from bookshop_app.controllers.user import UserController
+from bookshop_app.forms.authentication import DeleteUserByIdForm, DeleteUserForm, RegistrationForm, \
+    UpdateUserByIdForm, UpdateUserForm
+from bookshop_app.models.role import UserRole
 from bookshop_app.services.authentication import required_roles
 from bookshop_app.services.user import UserService
 
@@ -40,26 +42,27 @@ def users_page() -> str:
     )
 
 
-@users_blueprint.route("/user/<user_id>", methods=["GET"])
+@users_blueprint.route("/user/<user_id>/", methods=["GET"])
 @login_required
 def user_page(user_id: str) -> str:
     """Route for the GET request to the user endpoint"""
-    return render_template("users/user.html", user=current_user)
+    user, status_code = UserService.get(int(user_id))
 
+    update_user_by_id_form = UpdateUserByIdForm()
+    update_user_by_id_form.id.data = user["id"]
+    update_user_by_id_form.login.data = user["login"]
+    update_user_by_id_form.email.data = user["email"]
+    update_user_by_id_form.phone.data = user["phone"]
+    update_user_by_id_form.name.data = user["name"]
+    update_user_by_id_form.address.data = user["address"]
+    update_user_by_id_form.role_id.data = user["role_id"]
 
-@users_blueprint.route("/user/<user_id>", methods=["POST"])
-def user_post(user_id: str) -> str:
-    """Route for the POST request to the user endpoint"""
-    raise NotImplementedError()
-
-
-@users_blueprint.route("/user/<user_id>", methods=["PUT"])
-def user_update(user_id: str) -> str:
-    """Route for the PUT request to the user endpoint"""
-    raise NotImplementedError()
-
-
-@users_blueprint.route("/user/<user_id>", methods=["DELETE"])
-def user_delete(user_id: str) -> str:
-    """Route for the DELETE request to the user endpoint"""
-    raise NotImplementedError()
+    delete_user_by_id_form = DeleteUserByIdForm()
+    delete_user_by_id_form.id.data = user["id"]
+    return render_template(
+        template_name_or_list="users/user.html",
+        user=current_user,
+        target_user=user,
+        update_user_by_id_form=update_user_by_id_form,
+        delete_user_by_id_form=delete_user_by_id_form
+    )
