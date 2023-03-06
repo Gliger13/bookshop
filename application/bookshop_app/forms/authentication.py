@@ -6,7 +6,7 @@ registration and update.
 from functools import cached_property
 
 from flask_wtf import FlaskForm
-from wtforms import EmailField, IntegerField, PasswordField, StringField, validators
+from wtforms import EmailField, HiddenField, IntegerField, PasswordField, StringField, validators
 
 from bookshop_app.forms._base import BaseForm, FieldProtocol
 from bookshop_app.models.role import UserRole
@@ -15,7 +15,9 @@ __all__ = [
     "LoginForm",
     "RegistrationForm",
     "UpdateUserForm",
-    "DeleteUserForm"
+    "DeleteUserForm",
+    "UpdateUserByIdForm",
+    "DeleteUserByIdForm",
 ]
 
 
@@ -97,3 +99,15 @@ class DeleteUserForm(FlaskForm, BaseForm):
     def field_names(self) -> list[str]:
         """All required and optional field names"""
         return ["id"]
+
+
+class UpdateUserByIdForm(UpdateUserForm):
+    """Input validation form for updating a user by id"""
+
+    id = HiddenField(label="")
+
+
+class DeleteUserByIdForm(DeleteUserForm):
+    """Input validation form for deleting a user by id"""
+
+    id = HiddenField(label="")

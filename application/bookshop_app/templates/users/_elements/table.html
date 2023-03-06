@@ -1,0 +1,28 @@
+{% macro table(users) %}
+<table class="table" id="users_table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Login</th>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Phone</th>
+        <th>Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+    <tr>
+        <td class="id_cell">{{ user.id }}</td>
+        <td class="login_cell">{{ user.login }}</td>
+        <td class="email_cell">{{ user.email }}</td>
+        <td class="name_cell">{{ user.name }}</td>
+        <td class="name_cell">{{ user.address }}</td>
+        <td class="phone_cell">{{ user.phone }}</td>
+        <td class="role_cell">{{ user.role.name.title() }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endmacro %}

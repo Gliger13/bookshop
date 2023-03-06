@@ -1,6 +1,6 @@
 {% extends "_base/base.html" %}
 {% import "_base/modal.html" as modal_macros %}
-{% import "users/_macros.html" as users_macros %}
+{% import "users/_elements/table.html" as users_table %}
 
 {% block title %}
 Users
@@ -30,6 +30,6 @@ Users
            form=delete_user_form,
            button_action="Delete"
     ) }}
-    {{ users_macros.users_table(users) }}
+    {{ users_table.table(users) }}
 </div>
 {% endblock %}
