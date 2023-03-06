@@ -14,7 +14,6 @@ from sqlalchemy.event import listens_for
 from bookshop_app.models.booking_status import BookingStatus, BookingStatusModel
 from bookshop_app.models.role import RoleModel, UserRole
 
-
 __all__ = ["create_roles_after_table_creation", "create_booking_statuses_after_table_creation"]
 
 
