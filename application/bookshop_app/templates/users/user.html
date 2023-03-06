@@ -1,9 +1,10 @@
 {% extends '_base/base.html' %}
+{% import "users/_elements/user_profile_card.html" as profile_card %}
 
 {% block title %}
 User
 {% endblock %}
 
 {% block content %}
-<h1>User page</h1>
+{{ profile_card.card(user, target_user, update_user_by_id_form) }}
 {% endblock %}
