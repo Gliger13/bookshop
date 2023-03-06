@@ -5,7 +5,7 @@ function add_record_to_table(data) {
         "<td class='login_cell'>" + data.login + "</td>" +
         "<td class='email_cell'>" + data.email + "</td>" +
         "<td class='name_cell'>" + data.name + "</td>" +
-        "<td class='address_cell'>" + data.name + "</td>" +
+        "<td class='address_cell'>" + data.address + "</td>" +
         "<td class='phone_cell'>" + data.phone + "</td>" +
         "<td class='role_cell'>" + data.role.name + "</td>" +
         "</tr>");
@@ -20,7 +20,7 @@ function update_record_in_table(data) {
         "<td class='login_cell'>" + data.login + "</td>" +
         "<td class='email_cell'>" + data.email + "</td>" +
         "<td class='name_cell'>" + data.name + "</td>" +
-        "<td class='address_cell'>" + data.name + "</td>" +
+        "<td class='address_cell'>" + data.address + "</td>" +
         "<td class='phone_cell'>" + data.phone + "</td>" +
         "<td class='role_cell'>" + data.role.name + "</td>" +
         "</tr>");

@@ -24,7 +24,7 @@ bookings_blueprint = Blueprint(
 def bookings_page() -> str:
     """Route for the GET request to the bookings endpoint"""
     bookings = BookingDAO.get_all()
-    if current_user.role not in [UserRole.MANAGER, UserRole.ADMIN]:
+    if current_user.role.name not in [UserRole.MANAGER, UserRole.ADMIN]:
         bookings = [booking for booking in bookings if booking.user_id == current_user.id]
     return render_template("bookings/bookings.html", user=current_user, bookings=bookings)
 
@@ -34,21 +34,3 @@ def bookings_page() -> str:
 def booking_page(booking_id: str) -> str:
     """Route for the GET request to the booking endpoint"""
     return render_template("bookings/booking.html", user=current_user)
-
-
-@bookings_blueprint.route("/booking/<booking_id>", methods=["POST"])
-def booking_post(booking_id: str) -> str:
-    """Route for the POST request to the booking endpoint"""
-    raise NotImplementedError()
-
-
-@bookings_blueprint.route("/booking/<booking_id>", methods=["PUT"])
-def booking_update(booking_id: str) -> str:
-    """Route for the PUT request to the booking endpoint"""
-    raise NotImplementedError()
-
-
-@bookings_blueprint.route("/booking/<booking_id>", methods=["DELETE"])
-def booking_delete(booking_id: str) -> str:
-    """Route for the DELETE request to the booking endpoint"""
-    raise NotImplementedError()
