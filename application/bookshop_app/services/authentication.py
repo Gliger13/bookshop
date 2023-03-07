@@ -76,8 +76,8 @@ def load_login_user(token: str) -> Optional[UserModel]:
     :return: user model that provided token belongs to
     """
     if jwt_token := jwt_authentication(token):
-        user_login = jwt_token.get('sub')
-        return UserDAO.get_by_login(user_login)
+        if user_login := jwt_token.get('sub'):
+            return UserDAO.get_by_login(user_login)
     return None
 
 
@@ -233,7 +233,7 @@ def required_creating_booking_for_self_or_roles(roles: Collection[object] = ()) 
     return decorator
 
 
-def __get_current_user() -> UserModel:
+def __get_current_user() -> Optional[UserModel]:
     """Get current user for authentication and access control
 
     :return: current user model

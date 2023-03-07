@@ -574,6 +574,7 @@ ignored-classes=optparse.Values,
                 _thread._local,
                 argparse.Namespace,
                 scoped_session,  # Ignore flask scoped session that loads dynamically
+                flask_marshmallow.Marshmallow,
 
 
 # Show a hint with possible names when a member name was not found. The aspect

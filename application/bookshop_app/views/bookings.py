@@ -27,10 +27,3 @@ def bookings_page() -> str:
     if current_user.role.name not in [UserRole.MANAGER, UserRole.ADMIN]:
         bookings = [booking for booking in bookings if booking.user_id == current_user.id]
     return render_template("bookings/bookings.html", user=current_user, bookings=bookings)
-
-
-@bookings_blueprint.route("/booking/<booking_id>", methods=["GET"])
-@login_required
-def booking_page(booking_id: str) -> str:
-    """Route for the GET request to the booking endpoint"""
-    return render_template("bookings/booking.html", user=current_user)

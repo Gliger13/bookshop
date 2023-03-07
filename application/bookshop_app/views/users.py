@@ -6,7 +6,6 @@ functionality of creating, reading, updating, and deleting all users.
 from flask import Blueprint, render_template
 from flask_login import current_user, login_required
 
-from bookshop_app.controllers.user import UserController
 from bookshop_app.forms.authentication import DeleteUserByIdForm, DeleteUserForm, RegistrationForm, \
     UpdateUserByIdForm, UpdateUserForm
 from bookshop_app.models.role import UserRole
@@ -28,7 +27,7 @@ users_blueprint = Blueprint(
 @required_roles([UserRole.MANAGER, UserRole.ADMIN])
 def users_page() -> str:
     """Route for the GET request to the users endpoint"""
-    users, status_code = UserService.get_all()
+    users, _ = UserService.get_all()
     create_user_form = RegistrationForm()
     update_user_form = UpdateUserForm()
     delete_user_form = DeleteUserForm()
@@ -46,7 +45,7 @@ def users_page() -> str:
 @login_required
 def user_page(user_id: str) -> str:
     """Route for the GET request to the user endpoint"""
-    user, status_code = UserService.get(int(user_id))
+    user, _ = UserService.get(int(user_id))
 
     update_user_by_id_form = UpdateUserByIdForm()
     update_user_by_id_form.id.data = user["id"]
