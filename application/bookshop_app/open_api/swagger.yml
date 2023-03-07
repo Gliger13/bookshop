@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Book Shop REST API
   description: Sample User Service
-  version: 0.1.0
+  version: 0.2.0
 
 servers:
   - url: http://localhost:5000/api
@@ -23,12 +23,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserSet"
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
     post:
       operationId: bookshop_app.controllers.user.UserController.create
       tags:
@@ -75,12 +77,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Access Denied
         "404":
           description: User does not exist
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
     put:
       operationId: bookshop_app.controllers.user.UserController.update
       tags:
@@ -107,14 +113,16 @@ paths:
           description: User attributes updated
         "400":
           description: Bad request, validation error
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "404":
           description: User not found with given ID
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
     delete:
       operationId: bookshop_app.controllers.user.UserController.delete
       tags:
@@ -132,10 +140,35 @@ paths:
       responses:
         "200":
           description: User deleted
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "404":
           description: User does not exist
+        "500":
+          description: Server Error
+      security:
+        - bearerAuth: [ ]
+  /generate_token:
+    get:
+      operationId: bookshop_app.services.user.UserService.generate_jwt_token
+      tags:
+        - User
+      summary: Login user in the system and returns Authentication Token.
+      description: Login user in the system and returns Authentication Token.
+      responses:
+        "200":
+          description: Login user in the system and returns Authentication Token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  AuthToken:
+                    type: string
+        "401":
+          description: Unauthorized
         "500":
           description: Server Error
       security:
@@ -178,12 +211,14 @@ paths:
           description: Product created
         "400":
           description: Bad request, validation error
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
   /product/{product_id}:
     get:
       operationId: bookshop_app.controllers.product.ProductController.get
@@ -239,14 +274,16 @@ paths:
           description: Product updated
         "400":
           description: Bad request, validation error
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "404":
           description: Product does not exist
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
     delete:
       operationId: bookshop_app.controllers.product.ProductController.delete
       tags:
@@ -264,14 +301,16 @@ paths:
       responses:
         "200":
           description: Product deleted
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "404":
           description: Product does not exist
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
 
   /booking:
     get:
@@ -287,12 +326,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BookingSet"
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
     post:
       operationId: bookshop_app.controllers.booking.BookingController.create
       tags:
@@ -311,12 +352,14 @@ paths:
           description: Booking created
         "400":
           description: Bad request, validation error
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
   /booking/{booking_id}:
     get:
       operationId: bookshop_app.controllers.booking.BookingController.get
@@ -339,14 +382,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Booking"
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "404":
           description: Booking does not exist
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
     put:
       operationId: bookshop_app.controllers.booking.BookingController.update
       tags:
@@ -373,14 +418,16 @@ paths:
           description: Booking updated
         "400":
           description: Bad request, validation error
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "404":
           description: Booking does not exist
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
     delete:
       operationId: bookshop_app.controllers.booking.BookingController.delete
       tags:
@@ -398,14 +445,16 @@ paths:
       responses:
         "200":
           description: Booking deleted
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "404":
           description: Booking does not exist
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
 
   /store-item:
     get:
@@ -426,7 +475,7 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
     post:
       operationId: bookshop_app.controllers.store_item.StoreItemController.create
       tags:
@@ -445,12 +494,14 @@ paths:
           description: Store item created
         "400":
           description: Bad request, validation error
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
   /store-item/{store_item_id}:
     get:
       operationId: bookshop_app.controllers.store_item.StoreItemController.get
@@ -473,14 +524,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/StoreItem"
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "404":
           description: Store item does not exist
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
     put:
       operationId: bookshop_app.controllers.store_item.StoreItemController.update
       tags:
@@ -507,14 +560,16 @@ paths:
           description: Store item updated
         "400":
           description: Bad request, validation error
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "404":
           description: Store item does not exist
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
     delete:
       operationId: bookshop_app.controllers.store_item.StoreItemController.delete
       tags:
@@ -532,14 +587,16 @@ paths:
       responses:
         "200":
           description: Store item deleted
+        "401":
+          description: Unauthorized
         "403":
-          description: Forbidden
+          description: Access Denied
         "404":
           description: Store item does not exist
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
+        - bearerAuth: [ ]
 
 components:
   schemas:
@@ -605,7 +662,9 @@ components:
           maxLength: 256
           writeOnly: true
         email: *user_email_field
-        role_id: *user_role_id_field
+        role_id:
+          <<: *user_role_id_field
+          nullable: true
         name:
           <<: *user_name_field
           nullable: true
@@ -618,7 +677,6 @@ components:
       required:
         - login
         - password
-        - role_id
         - email
     UpdateUser:
       description: Model that represents attributes to update a user
@@ -902,4 +960,9 @@ components:
     basicAuth:
       type: http
       scheme: basic
-      x-basicInfoFunc: bookshop_app.services.authentication.basic_auth
+      x-basicInfoFunc: bookshop_app.services.authentication.basic_authentication
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-bearerInfoFunc: bookshop_app.services.authentication.jwt_authentication

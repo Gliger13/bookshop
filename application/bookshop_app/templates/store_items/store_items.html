@@ -1,0 +1,35 @@
+{% extends '_base/base.html' %}
+{% import "_base/modal.html" as modal_macros %}
+{% import "store_items/_macros.html" as store_items_macros %}
+
+{% block title %}
+Store Items
+{% endblock %}
+
+{% block content %}
+<script src="{{ url_for('static', filename='js/store_items.js') }}"></script>
+<div class="w-75 mx-auto my-5">
+    <button class="btn btn-primary" data-bs-target="#create_store_item" data-bs-toggle="modal" type="button">Create</button>
+    <button class="btn btn-info" data-bs-target="#update_store_item" data-bs-toggle="modal" type="button">Update</button>
+    <button class="btn btn-danger" data-bs-target="#delete_store_item" data-bs-toggle="modal" type="button">Delete</button>
+    {{ modal_macros.modal(
+           modal_id="create_store_item",
+           modal_title="Create Store Item",
+           form=create_store_item_form,
+           button_action="Create"
+    ) }}
+    {{ modal_macros.modal(
+           modal_id="update_store_item",
+           modal_title="Update Store Item",
+           form=update_store_item_form,
+           button_action="Update"
+    ) }}
+    {{ modal_macros.modal(
+           modal_id="delete_store_item",
+           modal_title="Delete Store Item",
+           form=delete_store_item_form,
+           button_action="Delete"
+    ) }}
+    {{ store_items_macros.table(store_items) }}
+</div>
+{% endblock %}

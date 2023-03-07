@@ -1,0 +1,28 @@
+{% macro table(store_items) %}
+<table class="table" id="store_items_table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Product ID</th>
+        <th>Product Name</th>
+        <th>Product Author</th>
+        <th>Available</th>
+        <th>Booked</th>
+        <th>Delivered</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for store_item in store_items %}
+    <tr>
+        <td class="id_cell">{{ store_item.id }}</td>
+        <td class="product_id_cell">{{ store_item.product_id }}</td>
+        <td class="product_name_cell">{{ store_item.product.name }}</td>
+        <td class="product_author_cell">{{ store_item.product.author }}</td>
+        <td class="available_quantity_cell">{{ store_item.available_quantity }}</td>
+        <td class="booked_quantity_cell">{{ store_item.booked_quantity }}</td>
+        <td class="sold_quantity_cell">{{ store_item.sold_quantity }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endmacro %}
