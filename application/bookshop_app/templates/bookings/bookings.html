@@ -9,7 +9,7 @@ Bookings
 {% block content %}
 {% if bookings %}
 <script src="{{ url_for('static', filename='js/bookings.js') }}"></script>
-<div class="row row-cols-auto row-cols-md-auto g-4 mx-2 my-1">
+<div class="row row-cols-auto row-cols-md-auto g-4 mx-1 my-1">
     {% for booking in bookings %}
         {% if booking.user_id == user.id or user.role.name.name in ["MANAGER", "ADMIN"] %}
             {{ booking_card_macros.booking_card(user, booking) }}
