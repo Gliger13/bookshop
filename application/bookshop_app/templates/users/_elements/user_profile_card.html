@@ -1,0 +1,29 @@
+{% import "_base/forms.html" as forms_macros %}
+
+{% macro card(current_user, user, update_user_by_id_form) %}
+<div class="card w-25 my-2 mx-auto">
+    <h3 class="card-title text-center my-4">User Profile</h3>
+    <div class="card-body">
+        <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+        <form id="user_form">
+            {{ forms_macros.form_field(update_user_by_id_form.id) }}
+            {{ forms_macros.form_field(update_user_by_id_form.login) }}
+            {{ forms_macros.form_field(update_user_by_id_form.password) }}
+            {{ forms_macros.form_field(update_user_by_id_form.email) }}
+            {{ forms_macros.form_field(update_user_by_id_form.phone) }}
+            {{ forms_macros.form_field(update_user_by_id_form.name) }}
+            {{ forms_macros.form_field(update_user_by_id_form.address) }}
+            {% if current_user.role.name.name in ["MANAGER", "ADMIN"] %}
+                {{ forms_macros.form_field(update_user_by_id_form.role_id) }}
+            {% else %}
+                {{ forms_macros.form_field(update_user_by_id_form.role_id, hide=True) }}
+            {% endif %}
+            {{ forms_macros.form_all_errors("user_form", error_message) }}
+            <div class="card-body d-flex flex-row-reverse">
+                <button class="btn btn-danger mx-1" type="button" id="delete_user_button">Delete User</button>
+                <button class="btn btn-secondary mx-1" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endmacro %}

@@ -1,0 +1,37 @@
+{% extends '_base/base.html' %}
+{% import "products/_elements/management_panel.html" as management_panel %}
+{% import "products/_elements/small_product_card.html" as small_product_card %}
+{% import "products/_elements/paginator.html" as product_paginator %}
+
+
+{% block title %}
+Products
+{% endblock %}
+
+
+{% block content %}
+{% if user.is_authenticated and user.role.name.name in ["MANAGER", "ADMIN"] %}
+    {{ management_panel.panel(create_product_form, update_product_form, delete_product_form) }}
+{% endif %}
+{% if products %}
+<div class="row row-cols-auto row-cols-md-auto mx-2 my-2">
+    {% for product in products %}
+        {% if user.is_authenticated and user.role.name.name in ["MANAGER", "ADMIN"] %}
+            {{ small_product_card.card(product, show_id=True) }}
+        {% else %}
+            {{ small_product_card.card(product) }}
+        {% endif %}
+    {% endfor %}
+</div>
+{{ product_paginator.paginator() }}
+{% else %}
+<div class="card text-bg-secondary mb-3 mx-auto" style="max-width: 18rem; margin: 1rem;">
+    <div class="card-body">
+        <h5 class="card-title text-center">No products available</h5>
+        <p class="card-text">
+            At the moment, BookShop does not have available products for viewing and booking. Please return later.
+        </p>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}

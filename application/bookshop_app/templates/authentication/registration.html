@@ -1,0 +1,25 @@
+{% extends 'authentication/_base.html' %}
+{% import "authentication/_macros.html" as auth_macros %}
+
+{% block title %}
+Registration
+{% endblock %}
+
+{% block form_title %}
+Create an account
+{% endblock %}
+
+{% block form %}
+<form id="registration-form" method="POST">
+    {{ form.csrf_token }}
+    {{ auth_macros.form_field(form.login) }}
+    {{ auth_macros.form_field(form.password) }}
+    {{ auth_macros.form_field(form.email) }}
+    {{ auth_macros.form_field(form.phone) }}
+    {{ auth_macros.form_field(form.name) }}
+    {{ auth_macros.form_field(form.address) }}
+    {{ auth_macros.all_errors_banner(error) }}
+    {{ auth_macros.submit_button("Register") }}
+</form>
+{{ auth_macros.after_form_link("Have already an account?", url_for("authentication_blueprint.login_page"), "Login here") }}
+{% endblock %}

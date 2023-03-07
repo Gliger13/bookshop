@@ -1,0 +1,20 @@
+{% macro navigation_link(menu_item_name, url) %}
+<li class="nav-item">
+    <a aria-current="page"
+       class="nav-link {{ 'active' if url in request.url else ''  }}"
+       href="{{ url }}">
+        {{ menu_item_name }}
+    </a>
+</li>
+{% endmacro %}
+
+
+{% macro logout_link() %}
+<li class="nav-item">
+    <form action="/log-out" method="POST">
+        <button class=nav-link style="background: transparent; border: none !important;" type="submit">
+            Log Out
+        </button>
+    </form>
+</li>
+{% endmacro %}

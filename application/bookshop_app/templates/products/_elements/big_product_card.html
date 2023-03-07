@@ -1,0 +1,74 @@
+{% import "_base/modal.html" as modal_macros %}
+
+
+{% macro _product_image_card(product) %}
+<img class="img-fluid mx-auto d-block"
+     src="{{ url_for('media_blueprint.get_media', path=product.image_path) if product.image_path else url_for('static', filename='images/default_product_image.jpg') }}"
+>
+{% endmacro %}
+
+
+{% macro _product_body_card(product, user) %}
+<div class="card-body">
+    <h4 class="card-title">{{ product.name }}</h4>
+    {% if user.is_authenticated and user.role.name.name in ["MANAGER", "ADMIN"] %}
+        <p class="card-text">ID: {{ product.id }}</p>
+    {% endif %}
+    <p class="card-text">Author: {{ product.author }}</p>
+    <p class="card-text">Price:
+        <span class="badge rounded-pill text-bg-info }}">{{ product.price }}</span>
+    </p>
+    <p class="card-text">{{ product.description }}</p>
+</div>
+{% endmacro %}
+
+
+{% macro _product_action_menu(product, user, book_by_id_form, update_product_by_id_form, delete_product_by_id_form) %}
+<div class="card-body align-self-end">
+    <script src="{{ url_for('static', filename='js/product.js') }}"></script>
+    <button class="btn btn-primary" data-bs-target="#book_product_by_id" data-bs-toggle="modal" type="button">
+        Book
+    </button>
+    {{ modal_macros.modal(
+           modal_id="book_product_by_id",
+           modal_title="Book Product",
+           form=book_by_id_form,
+           button_action="Book"
+    ) }}
+    {% if user.is_authenticated and user.role.name.name in ["MANAGER", "ADMIN"] %}
+        <button class="btn btn-info" data-bs-target="#update_product_by_id" data-bs-toggle="modal" type="button">
+            Edit
+        </button>
+        {{ modal_macros.modal(
+               modal_id="update_product_by_id",
+               modal_title="Update Product",
+               form=update_product_by_id_form,
+               button_action="Update"
+        ) }}
+        <button class="btn btn-danger" data-bs-target="#delete_product_by_id" data-bs-toggle="modal" type="button">
+            Delete
+        </button>
+        {{ modal_macros.modal(
+               modal_id="delete_product_by_id",
+               modal_title="Delete product?",
+               form=delete_product_by_id_form,
+               button_action="Delete"
+        ) }}
+    {% endif %}
+</div>
+{% endmacro %}
+
+
+{% macro card(product, user, book_by_id_form, update_product_by_id_form, delete_product_by_id_form) %}
+<div class="card w-50 my-2 mx-auto">
+    <div class="row g-0">
+        <div class="col-md-4">
+            {{ _product_image_card(product) }}
+        </div>
+        <div class="col-md-8">
+            {{ _product_body_card(product, user) }}
+        </div>
+    </div>
+    {{ _product_action_menu(product, user, book_by_id_form, update_product_by_id_form, delete_product_by_id_form) }}
+</div>
+{% endmacro %}
