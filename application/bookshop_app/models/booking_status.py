@@ -16,12 +16,19 @@ class BookingStatus(Enum):
     IN_DELIVERY = 5, "in delivery", "to delivery"
     COMPLETED = 6, "completed", "complete"
 
-    def __init__(self, code: int, status: str, transition_action: str):
+    def __init__(self, code: int, status: str, transition_action: str) -> None:
+        """Initialize booking status
+
+        :param code: unique booking status code
+        :param status: booking status name
+        :param transition_action: verb to transit to
+        """
         self.code = code
         self.status = status
         self.transition_action = transition_action
 
-    def __hash__(self):
+    def __hash__(self) -> int:
+        """Return booking status hash based on the current status name"""
         return hash(self.status)
 
 
@@ -40,4 +47,5 @@ class BookingStatusModel(db.Model):
     name = db.Column(db.Enum(BookingStatus), nullable=False)
 
     def get_available_transitions(self) -> list[BookingStatus]:
+        """Get available next statuses to transfer from the current one"""
         return self.TRANSITION_MAP[self.name]

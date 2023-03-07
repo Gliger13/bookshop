@@ -29,7 +29,7 @@ def store_items_page() -> str:
     create_store_item_form = CreateStoreItemForm()
     update_store_item_form = UpdateStoreItemForm()
     delete_store_item_form = DeleteStoreItemForm()
-    store_items, status_code = StoreItemService.get_all()
+    store_items, _ = StoreItemService.get_all()
     return render_template(
         template_name_or_list="store_items/store_items.html",
         user=current_user,

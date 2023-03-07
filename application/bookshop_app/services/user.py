@@ -84,7 +84,7 @@ class UserService:
         :raise ValidationError: if there are validations errors with given json
         :raise HTTPException: if role ID was provided, but it does not exist
         """
-        user_schema.validate_password(create_user_request_json.get("password"))
+        user_schema.validate_password(create_user_request_json["password"])
         if role_id := create_user_request_json.get("role_id"):
             RoleDAO.get_by_id(role_id)
 
@@ -158,5 +158,7 @@ class UserService:
         """Generates JWT for the user and returns it."""
         login = request.authorization.username
         user = UserDAO.get_by_login(login)
+        if not user:
+            return jsonify(detail=f"User was not found by login {login}", code=codes.not_found), codes.not_found
         access_token = user.generate_jwt_token()
         return jsonify(AuthToken=access_token), codes.ok

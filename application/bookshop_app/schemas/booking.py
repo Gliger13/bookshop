@@ -1,15 +1,12 @@
 """ORM Booking schema"""
-from bookshop_app.schemas.booking_status import BookingStatusSchema
-
-from bookshop_app.schemas.user import UserSchema
-from marshmallow_sqlalchemy.fields import Nested
-
-from bookshop_app.schemas.product import ProductSchema
 from marshmallow import EXCLUDE, validates, ValidationError
 
 from bookshop_app.database.database import db
 from bookshop_app.dependencies import ma
 from bookshop_app.models.booking import BookingModel
+from bookshop_app.schemas.booking_status import BookingStatusSchema
+from bookshop_app.schemas.product import ProductSchema
+from bookshop_app.schemas.user import UserSchema
 
 
 class BookingSchema(ma.SQLAlchemySchema):

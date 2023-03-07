@@ -3,8 +3,7 @@
 Module contains routes for the media blueprint, which includes loading files
 from the media folder.
 """
-from flask import Blueprint, send_from_directory
-from requests import Response
+from flask import Blueprint, Response, send_from_directory
 
 media_blueprint = Blueprint(
     name="media_blueprint",

@@ -3,10 +3,11 @@
 import hashlib
 import os
 import time
-from typing import Final, Optional
+from typing import Final
 
 import jwt
 from flask_login import UserMixin
+from sqlalchemy.orm import Mapped
 from werkzeug.exceptions import Unauthorized
 
 from bookshop_app.database.database import db
@@ -32,7 +33,7 @@ class UserModel(UserMixin, db.Model):
     phone = db.Column(db.String(256), unique=True)
     address = db.Column(db.String(256))
 
-    token: Optional[str] = None
+    token: Mapped[str] = None
 
     def get_id(self) -> str:
         """Get user ID for Login Manager"""
@@ -40,7 +41,7 @@ class UserModel(UserMixin, db.Model):
             try:
                 self.decode_token(self.token)
             except Unauthorized:
-                self.generate_token()
+                self.generate_jwt_token()
         else:
             self.generate_jwt_token()
         return self.token
@@ -88,9 +89,9 @@ class UserModel(UserMixin, db.Model):
         """
         try:
             return jwt.decode(token, "SECRET_KEY", algorithms=[cls.JWT_ALGORITHM])
-        except jwt.ExpiredSignatureError:
-            raise Unauthorized("Signature expired. Please log in again.")
-        except jwt.InvalidTokenError:
-            raise Unauthorized("Invalid token. Please log in again.")
-        except TypeError:
-            raise Unauthorized("Invalid token. Please log in again.")
+        except jwt.ExpiredSignatureError as error:
+            raise Unauthorized("Signature expired. Please log in again.") from error
+        except jwt.InvalidTokenError as error:
+            raise Unauthorized("Invalid token. Please log in again.") from error
+        except TypeError as error:
+            raise Unauthorized("Invalid token. Please log in again.") from error

@@ -26,7 +26,7 @@ products_blueprint = Blueprint(
 @products_blueprint.route("/products", methods=["GET"])
 def products_page() -> str:
     """Route for the GET request to the products endpoint"""
-    products, status_code = ProductController.get_all()
+    products, _ = ProductController.get_all()
     create_product_form = CreateProductForm()
     update_product_form = UpdateProductForm()
     delete_product_form = DeleteProductForm()
@@ -44,7 +44,7 @@ def products_page() -> str:
 def product_page(product_id: str) -> str:
     """Route for the GET request to the product endpoint"""
     product_id = int(product_id)
-    product, status_code = ProductController.get(product_id)
+    product, _ = ProductController.get(product_id)
 
     book_product_by_id_form = BookProductForm()
     book_product_by_id_form.product_id.data = product_id
