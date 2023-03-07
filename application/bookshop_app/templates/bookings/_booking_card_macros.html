@@ -8,18 +8,18 @@
 
 
 {% macro booking_card_actions(user, booking) %}
-<div class="card-body align-self-end btn-group">
+<div class="card-body d-flex align-items-center">
     {% set color_button_classes = {
         "submitted": "btn-outline-primary", "rejected": "btn-outline-danger", "approved": "btn-outline-success",
         "canceled": "btn-outline-secondary", "in delivery": "btn-outline-info", "completed": "btn-outline-success"
     } %}
     {% for next_status in booking.status.get_available_transitions() %}
         {% if user.role.name.name in ["MANAGER", "ADMIN"] or next_status.status == "canceled" %}
-            <form id="change-booking-status-form-1" method="GET">
-                <input class="form-control" hidden id="booking_id" type="text" value="{{ booking.id }}">
-                <input class="form-control" hidden id="status_id" type="text" value="{{ next_status.code }}">
-                <button class="btn mx-1 {{ color_button_classes.get(next_status.status, 'btn-outline-danger') }}"
-                        id="change_booking_status_button">
+            <form id="change_booking_status_form_{{ booking.id }}">
+                <input class="form-control" hidden id="booking_id_{{ booking.id }}" type="text" value="{{ booking.id }}">
+                <input class="form-control" hidden id="status_id_{{ booking.id }}" type="text" value="{{ next_status.code }}">
+                <button class="btn {{ color_button_classes.get(next_status.status, 'btn-outline-danger') }}"
+                        type="submit">
                     {{ next_status.transition_action.title() }}
                 </button>
             </form>
