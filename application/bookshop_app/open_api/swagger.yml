@@ -173,7 +173,6 @@ paths:
           description: Server Error
       security:
         - basicAuth: [ ]
-        - bearerAuth: [ ]
 
   /product:
     get:
