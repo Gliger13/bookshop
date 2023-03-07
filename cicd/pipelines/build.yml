@@ -1,0 +1,47 @@
+stages:
+  - build
+  - linter
+  - tests-coverage
+  - unit-tests
+
+
+image: python:3.11
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+cache:
+  key: $CI_COMMIT_REF_SLUG
+  paths:
+    - .cache/pip
+    - venv/
+
+
+build:
+  stage: build
+  script:
+    - python -m venv venv
+    - source venv/bin/activate
+    - pip install "application/.[dev]"
+
+
+linter:
+  stage: linter
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - ~/.cache/pylint
+  script:
+    - source venv/bin/activate
+    - cd application/
+    - pylint bookshop_app/
+
+
+tests-coverage:
+  stage: tests-coverage
+  script:
+    - echo "empty coverage stage"
+
+
+unit-tests:
+  stage: unit-tests
+  script:
+    - echo "empty unit tests stage"
