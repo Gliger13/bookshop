@@ -1,0 +1,26 @@
+{% macro card(product, show_id=False) %}
+<div class="card my-2" style="width: 20%">
+    <img class="card-img-top mx-auto"
+         src="{{ url_for('media_blueprint.get_media', path=product.image_path) if product.image_path else url_for('static', filename='images/default_product_image.jpg') }}"
+         style="height: 15em; width: 10em;"
+    >
+    <div class="card-body h-25">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <p class="card-text">
+            {{ "{}...".format(product.description[:128]) if product.description|length > 128 else product.description }}
+        </p>
+    </div>
+    <ul class="list-group list-group-flush">
+        {% if show_id %}
+            <li class="list-group-item">ID: {{ product.id }}</li>
+        {% endif %}
+        <li class="list-group-item">Author: {{ product.author }}</li>
+        <li class="list-group-item">Price: {{ product.price }} </li>
+    </ul>
+    <div class="card-body align-self-end">
+        <a class="btn btn-primary" href="{{ url_for('products_blueprint.product_page', product_id=product.id) }}">
+            View
+        </a>
+    </div>
+</div>
+{% endmacro %}

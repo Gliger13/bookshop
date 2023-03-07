@@ -1,0 +1,10 @@
+{% extends '_base/base.html' %}
+{% import "products/_elements/big_product_card.html" as big_product_card %}
+
+{% block title %}
+Product
+{% endblock %}
+
+{% block content %}
+{{ big_product_card.card(product, user, book_product_by_id_form, update_product_by_id_form, delete_product_by_id_form)}}
+{% endblock %}

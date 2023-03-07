@@ -56,19 +56,22 @@ class UserService:
         :return: tuple of response json and status code
         """
         try:
-            create_user_request_json = request.get_json()
-            password_to_hash = create_user_request_json.pop("password")
+            if request.is_json:
+                user_attributes = request.get_json()
+            else:
+                user_attributes = dict(request.form)
 
-            user_data = user_schema.load(create_user_request_json)
-            UserService.validate_user_creation_request({**create_user_request_json, "password": password_to_hash})
+            password_to_hash = user_attributes.pop("password")
+            user_data = user_schema.load(user_attributes)
+            UserService.validate_user_creation_request({**user_attributes, "password": password_to_hash})
 
             user_data.hash_password(password_to_hash)
             UserDAO.create(user_data)
             return user_schema.dump(user_data), codes.created
         except ValidationError as error:
-            return jsonify(error=str(error), status=codes.bad_request), codes.bad_request
+            return jsonify(detail=str(error), status=codes.bad_request), codes.bad_request
         except IntegrityError as error:
-            return jsonify(error=error.args[0], status=codes.bad_request), codes.bad_request
+            return jsonify(detail=error.args[0], status=codes.bad_request), codes.bad_request
 
     @staticmethod
     def validate_user_creation_request(create_user_request_json: dict) -> None:
@@ -81,8 +84,9 @@ class UserService:
         :raise ValidationError: if there are validations errors with given json
         :raise HTTPException: if role ID was provided, but it does not exist
         """
-        user_schema.validate_password(create_user_request_json.get("password"))
-        RoleDAO.get_by_id(create_user_request_json.get("role_id"))
+        user_schema.validate_password(create_user_request_json["password"])
+        if role_id := create_user_request_json.get("role_id"):
+            RoleDAO.get_by_id(role_id)
 
     @staticmethod
     def delete(user_id: int) -> tuple[dict[str, str], int]:
@@ -148,3 +152,13 @@ class UserService:
             user_schema.validate_password(password_to_validate)
         if role_id_to_validate := update_user_request_json.get("role_id"):
             RoleDAO.get_by_id(role_id_to_validate)
+
+    @staticmethod
+    def generate_jwt_token() -> tuple[dict | Response, int]:
+        """Generates JWT for the user and returns it."""
+        login = request.authorization.username
+        user = UserDAO.get_by_login(login)
+        if not user:
+            return jsonify(detail=f"User was not found by login {login}", code=codes.not_found), codes.not_found
+        access_token = user.generate_jwt_token()
+        return jsonify(AuthToken=access_token), codes.ok

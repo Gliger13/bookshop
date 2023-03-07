@@ -1,0 +1,34 @@
+{% import "_base/modal.html" as modal_macros %}
+
+{% macro panel(create_product_form, update_product_form, delete_product_form) %}
+<div class="row row-cols-auto row-cols-md-auto g-4 mx-2 my-1">
+    <script src="{{ url_for('static', filename='js/products.js') }}"></script>
+    <button class="btn btn-primary mx-1" data-bs-target="#create_product" data-bs-toggle="modal" type="button">
+        Create
+    </button>
+    {{ modal_macros.modal(
+           modal_id="create_product",
+           modal_title="Create Product",
+           form=create_product_form,
+           button_action="Create"
+    ) }}
+    <button class="btn btn-info mx-1" data-bs-target="#update_product" data-bs-toggle="modal" type="button">
+        Update
+    </button>
+    {{ modal_macros.modal(
+           modal_id="update_product",
+           modal_title="Update Product",
+           form=update_product_form,
+           button_action="Update"
+    ) }}
+    <button class="btn btn-danger mx-1" data-bs-target="#delete_product" data-bs-toggle="modal" type="button">
+        Delete
+    </button>
+    {{ modal_macros.modal(
+           modal_id="delete_product",
+           modal_title="Delete Product",
+           form=delete_product_form,
+           button_action="Delete"
+    ) }}
+</div>
+{% endmacro %}

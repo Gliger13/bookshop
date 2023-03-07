@@ -1,0 +1,76 @@
+{% macro display_booking_status(status) %}
+{% set color_label_classes = {
+    "submitted": "bg-primary", "rejected": "bg-danger", "approved": "bg-success",
+    "canceled": "bg-secondary", "in delivery": "bg-info", "completed": "bg-success"
+} %}
+<span class="badge rounded-pill {{ color_label_classes.get(status, 'bg-danger') }}">{{ status.title() }}</span>
+{% endmacro %}
+
+
+{% macro booking_card_actions(user, booking) %}
+<div class="card-body d-flex align-items-center">
+    {% set color_button_classes = {
+        "submitted": "btn-outline-primary", "rejected": "btn-outline-danger", "approved": "btn-outline-success",
+        "canceled": "btn-outline-secondary", "in delivery": "btn-outline-info", "completed": "btn-outline-success"
+    } %}
+    {% for next_status in booking.status.get_available_transitions() %}
+        {% if user.role.name.name in ["MANAGER", "ADMIN"] or next_status.status == "canceled" %}
+            <form id="change_booking_status_form_{{ booking.id }}">
+                <input class="form-control" hidden id="booking_id_{{ booking.id }}" type="text" value="{{ booking.id }}">
+                <input class="form-control" hidden id="status_id_{{ booking.id }}" type="text" value="{{ next_status.code }}">
+                <button class="btn {{ color_button_classes.get(next_status.status, 'btn-outline-danger') }}"
+                        type="submit">
+                    {{ next_status.transition_action.title() }}
+                </button>
+            </form>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endmacro %}
+
+
+{% macro booking_card_image(booking) %}
+<img
+        class="card-img-top mx-auto"
+        src="{{ url_for('media_blueprint.get_media', path=booking.product.image_path) if booking.product.image_path else url_for('static', filename='images/default_product_image.jpg') }}"
+        style="height: 15em; width: 10em;"
+>
+{% endmacro %}
+
+
+{% macro booking_card_header(booking) %}
+<div class="card-body">
+    <h5 class="card-title">
+        <a class="page-link" href="{{ url_for('products_blueprint.product_page', product_id=booking.product.id) }}">
+            {{ booking.product.name }}
+        </a>
+    </h5>
+    <h6 class="card-title">Product ID: {{ booking.product.id }}</h6>
+</div>
+{% endmacro %}
+
+
+{% macro booking_card_body(booking) %}
+<ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <a class="page-link" href="{{ url_for('users_blueprint.user_page', user_id=booking.user.id) }}">
+            User: {{ booking.user.name or booking.user.login }}
+        </a>
+    </li>
+    <li class="list-group-item">Date: {{ booking.delivery_date }}</li>
+    <li class="list-group-item">Time: {{ booking.delivery_time }}</li>
+    <li class="list-group-item">Delivery Address: {{ booking.delivery_address }}</li>
+    <li class="list-group-item">Quantity: {{ booking.quantity }}</li>
+    <li class="list-group-item">Status: {{ display_booking_status(booking.status.name.status) }}</li>
+</ul>
+{% endmacro %}
+
+
+{% macro booking_card(user, booking) %}
+<div class="card my-2 mx-2" style="width: 18.5%">
+    {{ booking_card_image(booking) }}
+    {{ booking_card_header(booking) }}
+    {{ booking_card_body(booking) }}
+    {{ booking_card_actions(user, booking) }}
+</div>
+{% endmacro %}

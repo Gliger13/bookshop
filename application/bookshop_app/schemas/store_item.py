@@ -1,9 +1,10 @@
 """ORM Store Item Schema"""
-from marshmallow import validates, ValidationError
+from marshmallow import EXCLUDE, validates, ValidationError
 
 from bookshop_app.database.database import db
 from bookshop_app.dependencies import ma
 from bookshop_app.models.store_item import StoreItemModel
+from bookshop_app.schemas.product import ProductSchema
 
 
 class StoreItemSchema(ma.SQLAlchemySchema):
@@ -15,9 +16,11 @@ class StoreItemSchema(ma.SQLAlchemySchema):
         model = StoreItemModel
         load_instance = True
         sqla_session = db.session
+        unknown = EXCLUDE
 
     id = ma.auto_field()
 
+    product = ma.Nested(ProductSchema)
     product_id = ma.auto_field()
 
     available_quantity = ma.auto_field()
