@@ -30,7 +30,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
     post:
       operationId: bookshop_app.controllers.user.UserController.create
@@ -87,7 +86,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
     put:
       operationId: bookshop_app.controllers.user.UserController.update
@@ -124,7 +122,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
     delete:
       operationId: bookshop_app.controllers.user.UserController.delete
@@ -152,7 +149,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
   /generate_token:
     get:
@@ -223,7 +219,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
   /product/{product_id}:
     get:
@@ -289,7 +284,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
     delete:
       operationId: bookshop_app.controllers.product.ProductController.delete
@@ -317,7 +311,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
 
   /booking:
@@ -341,7 +334,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
     post:
       operationId: bookshop_app.controllers.booking.BookingController.create
@@ -368,7 +360,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
   /booking/{booking_id}:
     get:
@@ -401,7 +392,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
     put:
       operationId: bookshop_app.controllers.booking.BookingController.update
@@ -438,7 +428,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
     delete:
       operationId: bookshop_app.controllers.booking.BookingController.delete
@@ -466,7 +455,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
 
   /store-item:
@@ -488,7 +476,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
     post:
       operationId: bookshop_app.controllers.store_item.StoreItemController.create
@@ -515,7 +502,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
   /store-item/{store_item_id}:
     get:
@@ -548,7 +534,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
     put:
       operationId: bookshop_app.controllers.store_item.StoreItemController.update
@@ -585,7 +570,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
     delete:
       operationId: bookshop_app.controllers.store_item.StoreItemController.delete
@@ -613,7 +597,6 @@ paths:
         "500":
           description: Server Error
       security:
-        - basicAuth: [ ]
         - bearerAuth: [ ]
 
 components:
