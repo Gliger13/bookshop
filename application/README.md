@@ -27,9 +27,9 @@ To install the application, follow next steps:
 ```shell
 cd bookshop/application
 ```
-3) Create python virtual environment using python with version >= 3.10
+3) Create python virtual environment using python with version >= 3.11
 ```shell
-python3.10 -m venv venv
+python3.11 -m venv venv
 ```
 4) Activate installed virtual environment
 ```shell
@@ -72,7 +72,8 @@ flask run
 All listed launches launch the application in the default, `DEVELOPMENT`, environment.
 To control this behavior use [environment variables](#environment-variables)<br/>
 
-Swagger UI will be available via url http://127.0.0.1:5000/api/ui/
+Swagger UI - http://127.0.0.1:5000/api/ui/
+Application UI - http://127.0.0.1:5000
 
 ## Environment Variables
 
