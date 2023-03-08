@@ -1,0 +1,29 @@
+image: python:3.11
+cache:
+  key: $CI_COMMIT_REF_SLUG
+  paths:
+    - .cache/pip
+    - venv/
+
+.build_venv:
+  stage: build
+  script:
+    - python -m venv venv
+    - source venv/bin/activate
+
+.build_application:
+  stage: build
+  script:
+    - pip install "application/.[dev]"
+
+.build_test_framework:
+  script:
+    - pip install "tests/bookshop-test-framework/."
+
+.build_unit_tests:
+  script:
+    - pip install "tests/bookshop-unit-tests/."
+
+.build_api_tests:
+  script:
+    - pip install "tests/bookshop-api-tests/."
