@@ -1,0 +1,30 @@
+include:
+  - local: cicd/jobs/build.gitlab-ci.yml
+  - local: cicd/jobs/linter.gitlab-ci.yml
+
+stages:
+  - linter
+  - tests-coverage
+  - unit-tests
+
+build-linter:
+  stage: linter
+  script:
+    - !reference [ .build_venv, script ]
+    - !reference [ .build_application, script ]
+
+linter:
+  stage: linter
+  extends: .linter
+
+
+tests-coverage:
+  stage: tests-coverage
+  script:
+    - echo "empty coverage stage"
+
+
+unit-tests:
+  stage: unit-tests
+  script:
+    - echo "empty unit tests stage"

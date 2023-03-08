@@ -1,2 +1,2 @@
 include:
-  - local: "cicd/pipelines/build.yml"
+  - local: cicd/pipelines/build.gitlab-ci.yml
