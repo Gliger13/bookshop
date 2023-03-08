@@ -1,0 +1,10 @@
+.linter:
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - ~/.cache/pylint
+  before_script:
+    - source venv/bin/activate
+  script:
+    - cd application/
+    - pylint bookshop_app/
