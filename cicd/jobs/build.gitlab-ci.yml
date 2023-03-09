@@ -5,25 +5,38 @@ cache:
     - .cache/pip
     - venv/
 
+.base_build: &base_build_configuration
+  script: &base_build_script
+    - source venv/bin/activate
+
 .build_venv:
-  stage: build
+  <<: *base_build_configuration
   script:
     - python -m venv venv
     - source venv/bin/activate
 
 .build_application:
-  stage: build
+  <<: *base_build_configuration
   script:
-    - pip install "application/.[dev]"
+    - *base_build_script
+    - pip install --requirement application/dev-requirements.txt
+    - pip install --no-deps "application/.[dev]"
 
 .build_test_framework:
+  <<: *base_build_configuration
   script:
-    - pip install "tests/bookshop-test-framework/."
+    - *base_build_script
+    - pip install --requirement tests/bookshop-test-framework/requirements.txt
+    - pip install --no-deps tests/bookshop-test-framework
 
 .build_unit_tests:
+  <<: *base_build_configuration
   script:
-    - pip install "tests/bookshop-unit-tests/."
+    - *base_build_script
+    - pip install --no-deps tests/bookshop-unit-tests
 
 .build_api_tests:
+  <<: *base_build_configuration
   script:
-    - pip install "tests/bookshop-api-tests/."
+    - *base_build_script
+    - pip install "tests/bookshop-api-tests"
