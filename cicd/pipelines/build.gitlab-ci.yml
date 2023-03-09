@@ -7,24 +7,40 @@ stages:
   - tests-coverage
   - unit-tests
 
-build-linter:
+linter:build:
   stage: linter
   script:
     - !reference [ .build_venv, script ]
     - !reference [ .build_application, script ]
+  timeout: 2m
+
 
 linter:
   stage: linter
   extends: .linter
+  needs: ["linter:build"]
+  timeout: 5m
+
+
+tests-coverage:build:
+  stage: tests-coverage
+  script:
+    - !reference [ .build_test_framework, script ]
+    - !reference [ .build_unit_tests, script ]
+  timeout: 2m
 
 
 tests-coverage:
   stage: tests-coverage
   script:
     - echo "empty coverage stage"
+  needs: ["tests-coverage:build"]
+  timeout: 5m
 
 
 unit-tests:
   stage: unit-tests
   script:
     - echo "empty unit tests stage"
+  timeout: 5m
+  
