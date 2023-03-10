@@ -17,6 +17,7 @@ class UserSchema(ma.SQLAlchemySchema):
         load_instance = True
         sqla_session = db.session
         unknown = EXCLUDE
+        dump_only = ["role"]
 
     id = ma.auto_field()
     login = ma.auto_field()
