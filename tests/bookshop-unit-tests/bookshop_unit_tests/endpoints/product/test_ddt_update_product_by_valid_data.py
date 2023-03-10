@@ -18,9 +18,10 @@ def test_ddt_update_product_by_valid_data(test_data: dict, application_client: F
     product_id_to_update = test_data.get("product_id_to_update")
     endpoint = f"/api/product/{product_id_to_update}"
     new_product_attributes = test_data.get("new_product_attributes", {})
+    token_response = application_client.get("/api/generate_token", auth=BasicAuth(**test_data["actor_credentials"]))
     response = application_client.put(
         endpoint,
         json=new_product_attributes,
-        auth=BasicAuth(**test_data["actor_credentials"])
+        headers={"Authorization": f"Bearer {token_response.json['AuthToken']}"}
     )
     soft_check_response_status_code(SimpleResponse(endpoint, "PUT", response.status_code), codes.ok)

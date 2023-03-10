@@ -16,11 +16,12 @@ def test_ddt_create_booking_by_valid_data(test_data: dict, application_client: F
     :param test_data: current test set data
     :param application_client: bookshop testing application
     """
-    endpoint = "/api/booking"
     new_booking_attributes = test_data.get("new_booking_attributes", {})
+    token_response = application_client.get("/api/generate_token", auth=BasicAuth(**test_data["actor_credentials"]))
+    endpoint = "/api/booking"
     response = application_client.post(
         endpoint,
         json=new_booking_attributes,
-        auth=BasicAuth(**test_data["actor_credentials"])
+        headers={"Authorization": f"Bearer {token_response.json['AuthToken']}"}
     )
     soft_check_response_status_code(SimpleResponse(endpoint, "POST", response.status_code), codes.created)

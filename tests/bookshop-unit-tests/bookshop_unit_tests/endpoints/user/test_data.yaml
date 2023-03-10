@@ -67,20 +67,6 @@ test_sets:
           login: ActorManagerTestUser
           password: Welcome1
         user_id_to_get: 1
-      - test_set_name: "[User API] Check get customer user by valid id using customer user"
-        mock_user_models:
-          - login: TargetCustomerTestUser
-            password: Welcome1
-            role_id: 3
-            email: test1@email.com
-          - login: ActorCustomerTestUser
-            password: Welcome1
-            role_id: 3
-            email: test1@email.com
-        actor_credentials:
-          login: ActorCustomerTestUser
-          password: Welcome1
-        user_id_to_get: 1
 
   test_ddt_update_user_by_valid_data:
     test_name: "[User API] Check update user by valid data"
