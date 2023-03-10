@@ -17,6 +17,7 @@ class StoreItemSchema(ma.SQLAlchemySchema):
         load_instance = True
         sqla_session = db.session
         unknown = EXCLUDE
+        dump_only = ["product"]
 
     id = ma.auto_field()
 

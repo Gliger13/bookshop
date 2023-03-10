@@ -19,6 +19,7 @@ class BookingSchema(ma.SQLAlchemySchema):
         load_instance = True
         sqla_session = db.session
         unknown = EXCLUDE
+        dump_only = ["product", "user", "status"]
 
     id = ma.auto_field()
 
