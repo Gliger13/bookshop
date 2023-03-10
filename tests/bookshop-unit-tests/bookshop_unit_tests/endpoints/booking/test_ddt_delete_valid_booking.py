@@ -17,6 +17,8 @@ def test_ddt_delete_valid_booking(test_data: dict, application_client: Flask):
     :param application_client: bookshop testing application
     """
     booking_id_to_delete = test_data["booking_id_to_delete"]
+    token_response = application_client.get("/api/generate_token", auth=BasicAuth(**test_data["actor_credentials"]))
     endpoint = f"/api/booking/{booking_id_to_delete}"
-    response = application_client.delete(endpoint, auth=BasicAuth(**test_data["actor_credentials"]))
+    response = application_client.delete(endpoint,
+                                         headers={"Authorization": f"Bearer {token_response.json['AuthToken']}"})
     soft_check_response_status_code(SimpleResponse(endpoint, "DELETE", response.status_code), codes.ok)

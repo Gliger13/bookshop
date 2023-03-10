@@ -17,5 +17,6 @@ def test_ddt_get_valid_user(test_data: dict, application_client: Flask):
     """
     user_id_to_get = test_data["user_id_to_get"]
     endpoint = f"/api/user/{user_id_to_get}"
-    response = application_client.get(endpoint, auth=BasicAuth(**test_data["actor_credentials"]))
+    token_response = application_client.get("/api/generate_token", auth=BasicAuth(**test_data["actor_credentials"]))
+    response = application_client.get(endpoint, headers={"Authorization": f"Bearer {token_response.json['AuthToken']}"})
     soft_check_response_status_code(SimpleResponse(endpoint, "GET", response.status_code), codes.ok)
