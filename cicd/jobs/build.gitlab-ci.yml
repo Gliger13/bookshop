@@ -1,11 +1,9 @@
-image: python:3.11
-cache:
-  key: $CI_COMMIT_REF_SLUG
-  paths:
-    - .cache/pip
-    - venv/
-
 .base_build: &base_build_configuration
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - .cache/pip
+      - venv/
   script: &base_build_script
     - source venv/bin/activate
 
@@ -20,7 +18,7 @@ cache:
   script:
     - *base_build_script
     - pip install --requirement application/dev-requirements.txt
-    - pip install --no-deps "application/.[dev]"
+    - pip install --no-deps --editable "application/.[dev]"
 
 .build_test_framework:
   <<: *base_build_configuration

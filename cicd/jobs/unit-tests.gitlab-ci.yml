@@ -1,0 +1,19 @@
+.unit-tests:
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - venv/
+      - .coverage
+  script:
+    - source venv/bin/activate
+    - | 
+      ENV="testing" \
+      pytest tests/bookshop-unit-tests/bookshop_unit_tests \
+      --cov application/bookshop_app \
+      --junitxml unit-tests-junit-report.xml
+  artifacts:
+    paths:
+      - unit-tests-junit-report.xml
+    reports:
+      junit: unit-tests-junit-report.xml
+    expire_in: 1 week

@@ -474,7 +474,7 @@ msg-template=
 # Set the output format. Available formats are text, parseable, colorized, json
 # and msvs (visual studio). You can also give a reporter class, e.g.
 # mypackage.mymodule.MyReporterClass.
-#output-format=colorized
+output-format=parseable:pylint_parseable_report.txt,colorized
 
 # Tells whether to display a full report or only the messages.
 reports=yes

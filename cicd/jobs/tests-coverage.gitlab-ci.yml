@@ -1,0 +1,22 @@
+.coverage:
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - venv/
+      - .coverage
+  script:
+    - source venv/bin/activate
+    - coverage xml -o tests-coverage-xml-report.xml
+    - COVERAGE_PERCENT=$(coverage report --format total)
+    - coverage report
+    - echo "tests-coverage $COVERAGE_PERCENT%" > coverage_metric.txt
+    - echo "Code coverage - $COVERAGE_PERCENT"
+  coverage: '/Code coverage - \d+\.\d+/'
+  artifacts:
+    paths:
+      - coverage_metric.txt
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: tests-coverage-xml-report.xml
+    expire_in: 1 week

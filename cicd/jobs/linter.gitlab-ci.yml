@@ -2,9 +2,19 @@
   cache:
     key: $CI_COMMIT_REF_SLUG
     paths:
-      - ~/.cache/pylint
-  before_script:
-    - source venv/bin/activate
+      - venv/
+      - application/.pylint_home
   script:
+    - source venv/bin/activate
     - cd application/
+    - echo "Configuring pylint home directory for cache..."
+    - PYLINTHOME="$(pwd)/.pylint_home"
+    - mkdir --parents $PYLINTHOME
+    - echo "Running pylint..."
     - pylint bookshop_app/
+    - echo "Post-processing pylint artifacts..."
+    - echo "pylint-score $(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' pylint_parseable_report.txt)" > ../pylint_metric.txt
+  artifacts:
+    paths:
+      - pylint_metric.txt
+    expire_in: 30 days

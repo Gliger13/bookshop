@@ -1,18 +1,29 @@
+default:
+  image: python:3.11
+
 include:
   - local: cicd/jobs/build.gitlab-ci.yml
   - local: cicd/jobs/linter.gitlab-ci.yml
+  - local: cicd/jobs/unit-tests.gitlab-ci.yml
+  - local: cicd/jobs/tests-coverage.gitlab-ci.yml
 
 stages:
   - linter
-  - tests-coverage
   - unit-tests
+  - tests-coverage
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
 
 linter:build:
   stage: linter
+  extends: .base_build
   script:
     - !reference [ .build_venv, script ]
     - !reference [ .build_application, script ]
-  timeout: 2m
+  timeout: 5m
 
 
 linter:
@@ -22,25 +33,34 @@ linter:
   timeout: 5m
 
 
-tests-coverage:build:
-  stage: tests-coverage
+unit-tests:build:
+  stage: unit-tests
+  extends: .base_build
   script:
     - !reference [ .build_test_framework, script ]
     - !reference [ .build_unit_tests, script ]
-  timeout: 2m
-
-
-tests-coverage:
-  stage: tests-coverage
-  script:
-    - echo "empty coverage stage"
-  needs: ["tests-coverage:build"]
   timeout: 5m
 
 
 unit-tests:
   stage: unit-tests
-  script:
-    - echo "empty unit tests stage"
+  extends: .unit-tests
+  needs: ["unit-tests:build"]
+  timeout: 10m
+
+
+coverage:
+  stage: tests-coverage
+  extends: .coverage
   timeout: 5m
-  
+
+
+metrics:
+  stage: tests-coverage
+  script:
+    - cat pylint_metric.txt coverage_metric.txt > metrics.txt
+  artifacts:
+    reports:
+      metrics: metrics.txt
+  needs: ["coverage", "linter"]
+  timeout: 5m
