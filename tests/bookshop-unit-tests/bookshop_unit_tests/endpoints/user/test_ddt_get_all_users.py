@@ -16,5 +16,6 @@ def test_ddt_get_all_users(test_data: dict, application_client: Flask):
     :param application_client: bookshop testing application
     """
     endpoint = "/api/user"
-    response = application_client.get(endpoint, auth=BasicAuth(**test_data["actor_credentials"]))
+    token_response = application_client.get("/api/generate_token", auth=BasicAuth(**test_data["actor_credentials"]))
+    response = application_client.get(endpoint, headers={"Authorization": f"Bearer {token_response.json['AuthToken']}"})
     soft_check_response_status_code(SimpleResponse(endpoint, "GET", response.status_code), codes.ok)
