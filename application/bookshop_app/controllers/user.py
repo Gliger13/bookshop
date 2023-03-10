@@ -12,7 +12,7 @@ class UserController:
     @staticmethod
     @multi_auth.login_required
     def get_all() -> tuple[list[dict], int]:
-        """Get all user resources"""
+        """Get all user resources."""
         return UserService.get_all()
 
     @staticmethod
