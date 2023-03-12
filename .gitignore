@@ -47,3 +47,4 @@ venv/
 # log files
 logs/
 log/
+*.log
