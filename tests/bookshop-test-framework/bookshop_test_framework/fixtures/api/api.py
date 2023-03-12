@@ -28,7 +28,7 @@ async def http_session(config: Config, event_loop: SelectorEventLoop, http_task_
     :return: initialized client session
     """
     connector = TCPConnector(limit=500)
-    async with ClientSession(config.api_url, trust_env=True, loop=event_loop, connector=connector) as session:
+    async with ClientSession(config.base_url, trust_env=True, loop=event_loop, connector=connector) as session:
         async with http_task_group:
             yield session
 
