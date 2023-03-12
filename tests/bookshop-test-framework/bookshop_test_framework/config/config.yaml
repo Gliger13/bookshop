@@ -1,5 +1,5 @@
 common:
-  api_url: http://127.0.0.1:5000
+  base_url: http://127.0.0.1:5000
   role_name_id_map:
     admin: 1
     manager: 2
