@@ -3,7 +3,7 @@
 Module contains fixtures for creating and managing client session for http
 requests. Provides fixtures with initialized bookshop APIs.
 """
-from asyncio import ProactorEventLoop, TaskGroup
+from asyncio import SelectorEventLoop, TaskGroup
 
 import pytest
 from aiohttp import ClientSession, TCPConnector
@@ -14,7 +14,7 @@ from bookshop_test_framework.tools.api import BookingApi, ProductApi, StoreItemA
 
 
 @fixture(scope="session")
-async def http_session(config: Config, event_loop: ProactorEventLoop, http_task_group: TaskGroup) -> ClientSession:
+async def http_session(config: Config, event_loop: SelectorEventLoop, http_task_group: TaskGroup) -> ClientSession:
     """Client session for http requests
 
     Create and return client session for http requests using API URL from the
@@ -34,13 +34,15 @@ async def http_session(config: Config, event_loop: ProactorEventLoop, http_task_
 
 
 @pytest.fixture(scope="session")
-def users_api(http_session: ClientSession) -> UserApi:
+async def users_api(http_session: ClientSession) -> UserApi:
     """Initialize and return User API
 
     :param http_session: initialized client session
     :return: initialized User API
     """
-    return UserApi(http_session)
+    users_api_ = UserApi(http_session)
+    yield users_api_
+    await users_api_.get_auth_header.cache_close()
 
 
 @pytest.fixture(scope="session")
