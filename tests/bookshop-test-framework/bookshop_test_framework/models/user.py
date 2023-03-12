@@ -22,3 +22,6 @@ class User(UpdatableDataModel):
         if not self.login or not self.password:
             raise ValueError("Can not get user authentication tuple. One of the creds is empty")
         return self.login, self.password
+
+    def __hash__(self) -> int:
+        return hash(id(self))

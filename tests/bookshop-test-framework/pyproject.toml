@@ -1,6 +1,6 @@
 [project]
 name = "bookshop-test-framework"
-version = "0.1.0"
+version = "0.2.0"
 description = "Test framework for different type of test cases for bookshop application"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -10,6 +10,7 @@ maintainers = [
 
 dependencies = [
     # First level dependencies
+    "async_lru",
     "aiohttp==3.8.4",
     "deepdiff==6.2.3",
     "prettytable==3.6.0",

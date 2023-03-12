@@ -74,6 +74,7 @@ async def soft_check_response_json_attributes(response: ClientResponse, expected
         ignore_actual_fields = []
 
     response_json = await response.json()
+    logging.info(response_json)
     difference = DeepDiff(response_json, expected_attributes, exclude_paths=ignore_actual_fields, view="text")
     pretty_difference = "\n".join({str(item) for item in difference.to_dict().items()})
     return expect(not difference, ApiTestResult(
