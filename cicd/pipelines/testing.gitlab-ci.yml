@@ -1,0 +1,37 @@
+include:
+  - local: cicd/pipelines/build.gitlab-ci.yml
+  - local: cicd/jobs/api-tests.gitlab-ci.yml
+
+stages:
+  - linter
+  - unit-tests
+  - tests-coverage
+  - api-tests
+
+
+workflow:
+  rules:
+    # Run pipeline when merge request is open/updated and the target branch is "production".
+    - if: $CI_PIPELINE_SOURCE != "merge_request_event"
+      when: never
+#    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != "production"
+#      when: never
+    - when: always
+
+
+api-tests:build:
+  stage: api-tests
+  extends: .build_web_api_tests
+#  script:
+#    - !reference [ .build_venv, script ]
+#    - !reference [ .build_application, script ]
+#    - !reference [ .build_test_framework, script ]
+#    - !reference [ .build_web_api_tests, script ]
+  timeout: 5m
+
+
+api-tests:
+  stage: api-tests
+  extends: .api-tests
+  needs: ["api-tests:build"]
+  timeout: 10m

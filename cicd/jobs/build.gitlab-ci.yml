@@ -33,8 +33,14 @@
     - *base_build_script
     - pip install --no-deps tests/bookshop-unit-tests
 
-.build_api_tests:
+.build_web_api_tests:
   <<: *base_build_configuration
   script:
     - *base_build_script
-    - pip install "tests/bookshop-api-tests"
+    - pip install --no-deps "tests/bookshop-api-tests"
+
+.build_web_ui_tests:
+  <<: *base_build_configuration
+  script:
+    - *base_build_script
+    - pip install --no-deps "tests/bookshop-ui-tests"

@@ -1,2 +1,4 @@
 include:
   - local: cicd/pipelines/build.gitlab-ci.yml
+  - local: cicd/pipelines/testing.gitlab-ci.yml
+#  - local: cicd/pipelines/regression.gitlab-ci.yml
