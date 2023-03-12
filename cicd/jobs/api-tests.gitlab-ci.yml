@@ -1,0 +1,21 @@
+.api-tests:
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - venv/
+  script:
+    - source venv/bin/activate
+    - echo "Running application in TESTING environment"
+    - ENV="TESTING" run_bookshop_app &
+    - echo "Waiting application to warm up 5 seconds..." && sleep 5s
+    - echo "Running API tests..."
+    - |
+      ENV="TESTING" \
+      pytest tests/bookshop-api-tests/bookshop_api_tests \
+      --junitxml api-tests-junit-report.xml
+  artifacts:
+    paths:
+      - api-tests-junit-report.xml
+    reports:
+      junit: api-tests-junit-report.xml
+    expire_in: 1 week
