@@ -17,11 +17,13 @@ from bookshop_test_framework.tools.api import BookingApi, UserApi
 
 
 @pytest.fixture(scope="session")
-async def session_booking(bookings_api: BookingApi, session_product: Product, session_customer_user: User,
-                          session_manager_user: User, http_task_group: TaskGroup) -> Booking:
+async def session_booking(bookings_api: BookingApi, users_api: UserApi, session_product: Product,
+                          session_customer_user: User, session_manager_user: User,
+                          http_task_group: TaskGroup) -> Booking:
     """Generate, create and return booking for customer user in session scope
 
     :param bookings_api: initialized Booking API
+    :param users_api: initialized User API
     :param session_product: generated and created product
     :param session_customer_user: customer user for authentication and booking
     :param session_manager_user: manager user for booking deletion authentication
@@ -34,7 +36,8 @@ async def session_booking(bookings_api: BookingApi, session_product: Product, se
         quantity=1,
         delivery_address=session_customer_user.address,
     )
-    create_booking_response = await bookings_api.create(booking, auth=UserApi.get_auth(session_customer_user))
+    customer_authentication_headers = await users_api.get_auth_header(session_customer_user)
+    create_booking_response = await bookings_api.create(booking, headers=customer_authentication_headers)
     assert create_booking_response.ok, "Failed to create session booking.\n" \
                                        f"Request status code: {create_booking_response.status}\n" \
                                        f"Response message: {await create_booking_response.text()}"
@@ -44,70 +47,80 @@ async def session_booking(bookings_api: BookingApi, session_product: Product, se
 
     yield booking
 
-    http_task_group.create_task(bookings_api.delete(booking.id, auth=UserApi.get_auth(session_manager_user)))
+    manager_authentication_headers = await users_api.get_auth_header(session_manager_user)
+    http_task_group.create_task(bookings_api.delete(booking.id, headers=manager_authentication_headers))
 
 
 @pytest.fixture(scope="session")
-async def session_get_booking_response(bookings_api: BookingApi, session_customer_user: User,
+async def session_get_booking_response(bookings_api: BookingApi, users_api: UserApi, session_customer_user: User,
                                        session_booking: Booking) -> ClientResponse:
     """Get session booking with the session customer user and return response
 
     :param bookings_api: initialized Booking API
+    :param users_api: initialized User API
     :param session_customer_user: customer user to use for authentication
     :param session_booking: created booking in the session scope
     :return: get booking response
     """
-    return await bookings_api.get(session_booking.id, auth=UserApi.get_auth(session_customer_user))
+    authentication_headers = await users_api.get_auth_header(session_customer_user)
+    return await bookings_api.get(session_booking.id, headers=authentication_headers)
 
 
 @pytest.fixture(scope="session")
-async def session_get_all_bookings_response(bookings_api: BookingApi, session_manager_user: User) -> ClientResponse:
+async def session_get_all_bookings_response(bookings_api: BookingApi, users_api: UserApi,
+                                            session_manager_user: User) -> ClientResponse:
     """Send request to get all bookings and return response
 
     :param bookings_api: initialized Booking API
+    :param users_api: initialized User API
     :param session_manager_user: manager user to use for authentication
     :return: get all bookings response
     """
-    return await bookings_api.get_all(auth=UserApi.get_auth(session_manager_user))
+    authentication_headers = await users_api.get_auth_header(session_manager_user)
+    return await bookings_api.get_all(headers=authentication_headers)
 
 
 @pytest.fixture(scope="session")
-async def session_update_booking_response(config: Config, bookings_api: BookingApi, session_manager_user: User,
-                                          session_booking: Booking) -> ClientResponse:
+async def session_update_booking_response(config: Config, bookings_api: BookingApi, users_api: UserApi,
+                                          session_manager_user: User, session_booking: Booking) -> ClientResponse:
     """Send request to update given booking and return response
 
     :param config: current environment config for tests
     :param bookings_api: initialized Booking API
+    :param users_api: initialized User API
     :param session_manager_user: manager user to use for authentication
     :param session_booking: updated booking model in the session scope
     :return: update booking response
     """
     attributes_to_update = {"status_id": config.status_name_id_map["rejected"]}
-    return await bookings_api.update(session_booking.id, attributes_to_update,
-                                     auth=UserApi.get_auth(session_manager_user))
+    authentication_headers = await users_api.get_auth_header(session_manager_user)
+    return await bookings_api.update(session_booking.id, attributes_to_update, headers=authentication_headers)
 
 
 @pytest.fixture
-async def created_booking_response(bookings_api: BookingApi, generated_booking: Booking, generated_user: User,
-                                   session_manager_user: User, http_task_group: TaskGroup) -> ClientResponse:
+async def created_booking_response(bookings_api: BookingApi, users_api: UserApi, generated_booking: Booking,
+                                   generated_user: User, session_manager_user: User,
+                                   http_task_group: TaskGroup) -> ClientResponse:
     """Create generated booking and return response
 
     :param bookings_api: initialized Booking API
+    :param users_api: initialized User API
     :param generated_booking: generated booking model
     :param generated_user: generated and created user to use for booking
     :param session_manager_user: manager user model
     :param http_task_group: async task group for executing http requests
     :return: create booking response
     """
-    create_booking_response = await bookings_api.create(generated_booking, auth=UserApi.get_auth(session_manager_user))
+    generated_user_auth_headers = await users_api.get_auth_header(generated_user)
+    create_booking_response = await bookings_api.create(generated_booking, headers=generated_user_auth_headers)
 
     yield create_booking_response
 
     if create_booking_response.ok:
         create_booking_response_json = await create_booking_response.json()
         created_booking_id = create_booking_response_json["id"]
-        http_task_group.create_task(
-            bookings_api.delete(created_booking_id, auth=UserApi.get_auth(session_manager_user)))
+        manager_authentication_headers = await users_api.get_auth_header(session_manager_user)
+        http_task_group.create_task(bookings_api.delete(created_booking_id, headers=manager_authentication_headers))
 
 
 @pytest.fixture
@@ -126,20 +139,22 @@ async def created_booking(created_booking_response: ClientResponse, generated_bo
 
 
 @pytest.fixture
-async def deleted_booking_response(bookings_api: BookingApi, generated_booking: Booking,
+async def deleted_booking_response(bookings_api: BookingApi, users_api: UserApi, generated_booking: Booking,
                                    session_admin_user: User) -> ClientResponse:
     """Delete generated and created booking and return response
 
     :param bookings_api: initialized Booking API
+    :param users_api: initialized User API
     :param generated_booking: generated booking
     :param session_admin_user: admin user model
     :return: delete created booking response
     """
-    create_booking_response = await bookings_api.create(generated_booking, auth=UserApi.get_auth(session_admin_user))
+    authentication_headers = await users_api.get_auth_header(session_admin_user)
+    create_booking_response = await bookings_api.create(generated_booking, headers=authentication_headers)
     assert create_booking_response.ok, "Failed to create booking to delete later.\n" \
                                        f"Request status code: {create_booking_response.status}\n" \
                                        f"Response message: {await create_booking_response.text()}"
 
     create_booking_response_json = await create_booking_response.json()
     created_booking_id = create_booking_response_json["id"]
-    return await bookings_api.delete(created_booking_id, auth=UserApi.get_auth(session_admin_user))
+    return await bookings_api.delete(created_booking_id, headers=authentication_headers)

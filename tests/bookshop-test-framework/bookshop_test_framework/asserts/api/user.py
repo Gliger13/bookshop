@@ -20,7 +20,7 @@ async def soft_check_create_user_attributes(user_response: ClientResponse, expec
     expected_user_attributes = {name: value for name, value in asdict(expected_user).items()
                                 if name not in ignore_user_fields}
     return await soft_check_response_json_attributes(user_response, expected_user_attributes,
-                                                     ignore_actual_fields={"id"})
+                                                     ignore_actual_fields={"id", "role"})
 
 
 async def soft_check_user_attributes(user_response: ClientResponse, expected_user: User) -> bool:
@@ -33,7 +33,8 @@ async def soft_check_user_attributes(user_response: ClientResponse, expected_use
     ignore_user_fields = {"password"}
     expected_user_attributes = {name: value for name, value in asdict(expected_user).items()
                                 if name not in ignore_user_fields}
-    return await soft_check_response_json_attributes(user_response, expected_user_attributes)
+    return await soft_check_response_json_attributes(user_response, expected_user_attributes,
+                                                     ignore_actual_fields={"role"})
 
 
 async def check_create_user_response(create_user_response: ClientResponse, expected_user: User) -> bool:

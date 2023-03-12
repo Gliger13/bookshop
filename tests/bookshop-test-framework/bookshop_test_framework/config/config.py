@@ -27,7 +27,7 @@ class Config:
     """Testing config"""
 
     environment: str
-    api_url: str
+    base_url: str
     role_name_id_map: dict[str, int] = field(default_factory=dict)
     status_name_id_map: dict[str, int] = field(default_factory=dict)
     additional_config: dict = field(default_factory=dict)
@@ -78,3 +78,11 @@ def get_config() -> Config:
     """
     config_loader = YamlConfigLoader()
     return config_loader.get_config()
+
+
+class BookshopUiEndpoints:
+    """Contains UI page endpoints"""
+
+    REGISTRATION_PAGE = "registration"
+    PRODUCTS_PAGE = "products"
+    USER_PAGE = "user"
