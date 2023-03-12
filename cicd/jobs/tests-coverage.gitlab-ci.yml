@@ -1,3 +1,9 @@
+variables:
+  MINIMUM_UNIT_TESTS_COVERAGE_SCORE:
+    description: "Minimum unit tests coverage score to pass Unit Tests Coverage Quality Gate"
+    value: "75"
+
+
 .coverage:
   cache:
     key: $CI_COMMIT_REF_SLUG
@@ -11,6 +17,15 @@
     - coverage report
     - echo "tests-coverage $COVERAGE_PERCENT%" > coverage_metric.txt
     - echo "Code coverage - $COVERAGE_PERCENT"
+    - > 
+      if (( $COVERAGE_PERCENT > $MINIMUM_UNIT_TESTS_COVERAGE_SCORE ));
+      then 
+        echo "Unit Tests Coverage Quality Gate passed. Current: $COVERAGE_PERCENT. Expected: >$MINIMUM_UNIT_TESTS_COVERAGE_SCORE"
+        exit 0
+      else
+        echo "Unit Tests Coverage Quality Gate failed. Current: $COVERAGE_PERCENT. Expected: >$MINIMUM_UNIT_TESTS_COVERAGE_SCORE" 
+        exit 1
+      fi
   coverage: '/Code coverage - \d+\.\d+/'
   artifacts:
     paths:
