@@ -1,6 +1,6 @@
 [project]
 name = "bookshop-test-framework"
-version = "0.2.0"
+version = "0.4.0"
 description = "Test framework for different type of test cases for bookshop application"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -10,6 +10,9 @@ maintainers = [
 
 dependencies = [
     # "bookshop"  # Project application package MUST be installed for unit-tests-run
+    "async_lru",
+    "selenium",
+    "faker",
     "aiohttp",
     "deepdiff",
     "prettytable",

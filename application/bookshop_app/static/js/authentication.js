@@ -77,7 +77,7 @@ $(document).ready(function(){
                 authenticate(login, password);
             },
             error: function(request, status, error) {
-                display_error(jQuery.parseJSON(request.responseText).error);
+                display_error(jQuery.parseJSON(request.responseText).detail);
             }
         });
     });
