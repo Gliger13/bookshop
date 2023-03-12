@@ -40,7 +40,8 @@ async def session_customer_user(config: Config, users_api: UserApi, http_task_gr
 
     yield customer_user
 
-    http_task_group.create_task(users_api.delete(customer_user.id, auth=UserApi.get_auth(customer_user)))
+    authentication_headers = await users_api.get_auth_header(customer_user)
+    http_task_group.create_task(users_api.delete(customer_user.id, headers=authentication_headers))
 
 
 @pytest.fixture(scope="session")
@@ -65,7 +66,8 @@ async def session_manager_user(config: Config, users_api: UserApi, http_task_gro
 
     yield manager_user
 
-    http_task_group.create_task(users_api.delete(manager_user.id, auth=UserApi.get_auth(manager_user)))
+    authentication_headers = await users_api.get_auth_header(manager_user)
+    http_task_group.create_task(users_api.delete(manager_user.id, headers=authentication_headers))
 
 
 @pytest.fixture(scope="session")
@@ -90,7 +92,8 @@ async def session_admin_user(config: Config, users_api: UserApi, http_task_group
 
     yield admin_user
 
-    http_task_group.create_task(users_api.delete(admin_user.id, auth=UserApi.get_auth(admin_user)))
+    authentication_headers = await users_api.get_auth_header(admin_user)
+    http_task_group.create_task(users_api.delete(admin_user.id, headers=authentication_headers))
 
 
 @pytest.fixture
@@ -112,7 +115,8 @@ async def customer_user(config: Config, users_api: UserApi, generated_user: User
     yield generated_user
 
     if create_user_response.ok:
-        http_task_group.create_task(users_api.delete(generated_user.id, auth=UserApi.get_auth(generated_user)))
+        authentication_headers = await users_api.get_auth_header(generated_user)
+        http_task_group.create_task(users_api.delete(generated_user.id, headers=authentication_headers))
 
 
 @pytest.fixture
@@ -132,7 +136,8 @@ async def created_user_response(users_api: UserApi, generated_user: User, http_t
         try:
             create_user_response_json = await create_user_response.json()
             user_id_to_delete = create_user_response_json["id"]
-            http_task_group.create_task(users_api.delete(user_id_to_delete, auth=UserApi.get_auth(generated_user)))
+            authentication_headers = await users_api.get_auth_header(generated_user)
+            http_task_group.create_task(users_api.delete(user_id_to_delete, headers=authentication_headers))
         except (ContentTypeError, JSONDecodeError, KeyError, ValueError) as error:
             logging.error("Can not delete created user, error: %s", error)
 
@@ -148,8 +153,8 @@ async def updated_user_response(test_data: dict, customer_user: User, users_api:
     """
     attributes_to_set = test_data.get("new_user_attributes", {})
 
-    update_user_response = await users_api.update(
-        customer_user.id, attributes_to_set, auth=UserApi.get_auth(customer_user))
+    authentication_headers = await users_api.get_auth_header(customer_user)
+    update_user_response = await users_api.update(customer_user.id, attributes_to_set, headers=authentication_headers)
 
     if update_user_response.ok:
         old_attributes = asdict(customer_user)
@@ -175,7 +180,8 @@ async def deleted_user_response(users_api: UserApi, generated_user: User) -> Cli
 
     create_user_response_json = await create_user_response.json()
     created_user_id = create_user_response_json["id"]
-    delete_user_response = await users_api.delete(created_user_id, auth=UserApi.get_auth(generated_user))
+    authentication_headers = await users_api.get_auth_header(generated_user)
+    delete_user_response = await users_api.delete(created_user_id, headers=authentication_headers)
     return delete_user_response
 
 
@@ -187,7 +193,8 @@ async def get_session_customer_user_response(session_customer_user: User, users_
     :param users_api: initialized User API
     :return: get session customer user response
     """
-    return await users_api.get(session_customer_user.id, auth=UserApi.get_auth(session_customer_user))
+    authentication_headers = await users_api.get_auth_header(session_customer_user)
+    return await users_api.get(session_customer_user.id, headers=authentication_headers)
 
 
 @pytest.fixture
@@ -198,7 +205,8 @@ async def get_customer_user_response(customer_user: User, users_api: UserApi) ->
     :param users_api: initialized User API
     :return: get customer user response
     """
-    return await users_api.get(customer_user.id, auth=UserApi.get_auth(customer_user))
+    authentication_headers = await users_api.get_auth_header(customer_user)
+    return await users_api.get(customer_user.id, headers=authentication_headers)
 
 
 @pytest.fixture
@@ -209,4 +217,5 @@ async def get_all_users_response(session_manager_user: User, users_api: UserApi)
     :param users_api: initialized User API
     :return: get all users response
     """
-    return await users_api.get_all(auth=UserApi.get_auth(session_manager_user))
+    authentication_headers = await users_api.get_auth_header(session_manager_user)
+    return await users_api.get_all(headers=authentication_headers)
