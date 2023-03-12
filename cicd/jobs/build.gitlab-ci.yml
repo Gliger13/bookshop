@@ -40,7 +40,27 @@
     - pip install --no-deps "tests/bookshop-api-tests"
 
 .build_web_ui_tests:
+  variables:
+    SELENIUM_DRIVER_FILE_NAME: "geckodriver"
+    VENV_EXECUTION_PATH: "venv/bin"
   <<: *base_build_configuration
   script:
     - *base_build_script
+    - >
+      SELENIUM_DRIVER_PATH="$VENV_EXECUTION_PATH/$VENV_EXECUTION_PATH"
+      if [ ! -f $SELENIUM_DRIVER_PATH ];
+      then
+        echo "There is no Selenium driver for UI tests. Downloading..."
+        json=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest)
+        if [[ $(uname) == "Linux" ]]; then
+            url=$(echo "$json" | jq -r '.assets[].browser_download_url | select(contains("linux64"))')
+        else
+            echo "can't determine OS"
+            exit 1
+        fi
+        curl -s -L "$url" | tar -xz
+        chmod +x geckodriver
+        mv geckodriver $SELENIUM_DRIVER_PATH
+        echo "Selenium driver downloaded to $SELENIUM_DRIVER_PATH"
+      fi
     - pip install --no-deps "tests/bookshop-ui-tests"
