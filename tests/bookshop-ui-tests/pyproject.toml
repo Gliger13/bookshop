@@ -1,0 +1,15 @@
+[project]
+name = "bookshop-ui-tests"
+version = "0.1.0"
+description = "UI Tests for bookshop application"
+readme = "README.md"
+requires-python = ">=3.11"
+maintainers = [
+    {name = "Andrei Zaneuski", email = "***REMOVED***"}
+]
+
+[project.optional-dependencies]
+dev = ["pylint", "mypy"]
+
+[project.urls]
+repository = "***REMOVED***"

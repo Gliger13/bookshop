@@ -1,0 +1,6 @@
+tests:
+  test_register_user:
+    test_set_name: "[Authentication][E2E] Check user registration"
+  test_view_products:
+    test_set_name: "[Products][E2E] Check product page title"
+    expected_products_page_title: "Products"
