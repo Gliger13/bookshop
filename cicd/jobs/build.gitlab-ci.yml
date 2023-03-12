@@ -39,28 +39,34 @@
     - *base_build_script
     - pip install --no-deps "tests/bookshop-api-tests"
 
+
+.install_selenium_driver: &install_selenium_geckodriver
+  - |
+    SELENIUM_DRIVER_PATH="$VENV_EXECUTION_PATH/$SELENIUM_DRIVER_FILE_NAME"
+    if [ ! -f $SELENIUM_DRIVER_PATH ];
+    then
+      echo "There is no Selenium driver for UI tests. Downloading..."
+      geckodriver_gz=$(curl https://api.github.com/repos/mozilla/geckodriver/releases/latest | grep -Eoh 'https.*linux64\.tar\.gz')
+      geckodriver_gz=$(echo $geckodriver_gz | cut -f1 -d" ")
+      curl -sL "$geckodriver_gz" | tar -xz --checkpoint=.10
+      chmod +x geckodriver
+      mv geckodriver $SELENIUM_DRIVER_PATH
+      echo "Selenium driver downloaded to $SELENIUM_DRIVER_PATH"
+      cp $SELENIUM_DRIVER_PATH /usr/local/bin
+    fi
+
 .build_web_ui_tests:
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - .cache/pip
+      - venv/
+      - /opt/firefox/
   variables:
     SELENIUM_DRIVER_FILE_NAME: "geckodriver"
     VENV_EXECUTION_PATH: "venv/bin"
   <<: *base_build_configuration
   script:
     - *base_build_script
-    - >
-      SELENIUM_DRIVER_PATH="$VENV_EXECUTION_PATH/$VENV_EXECUTION_PATH"
-      if [ ! -f $SELENIUM_DRIVER_PATH ];
-      then
-        echo "There is no Selenium driver for UI tests. Downloading..."
-        json=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest)
-        if [[ $(uname) == "Linux" ]]; then
-            url=$(echo "$json" | jq -r '.assets[].browser_download_url | select(contains("linux64"))')
-        else
-            echo "can't determine OS"
-            exit 1
-        fi
-        curl -s -L "$url" | tar -xz
-        chmod +x geckodriver
-        mv geckodriver $SELENIUM_DRIVER_PATH
-        echo "Selenium driver downloaded to $SELENIUM_DRIVER_PATH"
-      fi
+    - *install_selenium_geckodriver
     - pip install --no-deps "tests/bookshop-ui-tests"
