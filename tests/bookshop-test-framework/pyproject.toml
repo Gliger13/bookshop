@@ -10,17 +10,17 @@ maintainers = [
 
 dependencies = [
     # "bookshop"  # Project application package MUST be installed for unit-tests-run
-    "async_lru",
-    "selenium",
-    "faker",
     "aiohttp",
+    "async_lru",
     "deepdiff",
+    "faker",
     "prettytable",
     "pytest",
     "pytest-asyncio",
     "pytest-cov",
     "PyYAML",
     "requests",
+    "selenium",
 ]
 
 [project.optional-dependencies]
