@@ -12,15 +12,6 @@ stages:
   - unit-tests
   - tests-coverage
 
-workflow:
-  rules:
-    # Run pipeline when merge request is open/updated and the target branch is "main".
-    - when: never # Never run this pipeline. For debug purposes only. TODO: remove never run before merge
-    - if: $CI_PIPELINE_SOURCE != "merge_request_event"
-      when: never
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != "main"
-      when: never
-    - when: always
 
 linter:build:
   stage: linter
