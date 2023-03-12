@@ -1,0 +1,23 @@
+include:
+  - local: cicd/pipelines/testing.gitlab-ci.yml
+  - local: cicd/jobs/ui-tests.gitlab-ci.yml
+
+stages:
+  - linter
+  - unit-tests
+  - tests-coverage
+  - api-tests
+  - ui-tests
+
+
+ui-tests:build:
+  stage: ui-tests
+  extends: .build_web_ui_tests
+  timeout: 5m
+
+
+ui-tests:
+  stage: ui-tests
+  extends: .ui-tests
+  needs: ["ui-tests:build"]
+  timeout: 10m
