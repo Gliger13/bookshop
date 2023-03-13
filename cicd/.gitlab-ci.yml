@@ -1,0 +1,44 @@
+variables:
+  PIPELINE_NAME_TO_TRIGGER:
+    value: "build"
+    description: "Name of the pipeline to run manually."
+
+
+include:
+  - local: cicd/pipelines/build.gitlab-ci.yml
+    rules: &build-pipeline-trigger-rules
+      # Run pipeline when it was triggered manually
+      - if: $CI_PIPELINE_SOURCE == "web" && $PIPELINE_NAME_TO_TRIGGER == "build"
+      # Run pipeline when merge request is open/updated and the target branch is "main"
+      - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+
+  - local: cicd/pipelines/testing.gitlab-ci.yml
+    rules: &testing-pipeline-trigger-rules
+      # Run pipeline when it was triggered manually
+      - if: $CI_PIPELINE_SOURCE == "web" && $PIPELINE_NAME_TO_TRIGGER == "testing"
+      # Run pipeline when merge request is open/updated and the target branch is "production"
+      - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "production"
+
+  - local: cicd/pipelines/regression.gitlab-ci.yml
+    rules: &regression-pipeline-trigger-rules
+      # Run pipeline when it was triggered manually
+      - if: $CI_PIPELINE_SOURCE == "web" && $PIPELINE_NAME_TO_TRIGGER == "regression"
+      # Run pipeline if it was triggered by schedule for production branch
+      - if: $CI_PIPELINE_SOURCE == "schedule" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "production"
+
+
+# General workflow with accumulation of rules for every pipeline. If any
+# pipeline needs be triggered, this workflow should also be triggered.
+workflow:
+  rules:
+    - *build-pipeline-trigger-rules
+    - *testing-pipeline-trigger-rules
+    - *regression-pipeline-trigger-rules
+
+
+# Empty entry job for every pipeline. Satisfies gitlab's requirements for
+# pipelines to have at least one visible job.
+prepare:
+  stage: .pre
+  script:
+    - echo "Do nothing."

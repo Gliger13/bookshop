@@ -1,0 +1,35 @@
+variables:
+  MINIMUM_CODE_QUALITY_SCORE:
+    description: "Minimum pylint score to pass Code Quality Gate"
+    value: "9"
+
+.linter:
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - venv/
+      - application/.pylint_home
+  script:
+    - source venv/bin/activate
+    - cd application/
+    - echo "Configuring pylint home directory for cache..."
+    - PYLINTHOME="$(pwd)/.pylint_home"
+    - mkdir --parents $PYLINTHOME
+    - echo "Running pylint..."
+    - pylint bookshop_app/
+    - echo "Post-processing pylint artifacts..."
+    - PYLINT_SCORE=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' pylint_parseable_report.txt)
+    - echo "pylint-score $PYLINT_SCORE" > ../pylint_metric.txt
+    - >
+      if python -c "exit(0 if $PYLINT_SCORE > $MINIMUM_CODE_QUALITY_SCORE else 0)";
+      then 
+        echo "Code Quality Gate passed. Current: $PYLINT_SCORE. Expected: >$MINIMUM_CODE_QUALITY_SCORE"
+        exit 0
+      else
+        echo "Code Quality Gate failed. Current: $PYLINT_SCORE. Expected: >$MINIMUM_CODE_QUALITY_SCORE" 
+        exit 1
+      fi
+  artifacts:
+    paths:
+      - pylint_metric.txt
+    expire_in: 30 days
