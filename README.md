@@ -1,5 +1,10 @@
 # Bookshop Application
 
+[![latest release](***REMOVED***/-/badges/release.svg)](***REMOVED***/-/releases)
+***REMOVED***
+***REMOVED*** 
+[![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/PyCQA/pylint)
+
 ## Table of contents
 * [Table of contents](#table-of-contents)
 * [Context](#context)

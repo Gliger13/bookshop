@@ -1,0 +1,22 @@
+include:
+  - local: cicd/pipelines/build.gitlab-ci.yml
+  - local: cicd/jobs/api-tests.gitlab-ci.yml
+
+stages:
+  - linter
+  - unit-tests
+  - tests-coverage
+  - api-tests
+
+
+api-tests:build:
+  stage: api-tests
+  extends: .build_web_api_tests
+  timeout: 5m
+
+
+api-tests:
+  stage: api-tests
+  extends: .api-tests
+  needs: ["api-tests:build"]
+  timeout: 10m

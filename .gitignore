@@ -48,3 +48,9 @@ venv/
 logs/
 log/
 *.log
+
+# coverage artifacts
+.coverage
+
+# Pylint reports
+pylint_parseable_report.txt
