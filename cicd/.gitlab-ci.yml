@@ -24,7 +24,7 @@ include:
       # Run pipeline when it was triggered manually
       - if: $CI_PIPELINE_SOURCE == "web" && $PIPELINE_NAME_TO_TRIGGER == "regression"
       # Run pipeline if it was triggered by schedule for production branch
-      - if: $CI_PIPELINE_SOURCE == "schedule" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "production"
+      - if: $CI_PIPELINE_SOURCE == "schedule"
 
 
 # General workflow with accumulation of rules for every pipeline. If any
