@@ -1,28 +1,12 @@
-# TODO: Move to build stage.
-# TODO: Configure proper caching for installed firefox between jobs
-# TODO: Optimize installation
-# TODO: Don't install firefox if it's already installed
-.install_firefox: &install_firefox
-  - apt-get update && apt-get upgrade --assume-yes
-  - apt-get install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils --assume-yes
-  - wget -nv -O ~/FirefoxSetup.tar.bz2 "https://download.mozilla.org/?product=firefox-latest&os=linux64"
-  - tar xjf ~/FirefoxSetup.tar.bz2 -C /opt/
-  - ln -s /opt/firefox/firefox /usr/lib/firefox
-  - export PATH=$PATH:/opt/firefox/
-
-
 .ui-tests:
   cache:
     key: $CI_COMMIT_REF_SLUG
     paths:
       - venv/
-      - /opt/firefox/
-  variables:
-    SELENIUM_DRIVER_FILE_NAME: "geckodriver"
-    VENV_EXECUTION_PATH: "venv/bin"
+  services:
+    - name: selenium/standalone-firefox:latest
+      alias: firefox
   script:
-    - *install_firefox # TODO: Move to build stage scripts
-    - PATH=$PATH:/opt/firefox/
     - source venv/bin/activate
     - echo "Running application in TESTING environment"
     - cd application/bookshop_app
@@ -32,6 +16,7 @@
     - echo "Running WEB UI tests..."
     - |
       ENV="TESTING" \
+      REMOTE_WEB_DRIVER_URL="http://firefox:4444/wd/hub" \
       pytest tests/bookshop-ui-tests/bookshop_ui_tests \
       --junitxml ui-tests-junit-report.xml
   artifacts:
