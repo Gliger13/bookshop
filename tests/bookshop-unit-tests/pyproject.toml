@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pylint", "mypy"]
+dev = ["black", "mypy", "pylint"]
 
 [tool.setuptools.package-data]
 "bookshop_unit_tests.endpoints.booking" = ["test_data.yaml"]
@@ -23,3 +23,7 @@ dev = ["pylint", "mypy"]
 
 [project.urls]
 repository = "***REMOVED***"
+
+[tool.black]
+line-length = 120
+target-version = ['py311']

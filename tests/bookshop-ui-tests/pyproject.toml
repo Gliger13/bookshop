@@ -9,7 +9,11 @@ maintainers = [
 ]
 
 [project.optional-dependencies]
-dev = ["pylint", "mypy"]
+dev = ["black", "mypy", "pylint"]
 
 [project.urls]
 repository = "***REMOVED***"
+
+[tool.black]
+line-length = 120
+target-version = ['py311']
