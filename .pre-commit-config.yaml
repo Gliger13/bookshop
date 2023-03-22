@@ -1,0 +1,74 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [ --unsafe ]
+        types: [ yaml ]
+      - id: check-added-large-files
+      - id: check-toml
+        types: [ toml ]
+      - id: check-ast
+        types: [ python ]
+      - id: check-docstring-first
+        types: [ python ]
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.16.1
+    hooks:
+      - id: gitleaks
+  - repo: https://github.com/psf/black
+    rev: 22.10.0
+    hooks:
+      - id: black
+        args: [--line-length=120 --target-version=py311]
+        types: [ python ]
+  - repo: https://github.com/jazzband/pip-tools
+    rev: 6.12.3
+    hooks:
+      - id: pip-compile
+        name: Pip compile application main requirements
+        files: ^application/(requirements\.txt)|(pyproject\.toml)$
+        args:
+          - --generate-hashes
+          - --output-file=application/requirements.txt
+          - --resolver=backtracking
+          - --no-emit-trusted-host
+          - --quiet
+          - application/pyproject.toml
+      - id: pip-compile
+        name: Pip compile application dev requirements
+        files: ^application/(dev-requirements\.txt)|(pyproject\.toml)$
+        args:
+          - --generate-hashes
+          - --output-file=application/dev-requirements.txt
+          - --resolver=backtracking
+          - --no-emit-trusted-host
+          - --quiet
+          - --extra=dev
+          - --allow-unsafe
+          - application/pyproject.toml
+      - id: pip-compile
+        name: Pip compile test framework main requirements
+        files: ^tests/bookshop-test-framework/(requirements\.txt)|(pyproject\.toml)$
+        args:
+          - --generate-hashes
+          - --output-file=tests/bookshop-test-framework/requirements.txt
+          - --resolver=backtracking
+          - --no-emit-trusted-host
+          - --quiet
+          - tests/bookshop-test-framework/pyproject.toml
+      - id: pip-compile
+        name: Pip compile test framework dev requirements
+        files: ^tests/bookshop-test-framework/(dev-requirements\.txt)|(pyproject\.toml)$
+        args:
+          - --generate-hashes
+          - --output-file=tests/bookshop-test-framework/dev-requirements.txt
+          - --resolver=backtracking
+          - --no-emit-trusted-host
+          - --quiet
+          - --extra=dev
+          - tests/bookshop-test-framework/pyproject.toml
