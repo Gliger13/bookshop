@@ -19,5 +19,5 @@ class BookingStatusDAO:
     def get_by_id(booking_status_id: int) -> BookingStatusModel:
         """Get booking status by id from database"""
         return db.session.query(BookingStatusModel).get_or_404(
-            booking_status_id,
-            description=BOOKING_STATUS_NOT_FOUND.format(booking_status_id=booking_status_id))
+            booking_status_id, description=BOOKING_STATUS_NOT_FOUND.format(booking_status_id=booking_status_id)
+        )

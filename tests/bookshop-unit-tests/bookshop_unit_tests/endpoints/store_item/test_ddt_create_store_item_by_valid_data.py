@@ -21,6 +21,6 @@ def test_ddt_create_store_item_by_valid_data(test_data: dict, application_client
     response = application_client.post(
         endpoint,
         json=new_store_item_attributes,
-        headers={"Authorization": f"Bearer {token_response.json['AuthToken']}"}
+        headers={"Authorization": f"Bearer {token_response.json['AuthToken']}"},
     )
     soft_check_response_status_code(SimpleResponse(endpoint, "POST", response.status_code), codes.created)

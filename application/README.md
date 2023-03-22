@@ -78,4 +78,4 @@ Application UI - http://127.0.0.1:5000
 ## Environment Variables
 
 - `ENV` - environment type. Application will select the specific configuration for the every specific environment. <br/>
-Available: [`DEVELOPMENT`, `TESTING`, `PRODUCTION`]. All environment configs listed in file [config.py](bookshop_app/config.py) 
+Available: [`DEVELOPMENT`, `TESTING`, `PRODUCTION`]. All environment configs listed in file [config.py](bookshop_app/config.py)

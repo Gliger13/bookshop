@@ -23,9 +23,7 @@ def create_app() -> Flask:
 
     options = {"swagger_ui": True}
     connexion_app = connexion.App(
-        import_name="__name__",
-        specification_dir=str(files("bookshop_app").joinpath("open_api")),
-        options=options
+        import_name="__name__", specification_dir=str(files("bookshop_app").joinpath("open_api")), options=options
     )
     connexion_app.add_api("swagger.yml")
     application = connexion_app.app
@@ -45,22 +43,20 @@ def add_routes(application: Flask) -> None:
 
     :param application: flask application to add routes
     """
+    application.add_url_rule(rule="/user", methods=["GET", "POST"], view_func=user_control)
+    application.add_url_rule(rule="/user/<int:user_id>", methods=["GET", "PUT", "DELETE"], view_func=user_manipulation)
+    application.add_url_rule(rule="/product", methods=["GET", "POST"], view_func=product_control)
     application.add_url_rule(
-        rule="/user", methods=["GET", "POST"], view_func=user_control)
+        rule="/product/<int:product_id>", methods=["GET", "PUT", "DELETE"], view_func=product_manipulation
+    )
+    application.add_url_rule(rule="/booking", methods=["GET", "POST"], view_func=booking_control)
     application.add_url_rule(
-        rule="/user/<int:user_id>", methods=["GET", "PUT", "DELETE"], view_func=user_manipulation)
+        rule="/booking/<int:booking_id>", methods=["GET", "PUT", "DELETE"], view_func=booking_manipulation
+    )
+    application.add_url_rule(rule="/user", methods=["GET", "POST"], view_func=store_item_control)
     application.add_url_rule(
-        rule="/product", methods=["GET", "POST"], view_func=product_control)
-    application.add_url_rule(
-        rule="/product/<int:product_id>", methods=["GET", "PUT", "DELETE"], view_func=product_manipulation)
-    application.add_url_rule(
-        rule="/booking", methods=["GET", "POST"], view_func=booking_control)
-    application.add_url_rule(
-        rule="/booking/<int:booking_id>", methods=["GET", "PUT", "DELETE"], view_func=booking_manipulation)
-    application.add_url_rule(
-        rule="/user", methods=["GET", "POST"], view_func=store_item_control)
-    application.add_url_rule(
-        rule="/user/<int:user_id>", methods=["GET", "PUT", "DELETE"], view_func=store_item_manipulation)
+        rule="/user/<int:user_id>", methods=["GET", "PUT", "DELETE"], view_func=store_item_manipulation
+    )
 
 
 initialize_logger(Config.ENV)

@@ -11,9 +11,7 @@ role_schema = RoleSchema()
 class FakeRoleDAO(BaseFakeDAO):
     """Data Access Object that uses class attribute for storing data"""
 
-    _data: list[RoleModel] = [
-        *[RoleModel(id=index + 1, name=role) for index, role in enumerate(UserRole)]
-    ]
+    _data: list[RoleModel] = [*[RoleModel(id=index + 1, name=role) for index, role in enumerate(UserRole)]]
 
     @classmethod
     def get_by_id(cls, role_id: int) -> Optional[RoleModel]:

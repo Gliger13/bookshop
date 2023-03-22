@@ -6,8 +6,13 @@ functionality of creating, reading, updating, and deleting all users.
 from flask import Blueprint, render_template
 from flask_login import current_user, login_required
 
-from bookshop_app.forms.authentication import DeleteUserByIdForm, DeleteUserForm, RegistrationForm, \
-    UpdateUserByIdForm, UpdateUserForm
+from bookshop_app.forms.authentication import (
+    DeleteUserByIdForm,
+    DeleteUserForm,
+    RegistrationForm,
+    UpdateUserByIdForm,
+    UpdateUserForm,
+)
 from bookshop_app.models.role import UserRole
 from bookshop_app.services.authentication import required_roles
 from bookshop_app.services.user import UserService
@@ -15,10 +20,7 @@ from bookshop_app.services.user import UserService
 __all__ = ["users_blueprint"]
 
 users_blueprint = Blueprint(
-    name="users_blueprint",
-    import_name=__name__,
-    static_folder="static",
-    template_folder="templates"
+    name="users_blueprint", import_name=__name__, static_folder="static", template_folder="templates"
 )
 
 
@@ -63,5 +65,5 @@ def user_page(user_id: str) -> str:
         user=current_user,
         target_user=user,
         update_user_by_id_form=update_user_by_id_form,
-        delete_user_by_id_form=delete_user_by_id_form
+        delete_user_by_id_form=delete_user_by_id_form,
     )

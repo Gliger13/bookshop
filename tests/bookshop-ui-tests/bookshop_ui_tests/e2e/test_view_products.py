@@ -22,9 +22,12 @@ def test_view_products(test_data: dict, products_page: ProductsPage) -> None:
     """
     actual_product_page_title = products_page.get_page_title()
     expected_products_page_title = test_data["expected_products_page_title"]
-    expect(actual_product_page_title == expected_products_page_title, UiTestResult(
-        check_message="Check products page has correct title",
-        endpoint=BookshopUiEndpoints.REGISTRATION_PAGE,
-        actual_result=actual_product_page_title,
-        expected_result=expected_products_page_title
-    ))
+    expect(
+        actual_product_page_title == expected_products_page_title,
+        UiTestResult(
+            check_message="Check products page has correct title",
+            endpoint=BookshopUiEndpoints.REGISTRATION_PAGE,
+            actual_result=actual_product_page_title,
+            expected_result=expected_products_page_title,
+        ),
+    )

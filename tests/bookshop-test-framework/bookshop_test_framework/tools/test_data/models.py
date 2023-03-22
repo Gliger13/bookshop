@@ -16,7 +16,7 @@ class ParametrizedTest:
 class TestData:
     """Represents test data"""
 
-    __slots__ = ("test_sets", )
+    __slots__ = ("test_sets",)
 
     def __init__(self, test_sets: Mapping[str, ParametrizedTest]):
         """Initialize test data with given test sets"""

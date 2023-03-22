@@ -19,6 +19,4 @@ class TestResult:
 
     def result(self) -> dict[str, str]:
         """Return result attribute name and string result value as dict"""
-        return {
-            TestResultAttributes.CHECK_MESSAGE: str(self.check_message)
-        }
+        return {TestResultAttributes.CHECK_MESSAGE: str(self.check_message)}

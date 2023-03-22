@@ -29,7 +29,8 @@ class UserForm:
     password = FieldProtocol(label="Password", validators=[validators.length(min=8, max=256)])
     email = FieldProtocol(label="Email", validators=[])
     phone = FieldProtocol(
-        label="Phone", validators=[validators.regexp(r"(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)*")])
+        label="Phone", validators=[validators.regexp(r"(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)*")]
+    )
     name = FieldProtocol(label="First and Last name", validators=[validators.length(max=256)])
     address = FieldProtocol(label="Address", validators=[validators.length(max=256)])
     role_id = FieldProtocol(label="Role ID", validators=[validators.number_range(1, len(UserRole))])

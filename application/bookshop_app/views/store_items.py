@@ -14,10 +14,7 @@ from bookshop_app.services.store_item import StoreItemService
 __all__ = ["store_items_blueprint"]
 
 store_items_blueprint = Blueprint(
-    name="store_items_blueprint",
-    import_name=__name__,
-    static_folder="static",
-    template_folder="templates"
+    name="store_items_blueprint", import_name=__name__, static_folder="static", template_folder="templates"
 )
 
 
