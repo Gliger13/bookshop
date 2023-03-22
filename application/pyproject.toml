@@ -31,10 +31,13 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+    "black",
+    "mypy",
+    "pip-tools",
+    "pre-commit",
     "pylint",
     "pylint-flask",
     "pylint-flask-sqlalchemy",
-    "mypy",
 ]
 
 [tool.setuptools.package-data]
