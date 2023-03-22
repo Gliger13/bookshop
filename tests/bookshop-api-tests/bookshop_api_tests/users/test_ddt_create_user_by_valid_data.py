@@ -10,8 +10,9 @@ from bookshop_test_framework.tools.test_data import get_parametrized_test_data, 
 @pytest.mark.functional
 @pytest.mark.asyncio
 @pytest.mark.parametrize("test_data", get_parametrized_test_data(__file__), ids=get_test_data_ids(__file__))
-async def test_ddt_create_user_by_valid_data(test_data: dict, created_user_response: ClientResponse,
-                                             generated_user: User):
+async def test_ddt_create_user_by_valid_data(
+    test_data: dict, created_user_response: ClientResponse, generated_user: User
+):
     """Data Driven Test to create user by valid data
 
     :param test_data: dict with current test set data

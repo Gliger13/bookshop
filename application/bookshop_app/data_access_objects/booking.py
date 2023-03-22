@@ -25,8 +25,8 @@ class BookingDAO:
     def get_by_id(booking_id: int) -> BookingModel:
         """Get booking by id from database"""
         return db.session.query(BookingModel).get_or_404(
-            booking_id,
-            description=BOOKING_NOT_FOUND.format(booking_id=booking_id))
+            booking_id, description=BOOKING_NOT_FOUND.format(booking_id=booking_id)
+        )
 
     @staticmethod
     def update(updated_booking: BookingModel) -> None:

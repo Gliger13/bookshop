@@ -25,8 +25,8 @@ class ProductDAO:
     def get_by_id(product_id: int) -> ProductModel:
         """Get product by id from database"""
         return db.session.query(ProductModel).get_or_404(
-            product_id,
-            description=PRODUCT_NOT_FOUND.format(product_id=product_id))
+            product_id, description=PRODUCT_NOT_FOUND.format(product_id=product_id)
+        )
 
     @staticmethod
     def update(updated_product: ProductModel) -> None:

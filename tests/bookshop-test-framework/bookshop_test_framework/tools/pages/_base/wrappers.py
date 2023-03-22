@@ -23,8 +23,13 @@ def retry_on_selenium_error(times_to_try: int = 3, seconds_to_wait: int = 1):
                     return selenium_method(*args, **kwargs)
                 except WebDriverException as error:
                     last_error = error
-                    logging.warning("Error during `%s` selenium function. Attempts to retry %s/%s. Retry in %s seconds",
-                                    selenium_method.__name__, try_number + 1, times_to_try, seconds_to_wait)
+                    logging.warning(
+                        "Error during `%s` selenium function. Attempts to retry %s/%s. Retry in %s seconds",
+                        selenium_method.__name__,
+                        try_number + 1,
+                        times_to_try,
+                        seconds_to_wait,
+                    )
                 sleep(seconds_to_wait)
             logging.error("Max tries reached for selenium method `%s`. Raising error", selenium_method.__name__)
             raise last_error

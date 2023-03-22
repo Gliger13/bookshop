@@ -31,7 +31,10 @@ def test_register_user(test_data: dict, config: Config, registration_page: Regis
     registration_page.click_submit_button()
 
     products_page_url = f"{config.base_url}/{BookshopUiEndpoints.REGISTRATION_PAGE}"
-    expect(registration_page.is_registration_success(products_page_url), UiTestResult(
-        check_message="Check registration page redirects to the products page after success registration",
-        endpoint=BookshopUiEndpoints.REGISTRATION_PAGE,
-    ))
+    expect(
+        registration_page.is_registration_success(products_page_url),
+        UiTestResult(
+            check_message="Check registration page redirects to the products page after success registration",
+            endpoint=BookshopUiEndpoints.REGISTRATION_PAGE,
+        ),
+    )

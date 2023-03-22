@@ -11,8 +11,9 @@ from bookshop_test_framework.tools.test_data import get_parametrized_test_data, 
 @pytest.mark.functional
 @pytest.mark.asyncio
 @pytest.mark.parametrize("test_data", get_parametrized_test_data(__file__), ids=get_test_data_ids(__file__))
-async def test_ddt_update_user_by_valid_data(test_data: dict, users_api: UserApi, customer_user: User,
-                                             updated_user_response: ClientResponse):
+async def test_ddt_update_user_by_valid_data(
+    test_data: dict, users_api: UserApi, customer_user: User, updated_user_response: ClientResponse
+):
     """Data Driven Test to update user by valid data
 
     :param test_data: dict with current test set data

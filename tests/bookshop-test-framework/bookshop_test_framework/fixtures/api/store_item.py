@@ -17,8 +17,13 @@ from bookshop_test_framework.tools.data_generator.test_data_generator import Tes
 
 
 @pytest.fixture(scope="session")
-async def session_store_item(store_items_api: StoreItemApi, users_api: UserApi, session_product: Product,
-                             session_manager_user: User, http_task_group: TaskGroup) -> Product:
+async def session_store_item(
+    store_items_api: StoreItemApi,
+    users_api: UserApi,
+    session_product: Product,
+    session_manager_user: User,
+    http_task_group: TaskGroup,
+) -> Product:
     """Generate, create and return store item in session scope
 
     :param store_items_api: initialized StoreItem API
@@ -32,9 +37,11 @@ async def session_store_item(store_items_api: StoreItemApi, users_api: UserApi, 
     store_item.product_id = session_product.id
     authentication_headers = await users_api.get_auth_header(session_manager_user)
     create_store_item_response = await store_items_api.create(store_item, headers=authentication_headers)
-    assert create_store_item_response.ok, "Failed to create session store item.\n" \
-                                          f"Request status code: {create_store_item_response.status}\n" \
-                                          f"Response message: {await create_store_item_response.text()}"
+    assert create_store_item_response.ok, (
+        "Failed to create session store item.\n"
+        f"Request status code: {create_store_item_response.status}\n"
+        f"Response message: {await create_store_item_response.text()}"
+    )
 
     create_store_item_response_json = await create_store_item_response.json()
     store_item.id = create_store_item_response_json["id"]
@@ -45,8 +52,9 @@ async def session_store_item(store_items_api: StoreItemApi, users_api: UserApi, 
 
 
 @pytest.fixture(scope="session")
-async def session_get_store_item_response(store_items_api: StoreItemApi, users_api: UserApi, session_manager_user: User,
-                                          session_store_item: StoreItem) -> ClientResponse:
+async def session_get_store_item_response(
+    store_items_api: StoreItemApi, users_api: UserApi, session_manager_user: User, session_store_item: StoreItem
+) -> ClientResponse:
     """Get session store item wit session manager and return response
 
     :param store_items_api: initialized StoreItem API
@@ -60,8 +68,9 @@ async def session_get_store_item_response(store_items_api: StoreItemApi, users_a
 
 
 @pytest.fixture(scope="session")
-async def session_get_all_store_items_response(store_items_api: StoreItemApi, users_api: UserApi,
-                                               session_manager_user: User) -> ClientResponse:
+async def session_get_all_store_items_response(
+    store_items_api: StoreItemApi, users_api: UserApi, session_manager_user: User
+) -> ClientResponse:
     """Send request to get all store items and return response
 
     :param store_items_api: initialized StoreItem API
@@ -74,9 +83,9 @@ async def session_get_all_store_items_response(store_items_api: StoreItemApi, us
 
 
 @pytest.fixture(scope="session")
-async def session_update_store_item_response(store_items_api: StoreItemApi, users_api: UserApi,
-                                             session_manager_user: User,
-                                             session_store_item: StoreItem) -> ClientResponse:
+async def session_update_store_item_response(
+    store_items_api: StoreItemApi, users_api: UserApi, session_manager_user: User, session_store_item: StoreItem
+) -> ClientResponse:
     """Send request to update given store item and return response
 
     :param store_items_api: initialized StoreItem API
@@ -91,9 +100,13 @@ async def session_update_store_item_response(store_items_api: StoreItemApi, user
 
 
 @pytest.fixture
-async def created_store_item_response(store_items_api: StoreItemApi, users_api: UserApi,
-                                      generated_store_item: StoreItem, session_manager_user: User,
-                                      http_task_group: TaskGroup) -> ClientResponse:
+async def created_store_item_response(
+    store_items_api: StoreItemApi,
+    users_api: UserApi,
+    generated_store_item: StoreItem,
+    session_manager_user: User,
+    http_task_group: TaskGroup,
+) -> ClientResponse:
     """Create generated store item and return response
 
     :param store_items_api: initialized StoreItem API
@@ -115,8 +128,9 @@ async def created_store_item_response(store_items_api: StoreItemApi, users_api: 
 
 
 @pytest.fixture
-async def created_store_item(created_store_item_response: ClientResponse,
-                             generated_store_item: StoreItem) -> Optional[StoreItem]:
+async def created_store_item(
+    created_store_item_response: ClientResponse, generated_store_item: StoreItem
+) -> Optional[StoreItem]:
     """Create generated store item and return created store item model
 
     :param created_store_item_response: response to create generated store item
@@ -131,8 +145,9 @@ async def created_store_item(created_store_item_response: ClientResponse,
 
 
 @pytest.fixture
-async def deleted_store_item_response(store_items_api: StoreItemApi, users_api: UserApi,
-                                      generated_store_item: StoreItem, session_admin_user: User) -> ClientResponse:
+async def deleted_store_item_response(
+    store_items_api: StoreItemApi, users_api: UserApi, generated_store_item: StoreItem, session_admin_user: User
+) -> ClientResponse:
     """Delete generated and created store item and return response
 
     :param store_items_api: initialized StoreItem API
@@ -143,9 +158,11 @@ async def deleted_store_item_response(store_items_api: StoreItemApi, users_api: 
     """
     authentication_headers = await users_api.get_auth_header(session_admin_user)
     create_store_item_response = await store_items_api.create(generated_store_item, headers=authentication_headers)
-    assert create_store_item_response.ok, "Failed to create store item to delete later.\n" \
-                                          f"Request status code: {create_store_item_response.status}\n" \
-                                          f"Response message: {await create_store_item_response.text()}"
+    assert create_store_item_response.ok, (
+        "Failed to create store item to delete later.\n"
+        f"Request status code: {create_store_item_response.status}\n"
+        f"Response message: {await create_store_item_response.text()}"
+    )
 
     create_store_item_response_json = await create_store_item_response.json()
     created_store_item_id = create_store_item_response_json["id"]

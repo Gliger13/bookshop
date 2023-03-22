@@ -24,7 +24,8 @@ class ExpectationReport:
         """Returns message with the test meta information"""
         return "\n".join(
             f"{info_name.replace('_', ' ').capitalize()}: {info_value}"
-            for info_name, info_value in self.meta_info.items())
+            for info_name, info_value in self.meta_info.items()
+        )
 
     @property
     def table_report(self) -> str:
@@ -66,8 +67,9 @@ class ExpectationReport:
 
         cleaned_rows: list[list[Any]] = []
         for row in rows:
-            cleaned_row = [row_value for column_index, row_value in enumerate(row)
-                           if column_index not in empty_column_indexes]
+            cleaned_row = [
+                row_value for column_index, row_value in enumerate(row) if column_index not in empty_column_indexes
+            ]
             cleaned_rows.append(cleaned_row)
 
         return column_names_with_no_empty_rows, cleaned_rows
