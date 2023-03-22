@@ -13,7 +13,7 @@ def booking_control() -> tuple[Response | dict | list[dict], int]:
 
     :return: tuple of response json and status code
     """
-    if request.method == 'POST':
+    if request.method == "POST":
         return BookingController.create()
     return BookingController.get_all()
 
@@ -24,8 +24,8 @@ def booking_manipulation(booking_id: int) -> tuple[Response | dict | list[dict],
     :param booking_id: ID of the booking to manipulate
     :return: tuple of response json and status code
     """
-    if request.method == 'GET':
+    if request.method == "GET":
         return BookingController.get(booking_id)
-    if request.method == 'PUT':
+    if request.method == "PUT":
         return BookingController.update(booking_id)
     return BookingController.delete(booking_id)

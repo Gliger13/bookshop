@@ -76,7 +76,7 @@ def load_login_user(token: str) -> Optional[UserModel]:
     :return: user model that provided token belongs to
     """
     if jwt_token := jwt_authentication(token):
-        if user_login := jwt_token.get('sub'):
+        if user_login := jwt_token.get("sub"):
             return UserDAO.get_by_login(user_login)
     return None
 

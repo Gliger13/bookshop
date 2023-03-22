@@ -176,8 +176,10 @@ class FileManagerFactory:
         if raw_file_manager_type in [manager_type.value for manager_type in FileMangerType]:
             file_manager_type = FileMangerType(raw_file_manager_type)
         else:
-            raise ConfigError("File manager type specified in the current environment configuration was not found. "
-                              f"Was specified: `{raw_file_manager_type}`")
+            raise ConfigError(
+                "File manager type specified in the current environment configuration was not found. "
+                f"Was specified: `{raw_file_manager_type}`"
+            )
         file_manager = cls.FILE_MANAGER_TYPE_AND_MANAGER_MAP.get(file_manager_type)(file_manager_config)
         return file_manager
 

@@ -12,10 +12,7 @@ from bookshop_app.models.role import UserRole
 __all__ = ["bookings_blueprint"]
 
 bookings_blueprint = Blueprint(
-    name="bookings_blueprint",
-    import_name=__name__,
-    static_folder="static",
-    template_folder="templates"
+    name="bookings_blueprint", import_name=__name__, static_folder="static", template_folder="templates"
 )
 
 

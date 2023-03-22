@@ -18,6 +18,4 @@ class RoleDAO:
     @staticmethod
     def get_by_id(role_id: int) -> RoleModel:
         """Get role by id from database"""
-        return db.session.query(RoleModel).get_or_404(
-            role_id,
-            description=ROLE_NOT_FOUND.format(role_id=role_id))
+        return db.session.query(RoleModel).get_or_404(role_id, description=ROLE_NOT_FOUND.format(role_id=role_id))

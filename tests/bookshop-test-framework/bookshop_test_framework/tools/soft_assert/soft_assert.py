@@ -17,7 +17,7 @@ def __get_test_id() -> Optional[int]:
     stack = inspect.stack()
     for frame_info in stack:
         # 3 - expected pytest run test protocol frame
-        if frame_info[3] == 'runtestprotocol':
+        if frame_info[3] == "runtestprotocol":
             test_id = id(frame_info.frame)
             return test_id
     return None

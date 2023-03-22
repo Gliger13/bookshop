@@ -13,10 +13,7 @@ from bookshop_app.services.authentication import load_login_user
 __all__ = ["authentication_blueprint"]
 
 authentication_blueprint = Blueprint(
-    name="authentication_blueprint",
-    import_name=__name__,
-    static_folder="static",
-    template_folder="templates"
+    name="authentication_blueprint", import_name=__name__, static_folder="static", template_folder="templates"
 )
 
 

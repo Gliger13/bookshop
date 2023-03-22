@@ -27,10 +27,13 @@ def soft_check_response_status_code(response, expected_status_codes: int | Itera
     actual_status_code = response.status_code
     expected_codes = {expected_status_codes} if isinstance(expected_status_codes, int) else set(expected_status_codes)
     expected_result_msg = f"Any of {expected_codes}" if len(expected_codes) > 1 else expected_status_codes
-    return expect(actual_status_code in expected_codes, ApiTestResult(
-        check_message="Check response status code is the same as expected",
-        method=response.protocol,
-        endpoint=response.endpoint,
-        actual_result=actual_status_code,
-        expected_result=expected_result_msg,
-    ))
+    return expect(
+        actual_status_code in expected_codes,
+        ApiTestResult(
+            check_message="Check response status code is the same as expected",
+            method=response.protocol,
+            endpoint=response.endpoint,
+            actual_result=actual_status_code,
+            expected_result=expected_result_msg,
+        ),
+    )

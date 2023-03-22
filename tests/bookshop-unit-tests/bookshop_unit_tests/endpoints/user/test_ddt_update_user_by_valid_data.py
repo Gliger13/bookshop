@@ -20,8 +20,6 @@ def test_ddt_update_user_by_valid_data(test_data: dict, application_client: Flas
     new_user_attributes = test_data.get("new_user_attributes", {})
     token_response = application_client.get("/api/generate_token", auth=BasicAuth(**test_data["actor_credentials"]))
     response = application_client.put(
-        endpoint,
-        json=new_user_attributes,
-        headers={"Authorization": f"Bearer {token_response.json['AuthToken']}"}
+        endpoint, json=new_user_attributes, headers={"Authorization": f"Bearer {token_response.json['AuthToken']}"}
     )
     soft_check_response_status_code(SimpleResponse(endpoint, "PUT", response.status_code), codes.ok)

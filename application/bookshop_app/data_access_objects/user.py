@@ -19,9 +19,7 @@ class UserDAO:
     @staticmethod
     def get_by_id(user_id: int) -> UserModel:
         """Get user by id from database"""
-        return db.session.query(UserModel).get_or_404(
-            user_id,
-            description=USER_NOT_FOUND.format(user_id=user_id))
+        return db.session.query(UserModel).get_or_404(user_id, description=USER_NOT_FOUND.format(user_id=user_id))
 
     @staticmethod
     def get_by_login(user_login: str) -> Optional[UserModel]:
