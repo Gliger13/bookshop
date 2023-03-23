@@ -1,7 +1,8 @@
 """Fake booking status data access object"""
 from typing import Optional
 
-from bookshop_app.models.booking_status import BookingStatus, BookingStatusModel
+from bookshop_app.models.booking_status import BookingStatus
+from bookshop_app.models.booking_status import BookingStatusModel
 from bookshop_app.schemas.booking_status import BookingStatusSchema
 from bookshop_test_framework.mocks.dao.base import BaseFakeDAO
 

@@ -1,9 +1,18 @@
 """Authenticator service module"""
 from functools import wraps
-from typing import Any, Callable, Collection, Final, Optional
+from typing import Any
+from typing import Callable
+from typing import Collection
+from typing import Final
+from typing import Optional
+
+from flask import jsonify
+from flask import request
+from flask import Response
+from flask_httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPTokenAuth
+from flask_httpauth import MultiAuth
 from flask_login import current_user
-from flask import jsonify, request, Response
-from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth, MultiAuth
 from requests import codes
 from werkzeug.datastructures import Authorization
 from werkzeug.exceptions import Unauthorized

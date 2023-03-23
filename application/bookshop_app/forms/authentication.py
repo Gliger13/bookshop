@@ -6,9 +6,15 @@ registration and update.
 from functools import cached_property
 
 from flask_wtf import FlaskForm
-from wtforms import EmailField, HiddenField, IntegerField, PasswordField, StringField, validators
+from wtforms import EmailField
+from wtforms import HiddenField
+from wtforms import IntegerField
+from wtforms import PasswordField
+from wtforms import StringField
+from wtforms import validators
 
-from bookshop_app.forms._base import BaseForm, FieldProtocol
+from bookshop_app.forms._base import BaseForm
+from bookshop_app.forms._base import FieldProtocol
 from bookshop_app.models.role import UserRole
 
 __all__ = [

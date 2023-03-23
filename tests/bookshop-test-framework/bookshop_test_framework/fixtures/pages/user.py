@@ -6,7 +6,8 @@ pages using selenium.
 import pytest
 from selenium.webdriver.firefox.webdriver import WebDriver
 
-from bookshop_test_framework.config.config import BookshopUiEndpoints, Config
+from bookshop_test_framework.config.config import BookshopUiEndpoints
+from bookshop_test_framework.config.config import Config
 from bookshop_test_framework.tools.pages.user.pages import RegistrationPage
 
 __all__ = ["registration_page"]

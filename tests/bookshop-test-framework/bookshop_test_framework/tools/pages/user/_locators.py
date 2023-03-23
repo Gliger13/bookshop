@@ -1,7 +1,8 @@
 """User page locators"""
 from selenium.webdriver.common.by import By
 
-from .._base.locators import BasePageLocators, Locator
+from .._base.locators import BasePageLocators
+from .._base.locators import Locator
 
 
 class RegistrationPageLocators(BasePageLocators):

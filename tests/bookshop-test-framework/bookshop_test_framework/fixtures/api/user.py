@@ -10,7 +10,8 @@ from dataclasses import asdict
 from json import JSONDecodeError
 
 import pytest
-from aiohttp import ClientResponse, ContentTypeError
+from aiohttp import ClientResponse
+from aiohttp import ContentTypeError
 
 from bookshop_test_framework.config.config import Config
 from bookshop_test_framework.models.user import User

@@ -2,8 +2,8 @@
 
 Module contains routes for store item manipulations.
 """
-
-from flask import request, Response
+from flask import request
+from flask import Response
 
 from bookshop_app.controllers.store_item import StoreItemController
 

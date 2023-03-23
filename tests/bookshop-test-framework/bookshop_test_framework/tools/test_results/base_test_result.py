@@ -1,5 +1,6 @@
 """Base Test Result model"""
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
+from dataclasses import dataclass
 from typing import Any
 
 from .test_result_attributes import TestResultAttributes

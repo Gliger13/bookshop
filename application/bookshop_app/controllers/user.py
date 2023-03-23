@@ -2,7 +2,8 @@
 from flask import Response
 
 from bookshop_app.models.role import UserRole
-from bookshop_app.services.authentication import multi_auth, required_same_user_id_or_roles
+from bookshop_app.services.authentication import multi_auth
+from bookshop_app.services.authentication import required_same_user_id_or_roles
 from bookshop_app.services.user import UserService
 
 

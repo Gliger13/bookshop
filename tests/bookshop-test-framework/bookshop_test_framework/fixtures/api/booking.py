@@ -13,7 +13,8 @@ from bookshop_test_framework.config.config import Config
 from bookshop_test_framework.models.booking import Booking
 from bookshop_test_framework.models.product import Product
 from bookshop_test_framework.models.user import User
-from bookshop_test_framework.tools.api import BookingApi, UserApi
+from bookshop_test_framework.tools.api import BookingApi
+from bookshop_test_framework.tools.api import UserApi
 
 
 @pytest.fixture(scope="session")

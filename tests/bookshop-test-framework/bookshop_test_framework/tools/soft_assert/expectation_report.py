@@ -1,7 +1,9 @@
 """Contain class and function for creating report tables and reports"""
-from typing import Any, List
+from typing import Any
+from typing import List
 
-from prettytable.colortable import ColorTable, Themes
+from prettytable.colortable import ColorTable
+from prettytable.colortable import Themes
 
 from bookshop_test_framework.tools.test_results.base_test_result import TestResult
 

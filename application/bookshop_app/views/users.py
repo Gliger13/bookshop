@@ -3,16 +3,16 @@
 Module contains routes for the users blueprint, which includes the
 functionality of creating, reading, updating, and deleting all users.
 """
-from flask import Blueprint, render_template
-from flask_login import current_user, login_required
+from flask import Blueprint
+from flask import render_template
+from flask_login import current_user
+from flask_login import login_required
 
-from bookshop_app.forms.authentication import (
-    DeleteUserByIdForm,
-    DeleteUserForm,
-    RegistrationForm,
-    UpdateUserByIdForm,
-    UpdateUserForm,
-)
+from bookshop_app.forms.authentication import DeleteUserByIdForm
+from bookshop_app.forms.authentication import DeleteUserForm
+from bookshop_app.forms.authentication import RegistrationForm
+from bookshop_app.forms.authentication import UpdateUserByIdForm
+from bookshop_app.forms.authentication import UpdateUserForm
 from bookshop_app.models.role import UserRole
 from bookshop_app.services.authentication import required_roles
 from bookshop_app.services.user import UserService

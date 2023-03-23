@@ -2,11 +2,13 @@
 import pytest
 from faker import Faker
 
-from bookshop_test_framework.config.config import BookshopUiEndpoints, Config
+from bookshop_test_framework.config.config import BookshopUiEndpoints
+from bookshop_test_framework.config.config import Config
 from bookshop_test_framework.tools.data_generator.test_data_generator import TestDataGenerator
 from bookshop_test_framework.tools.pages.user.pages import RegistrationPage
 from bookshop_test_framework.tools.soft_assert.soft_assert import expect
-from bookshop_test_framework.tools.test_data import get_parametrized_test_data, get_test_data_ids
+from bookshop_test_framework.tools.test_data import get_parametrized_test_data
+from bookshop_test_framework.tools.test_data import get_test_data_ids
 from bookshop_test_framework.tools.test_results.ui_test_results import UiTestResult
 
 

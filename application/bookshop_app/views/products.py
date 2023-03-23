@@ -3,18 +3,17 @@
 Module contains routes for the products blueprint, which includes the
 functionality of creating, reading, updating, and deleting a product.
 """
-from flask import Blueprint, render_template
+from flask import Blueprint
+from flask import render_template
 from flask_login import current_user
 
 from bookshop_app.controllers.product import ProductController
 from bookshop_app.forms.booking import BookProductForm
-from bookshop_app.forms.product import (
-    CreateProductForm,
-    DeleteProductByIdForm,
-    DeleteProductForm,
-    UpdateProductByIdForm,
-    UpdateProductForm,
-)
+from bookshop_app.forms.product import CreateProductForm
+from bookshop_app.forms.product import DeleteProductByIdForm
+from bookshop_app.forms.product import DeleteProductForm
+from bookshop_app.forms.product import UpdateProductByIdForm
+from bookshop_app.forms.product import UpdateProductForm
 from bookshop_app.views.main import main_blueprint
 
 __all__ = ["products_blueprint"]

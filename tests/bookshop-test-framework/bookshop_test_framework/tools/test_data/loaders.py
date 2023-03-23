@@ -1,10 +1,12 @@
 """Test data loader interface and its implementations"""
 import logging
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
+from abc import abstractmethod
 
 import yaml
 
-from .models import ParametrizedTest, TestData
+from .models import ParametrizedTest
+from .models import TestData
 
 
 class TestDataLoader(metaclass=ABCMeta):

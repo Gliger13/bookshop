@@ -3,14 +3,19 @@
 Module contains fixtures for creating and managing client session for http
 requests. Provides fixtures with initialized bookshop APIs.
 """
-from asyncio import SelectorEventLoop, TaskGroup
+from asyncio import SelectorEventLoop
+from asyncio import TaskGroup
 
 import pytest
-from aiohttp import ClientSession, TCPConnector
+from aiohttp import ClientSession
+from aiohttp import TCPConnector
 from pytest_asyncio import fixture
 
 from bookshop_test_framework.config.config import Config
-from bookshop_test_framework.tools.api import BookingApi, ProductApi, StoreItemApi, UserApi
+from bookshop_test_framework.tools.api import BookingApi
+from bookshop_test_framework.tools.api import ProductApi
+from bookshop_test_framework.tools.api import StoreItemApi
+from bookshop_test_framework.tools.api import UserApi
 
 
 @fixture(scope="session")

@@ -3,8 +3,8 @@
 Module contains routes for the main blueprint, which includes basic
 information, home pages.
 """
-from flask import Blueprint, render_template
-
+from flask import Blueprint
+from flask import render_template
 from flask_login import current_user
 
 __all__ = ["main_blueprint"]

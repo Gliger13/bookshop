@@ -2,7 +2,9 @@
 import logging
 from functools import wraps
 from time import sleep
-from typing import Any, Callable, Optional
+from typing import Any
+from typing import Callable
+from typing import Optional
 
 from selenium.common import WebDriverException
 

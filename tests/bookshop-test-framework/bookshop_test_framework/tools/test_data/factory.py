@@ -7,11 +7,15 @@ attributes using default values from config and factory.
 import logging
 import os
 from functools import lru_cache
-from typing import Any, Generator, Mapping, Type
+from typing import Any
+from typing import Generator
+from typing import Mapping
+from typing import Type
 
 from .config import TestDataConfig
 from .errors import TestDataError
-from .loaders import TestDataLoader, TestDataYamlFileLoader
+from .loaders import TestDataLoader
+from .loaders import TestDataYamlFileLoader
 from .models import TestData
 
 
