@@ -4,12 +4,10 @@ from dataclasses import asdict
 from aiohttp import ClientResponse
 from requests import codes
 
-from bookshop_test_framework.asserts.api.response import (
-    soft_check_response_body_is_json,
-    soft_check_response_json_attributes,
-    soft_check_response_json_is_not_empty,
-    soft_check_response_status_code,
-)
+from bookshop_test_framework.asserts.api.response import soft_check_response_body_is_json
+from bookshop_test_framework.asserts.api.response import soft_check_response_json_attributes
+from bookshop_test_framework.asserts.api.response import soft_check_response_json_is_not_empty
+from bookshop_test_framework.asserts.api.response import soft_check_response_status_code
 from bookshop_test_framework.models.user import User
 
 

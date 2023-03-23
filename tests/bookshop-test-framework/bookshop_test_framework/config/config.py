@@ -4,8 +4,10 @@ Module contains testing config for bookshop application.
 """
 import inspect
 import os
-from abc import ABCMeta, abstractmethod
-from dataclasses import dataclass, field
+from abc import ABCMeta
+from abc import abstractmethod
+from dataclasses import dataclass
+from dataclasses import field
 from enum import Enum
 from functools import lru_cache
 from importlib.resources import files

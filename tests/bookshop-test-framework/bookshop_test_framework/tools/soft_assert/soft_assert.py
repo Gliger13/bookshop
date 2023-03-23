@@ -2,9 +2,11 @@
 import inspect
 import logging
 from collections import defaultdict
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 
-from .expectation_report import ExpectationReport, TestResult
+from .expectation_report import ExpectationReport
+from .expectation_report import TestResult
 
 __FAILED_EXPECTATIONS: dict[int, list[TestResult]] = defaultdict(list)
 

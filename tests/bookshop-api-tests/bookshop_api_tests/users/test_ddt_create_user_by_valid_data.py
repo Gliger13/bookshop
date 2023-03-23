@@ -4,7 +4,8 @@ from aiohttp import ClientResponse
 
 from bookshop_test_framework.asserts.api.user import check_create_user_response
 from bookshop_test_framework.models.user import User
-from bookshop_test_framework.tools.test_data import get_parametrized_test_data, get_test_data_ids
+from bookshop_test_framework.tools.test_data import get_parametrized_test_data
+from bookshop_test_framework.tools.test_data import get_test_data_ids
 
 
 @pytest.mark.functional

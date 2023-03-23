@@ -1,6 +1,7 @@
 """Unit tests response asserts"""
 from collections import namedtuple
-from typing import Iterable, Protocol
+from typing import Iterable
+from typing import Protocol
 
 from requests import codes
 

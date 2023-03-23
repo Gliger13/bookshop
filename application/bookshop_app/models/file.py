@@ -7,7 +7,8 @@ of file managers depends on the package configuration.
 """
 import logging
 import os
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
+from abc import abstractmethod
 from enum import Enum
 from functools import lru_cache
 from typing import Mapping
@@ -17,7 +18,8 @@ from marshmallow import ValidationError
 from PIL import Image
 from werkzeug.datastructures import FileStorage
 
-from bookshop_app.config import ConfigError, get_environment_config
+from bookshop_app.config import ConfigError
+from bookshop_app.config import get_environment_config
 
 
 class FileMangerType(Enum):
