@@ -1,5 +1,6 @@
 """User Data Access Object"""
-from typing import Final, Optional
+from typing import Final
+from typing import Optional
 
 from bookshop_app.database.database import db
 from bookshop_app.models.user import UserModel

@@ -1,5 +1,4 @@
 """Module with test and test data related models"""
-
 from dataclasses import dataclass
 from typing import Mapping
 

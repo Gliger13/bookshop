@@ -1,7 +1,8 @@
 """Fake role data access object"""
 from typing import Optional
 
-from bookshop_app.models.role import RoleModel, UserRole
+from bookshop_app.models.role import RoleModel
+from bookshop_app.models.role import UserRole
 from bookshop_app.schemas.role import RoleSchema
 from bookshop_test_framework.mocks.dao.base import BaseFakeDAO
 

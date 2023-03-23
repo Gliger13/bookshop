@@ -1,9 +1,13 @@
 """Module with asserts for request responses"""
 import logging
 from json import JSONDecodeError
-from typing import Collection, Iterable, Optional, Union
+from typing import Collection
+from typing import Iterable
+from typing import Optional
+from typing import Union
 
-from aiohttp import ClientResponse, ContentTypeError
+from aiohttp import ClientResponse
+from aiohttp import ContentTypeError
 from deepdiff import DeepDiff
 from requests import codes
 

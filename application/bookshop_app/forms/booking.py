@@ -2,11 +2,13 @@
 
 Module contains UI input validation forms for booking related actions.
 """
-
 from functools import cached_property
 
 from flask_wtf import FlaskForm
-from wtforms import HiddenField, IntegerField, StringField, validators
+from wtforms import HiddenField
+from wtforms import IntegerField
+from wtforms import StringField
+from wtforms import validators
 
 from bookshop_app.forms._base import BaseForm
 

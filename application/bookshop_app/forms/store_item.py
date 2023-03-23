@@ -5,9 +5,11 @@ Module contains UI input validation forms for store item related actions.
 from functools import cached_property
 
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, validators
+from wtforms import IntegerField
+from wtforms import validators
 
-from bookshop_app.forms._base import BaseForm, FieldProtocol
+from bookshop_app.forms._base import BaseForm
+from bookshop_app.forms._base import FieldProtocol
 
 __all__ = ["CreateStoreItemForm", "UpdateStoreItemForm", "DeleteStoreItemForm"]
 

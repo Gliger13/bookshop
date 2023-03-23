@@ -3,11 +3,19 @@
 Module contains routes for authentication blueprint, which includes the
 functionality of user registration, login, log out functionality.
 """
+from flask import Blueprint
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import Response
+from flask import url_for
+from flask_login import current_user
+from flask_login import login_required
+from flask_login import login_user
+from flask_login import logout_user
 
-from flask import Blueprint, redirect, render_template, request, Response, url_for
-from flask_login import current_user, login_required, login_user, logout_user
-
-from bookshop_app.forms.authentication import LoginForm, RegistrationForm
+from bookshop_app.forms.authentication import LoginForm
+from bookshop_app.forms.authentication import RegistrationForm
 from bookshop_app.services.authentication import load_login_user
 
 __all__ = ["authentication_blueprint"]

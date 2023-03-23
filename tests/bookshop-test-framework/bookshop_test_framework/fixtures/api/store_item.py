@@ -12,7 +12,8 @@ from aiohttp import ClientResponse
 from bookshop_test_framework.models.product import Product
 from bookshop_test_framework.models.store_item import StoreItem
 from bookshop_test_framework.models.user import User
-from bookshop_test_framework.tools.api import StoreItemApi, UserApi
+from bookshop_test_framework.tools.api import StoreItemApi
+from bookshop_test_framework.tools.api import UserApi
 from bookshop_test_framework.tools.data_generator.test_data_generator import TestDataGenerator
 
 
