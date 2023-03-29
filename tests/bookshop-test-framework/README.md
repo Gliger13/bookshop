@@ -14,8 +14,14 @@ python3.11 -m venv venv
 ```shell
 source venv/bin/activate
 ```
-4) Install test framework and its base dependencies using [pyproject.toml](pyproject.toml):
+5) Install test framework dependencies using [requirements.txt](requirements.txt):
 ```shell
-pip install .
+pip install --requirement --no-deps requirement.txt
 ```
-_Note: To install dev version with some code linters use `pip install ".[dev]"`_
+6) Install test framework [pyproject.toml](pyproject.toml):
+```shell
+pip install --no-deps .
+```
+_Note: To install dev version for contributing please use
+`pip install --requirement --no-deps dev-requirement.txt` and then
+`pip install --no-deps ".[dev]"`_
