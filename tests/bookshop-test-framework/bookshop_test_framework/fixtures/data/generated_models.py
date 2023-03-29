@@ -51,12 +51,14 @@ def generated_booking(test_data: dict, created_product: Product, customer_user: 
     """
     booking = TestDataGenerator.generate_basic_booking()
     test_data_booking_attributes = test_data.get("booking", {})
-    booking.update({
-        "product_id": created_product.id,
-        "user_id": customer_user.id,
-        "delivery_address": customer_user.address,
-        **test_data_booking_attributes
-    })
+    booking.update(
+        {
+            "product_id": created_product.id,
+            "user_id": customer_user.id,
+            "delivery_address": customer_user.address,
+            **test_data_booking_attributes,
+        }
+    )
     return booking
 
 
@@ -70,8 +72,5 @@ def generated_store_item(test_data: dict, created_product: Product) -> StoreItem
     """
     store_item = TestDataGenerator.generate_basic_store_item()
     test_data_store_item_attributes = test_data.get("store_item", {})
-    store_item.update({
-        "product_id": created_product.id,
-        **test_data_store_item_attributes
-    })
+    store_item.update({"product_id": created_product.id, **test_data_store_item_attributes})
     return store_item

@@ -3,7 +3,6 @@
 Module contains database event handlers. Responsible for preparing and adding
 initial data after specific table is created.
 """
-
 import logging
 from typing import Any
 
@@ -11,8 +10,10 @@ from sqlalchemy import Table
 from sqlalchemy.engine import Connection
 from sqlalchemy.event import listens_for
 
-from bookshop_app.models.booking_status import BookingStatus, BookingStatusModel
-from bookshop_app.models.role import RoleModel, UserRole
+from bookshop_app.models.booking_status import BookingStatus
+from bookshop_app.models.booking_status import BookingStatusModel
+from bookshop_app.models.role import RoleModel
+from bookshop_app.models.role import UserRole
 
 __all__ = ["create_roles_after_table_creation", "create_booking_statuses_after_table_creation"]
 

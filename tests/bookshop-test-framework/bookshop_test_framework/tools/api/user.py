@@ -6,7 +6,8 @@ User API.
 from dataclasses import asdict
 from typing import Any
 
-from aiohttp import BasicAuth, ClientResponse
+from aiohttp import BasicAuth
+from aiohttp import ClientResponse
 from async_lru import alru_cache
 
 from bookshop_test_framework.models.user import User

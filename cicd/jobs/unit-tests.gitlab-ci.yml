@@ -6,7 +6,7 @@
       - .coverage
   script:
     - source venv/bin/activate
-    - | 
+    - |
       ENV="testing" \
       pytest tests/bookshop-unit-tests/bookshop_unit_tests \
       --cov application/bookshop_app \

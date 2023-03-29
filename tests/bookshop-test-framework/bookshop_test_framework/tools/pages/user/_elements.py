@@ -1,9 +1,11 @@
 """User page elements"""
 from functools import cached_property
 
-from ._locators import ProfilePageLocators, RegistrationPageLocators
-from .._base.elements import BasePageButtonElement, BasePageElement
+from .._base.elements import BasePageButtonElement
+from .._base.elements import BasePageElement
 from .._base.locators import Locator
+from ._locators import ProfilePageLocators
+from ._locators import RegistrationPageLocators
 
 
 class LoginInputElement(BasePageElement):

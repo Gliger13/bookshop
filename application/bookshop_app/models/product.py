@@ -1,5 +1,4 @@
 """ORM Product Model"""
-
 from bookshop_app.database.database import db
 
 

@@ -22,11 +22,11 @@ variables:
     - echo "pylint-score $PYLINT_SCORE" > ../pylint_metric.txt
     - >
       if python -c "exit(0 if $PYLINT_SCORE > $MINIMUM_CODE_QUALITY_SCORE else 0)";
-      then 
+      then
         echo "Code Quality Gate passed. Current: $PYLINT_SCORE. Expected: >$MINIMUM_CODE_QUALITY_SCORE"
         exit 0
       else
-        echo "Code Quality Gate failed. Current: $PYLINT_SCORE. Expected: >$MINIMUM_CODE_QUALITY_SCORE" 
+        echo "Code Quality Gate failed. Current: $PYLINT_SCORE. Expected: >$MINIMUM_CODE_QUALITY_SCORE"
         exit 1
       fi
   artifacts:

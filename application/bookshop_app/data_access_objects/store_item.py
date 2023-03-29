@@ -25,8 +25,8 @@ class StoreItemDAO:
     def get_by_id(store_item_id: int) -> StoreItemModel:
         """Get store item by id from database"""
         return db.session.query(StoreItemModel).get_or_404(
-            store_item_id,
-            description=STORE_NOT_FOUND.format(store_item_id=store_item_id))
+            store_item_id, description=STORE_NOT_FOUND.format(store_item_id=store_item_id)
+        )
 
     @staticmethod
     def update(updated_store_item: StoreItemModel) -> None:

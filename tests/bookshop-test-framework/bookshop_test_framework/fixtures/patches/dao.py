@@ -34,8 +34,12 @@ def _patch_by_class(class_reference: str, mocked_class: type) -> list:
 
 
 @pytest.fixture(autouse=True)
-def dao_patch(mocked_booking_dao: type[FakeBookingDAO], mocked_product_dao: type[FakeProductDAO],
-              mocked_store_item_dao: type[FakeStoreItemDAO], mocked_user_dao: type[FakeUserDAO]) -> None:
+def dao_patch(
+    mocked_booking_dao: type[FakeBookingDAO],
+    mocked_product_dao: type[FakeProductDAO],
+    mocked_store_item_dao: type[FakeStoreItemDAO],
+    mocked_user_dao: type[FakeUserDAO],
+) -> None:
     """Patches all Data Access Objects with mocked one
 
     :param mocked_booking_dao: mocked booking data access object class

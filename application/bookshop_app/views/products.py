@@ -3,26 +3,27 @@
 Module contains routes for the products blueprint, which includes the
 functionality of creating, reading, updating, and deleting a product.
 """
-from flask import Blueprint, render_template
+from flask import Blueprint
+from flask import render_template
 from flask_login import current_user
 
 from bookshop_app.controllers.product import ProductController
 from bookshop_app.forms.booking import BookProductForm
-from bookshop_app.forms.product import CreateProductForm, DeleteProductByIdForm, DeleteProductForm, \
-    UpdateProductByIdForm, UpdateProductForm
+from bookshop_app.forms.product import CreateProductForm
+from bookshop_app.forms.product import DeleteProductByIdForm
+from bookshop_app.forms.product import DeleteProductForm
+from bookshop_app.forms.product import UpdateProductByIdForm
+from bookshop_app.forms.product import UpdateProductForm
 from bookshop_app.views.main import main_blueprint
 
 __all__ = ["products_blueprint"]
 
 products_blueprint = Blueprint(
-    name="products_blueprint",
-    import_name=__name__,
-    static_folder="static",
-    template_folder="templates"
+    name="products_blueprint", import_name=__name__, static_folder="static", template_folder="templates"
 )
 
 
-@main_blueprint.route('/')
+@main_blueprint.route("/")
 @products_blueprint.route("/products", methods=["GET"])
 def products_page() -> str:
     """Route for the GET request to the products endpoint"""
@@ -36,7 +37,7 @@ def products_page() -> str:
         user=current_user,
         create_product_form=create_product_form,
         update_product_form=update_product_form,
-        delete_product_form=delete_product_form
+        delete_product_form=delete_product_form,
     )
 
 
@@ -66,5 +67,5 @@ def product_page(product_id: str) -> str:
         user=current_user,
         book_product_by_id_form=book_product_by_id_form,
         update_product_by_id_form=update_product_by_id_form,
-        delete_product_by_id_form=delete_product_by_id_form
+        delete_product_by_id_form=delete_product_by_id_form,
     )
