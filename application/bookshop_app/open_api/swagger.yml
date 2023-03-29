@@ -1,8 +1,10 @@
 openapi: 3.0.3
 info:
-  title: Book Shop REST API
-  description: Sample User Service
-  version: 0.2.0
+  title: Bookshop REST API
+  description: >
+    Bookshop REST API provides endpoints with CRUD operations for
+    Users/Products/Bookings/StoreItems resources.
+  version: 0.5.0
 
 servers:
   - url: http://localhost:5000/api
