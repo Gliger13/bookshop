@@ -891,7 +891,7 @@ components:
         status_id: &booking_status_id_field
           type: integer
           format: int64
-          description: | 
+          description: |
             Current booking status id. Predefined:
             - 1 - submitted
             - 2 - rejected

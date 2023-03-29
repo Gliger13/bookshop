@@ -35,11 +35,14 @@ class BookingStatus(Enum):
 class BookingStatusModel(db.Model):
     """Booking ORM moke statuses"""
 
-    TRANSITION_MAP: Mapping[BookingStatus, list[BookingStatus]] = defaultdict(list, {
-        BookingStatus.SUBMITTED: [BookingStatus.REJECTED, BookingStatus.CANCELED, BookingStatus.APPROVED],
-        BookingStatus.APPROVED: [BookingStatus.REJECTED, BookingStatus.CANCELED, BookingStatus.IN_DELIVERY],
-        BookingStatus.IN_DELIVERY: [BookingStatus.REJECTED, BookingStatus.CANCELED, BookingStatus.COMPLETED],
-    })
+    TRANSITION_MAP: Mapping[BookingStatus, list[BookingStatus]] = defaultdict(
+        list,
+        {
+            BookingStatus.SUBMITTED: [BookingStatus.REJECTED, BookingStatus.CANCELED, BookingStatus.APPROVED],
+            BookingStatus.APPROVED: [BookingStatus.REJECTED, BookingStatus.CANCELED, BookingStatus.IN_DELIVERY],
+            BookingStatus.IN_DELIVERY: [BookingStatus.REJECTED, BookingStatus.CANCELED, BookingStatus.COMPLETED],
+        },
+    )
 
     __tablename__ = "booking_statuses"
 

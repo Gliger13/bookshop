@@ -1,6 +1,6 @@
 [project]
 name = "bookshop-test-framework"
-version = "0.4.0"
+version = "0.5.0"
 description = "Test framework for different type of test cases for bookshop application"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -24,7 +24,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pylint", "mypy"]
+dev = ["black", "mypy", "pylint"]
 
 [tool.setuptools.packages.find]
 include = ["bookshop_test_framework*"]
@@ -34,3 +34,7 @@ include = ["bookshop_test_framework*"]
 
 [project.urls]
 repository = "***REMOVED***"
+
+[tool.black]
+line-length = 120
+target-version = ['py311']

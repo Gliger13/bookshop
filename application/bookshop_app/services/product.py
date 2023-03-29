@@ -5,14 +5,19 @@ product resource.
 """
 from typing import Optional
 
-from flask import abort, jsonify, request, Request, Response
+from flask import abort
+from flask import jsonify
+from flask import Request
+from flask import request
+from flask import Response
 from marshmallow import ValidationError
 from requests import codes
 from sqlalchemy.exc import IntegrityError
 from werkzeug.datastructures import FileStorage
 
 from bookshop_app.data_access_objects.product import ProductDAO
-from bookshop_app.models.file import FileManagerFactory, validate_image
+from bookshop_app.models.file import FileManagerFactory
+from bookshop_app.models.file import validate_image
 from bookshop_app.models.product import ProductModel
 from bookshop_app.schemas.product import ProductSchema
 

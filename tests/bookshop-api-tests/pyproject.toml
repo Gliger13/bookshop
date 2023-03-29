@@ -1,6 +1,6 @@
 [project]
 name = "bookshop-api-tests"
-version = "0.1.0"
+version = "0.2.0"
 description = "Test Cases for testing Bookshop API"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -22,7 +22,11 @@ include = ["bookshop_api_tests*"]
 "bookshop_api_tests.users" = ["test_data.yaml"]
 
 [project.optional-dependencies]
-dev = ["pylint", "mypy"]
+dev = ["black", "mypy", "pylint"]
 
 [project.urls]
 repository = "***REMOVED***"
+
+[tool.black]
+line-length = 120
+target-version = ['py311']

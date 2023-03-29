@@ -5,15 +5,13 @@ Module contains UI input validation forms for store item related actions.
 from functools import cached_property
 
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, validators
+from wtforms import IntegerField
+from wtforms import validators
 
-from bookshop_app.forms._base import BaseForm, FieldProtocol
+from bookshop_app.forms._base import BaseForm
+from bookshop_app.forms._base import FieldProtocol
 
-__all__ = [
-    "CreateStoreItemForm",
-    "UpdateStoreItemForm",
-    "DeleteStoreItemForm"
-]
+__all__ = ["CreateStoreItemForm", "UpdateStoreItemForm", "DeleteStoreItemForm"]
 
 
 class StoreItemForm:
@@ -32,12 +30,13 @@ class CreateStoreItemForm(FlaskForm, BaseForm):
     __base = StoreItemForm
 
     product_id = IntegerField(__base.product_id.label, [validators.input_required(), *__base.product_id.validators])
-    available_quantity = IntegerField(__base.available_quantity.label,
-                                      [validators.optional(), *__base.available_quantity.validators])
-    booked_quantity = IntegerField(__base.booked_quantity.label,
-                                   [validators.optional(), *__base.booked_quantity.validators])
-    sold_quantity = IntegerField(__base.sold_quantity.label,
-                                 [validators.optional(), *__base.sold_quantity.validators])
+    available_quantity = IntegerField(
+        __base.available_quantity.label, [validators.optional(), *__base.available_quantity.validators]
+    )
+    booked_quantity = IntegerField(
+        __base.booked_quantity.label, [validators.optional(), *__base.booked_quantity.validators]
+    )
+    sold_quantity = IntegerField(__base.sold_quantity.label, [validators.optional(), *__base.sold_quantity.validators])
 
     @cached_property
     def field_names(self) -> list[str]:
@@ -52,12 +51,13 @@ class UpdateStoreItemForm(FlaskForm, BaseForm):
 
     id = IntegerField(__base.id.label, [validators.input_required(), *__base.id.validators])
     product_id = IntegerField(__base.product_id.label, [validators.optional(), *__base.product_id.validators])
-    available_quantity = IntegerField(__base.available_quantity.label,
-                                      [validators.optional(), *__base.available_quantity.validators])
-    booked_quantity = IntegerField(__base.booked_quantity.label,
-                                   [validators.optional(), *__base.booked_quantity.validators])
-    sold_quantity = IntegerField(__base.sold_quantity.label,
-                                 [validators.optional(), *__base.sold_quantity.validators])
+    available_quantity = IntegerField(
+        __base.available_quantity.label, [validators.optional(), *__base.available_quantity.validators]
+    )
+    booked_quantity = IntegerField(
+        __base.booked_quantity.label, [validators.optional(), *__base.booked_quantity.validators]
+    )
+    sold_quantity = IntegerField(__base.sold_quantity.label, [validators.optional(), *__base.sold_quantity.validators])
 
     @cached_property
     def field_names(self) -> list[str]:

@@ -3,7 +3,9 @@
 Module contains Store Item Service that provides methods with CRUD operations
 for store item resources.
 """
-from flask import jsonify, request, Response
+from flask import jsonify
+from flask import request
+from flask import Response
 from marshmallow import ValidationError
 from requests import codes
 from sqlalchemy.exc import IntegrityError

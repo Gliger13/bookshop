@@ -3,8 +3,10 @@
 Module contains routes for bookings blueprint that includes product booking,
 booking management, booking overview functionality
 """
-from flask import Blueprint, render_template
-from flask_login import current_user, login_required
+from flask import Blueprint
+from flask import render_template
+from flask_login import current_user
+from flask_login import login_required
 
 from bookshop_app.data_access_objects.booking import BookingDAO
 from bookshop_app.models.role import UserRole
@@ -12,10 +14,7 @@ from bookshop_app.models.role import UserRole
 __all__ = ["bookings_blueprint"]
 
 bookings_blueprint = Blueprint(
-    name="bookings_blueprint",
-    import_name=__name__,
-    static_folder="static",
-    template_folder="templates"
+    name="bookings_blueprint", import_name=__name__, static_folder="static", template_folder="templates"
 )
 
 

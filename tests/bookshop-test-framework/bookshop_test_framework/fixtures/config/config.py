@@ -1,7 +1,8 @@
 """Test config related fixtures"""
 import pytest as pytest
 
-from bookshop_test_framework.config.config import Config, get_config
+from bookshop_test_framework.config.config import Config
+from bookshop_test_framework.config.config import get_config
 
 
 @pytest.fixture(scope="session")

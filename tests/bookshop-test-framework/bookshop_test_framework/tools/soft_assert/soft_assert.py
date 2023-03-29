@@ -2,9 +2,11 @@
 import inspect
 import logging
 from collections import defaultdict
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 
-from .expectation_report import ExpectationReport, TestResult
+from .expectation_report import ExpectationReport
+from .expectation_report import TestResult
 
 __FAILED_EXPECTATIONS: dict[int, list[TestResult]] = defaultdict(list)
 
@@ -17,7 +19,7 @@ def __get_test_id() -> Optional[int]:
     stack = inspect.stack()
     for frame_info in stack:
         # 3 - expected pytest run test protocol frame
-        if frame_info[3] == 'runtestprotocol':
+        if frame_info[3] == "runtestprotocol":
             test_id = id(frame_info.frame)
             return test_id
     return None

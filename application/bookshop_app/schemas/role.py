@@ -3,7 +3,8 @@ from marshmallow import EXCLUDE
 
 from bookshop_app.database.database import db
 from bookshop_app.dependencies import ma
-from bookshop_app.models.role import RoleModel, UserRole
+from bookshop_app.models.role import RoleModel
+from bookshop_app.models.role import UserRole
 
 
 class RoleSchema(ma.SQLAlchemySchema):
