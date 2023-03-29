@@ -3,10 +3,14 @@
 Module contains routes for the store items blueprint, which includes the
 functionality of creating, reading, updating, and deleting a store item.
 """
-from flask import Blueprint, render_template
-from flask_login import current_user, login_required
+from flask import Blueprint
+from flask import render_template
+from flask_login import current_user
+from flask_login import login_required
 
-from bookshop_app.forms.store_item import CreateStoreItemForm, DeleteStoreItemForm, UpdateStoreItemForm
+from bookshop_app.forms.store_item import CreateStoreItemForm
+from bookshop_app.forms.store_item import DeleteStoreItemForm
+from bookshop_app.forms.store_item import UpdateStoreItemForm
 from bookshop_app.models.role import UserRole
 from bookshop_app.services.authentication import required_roles
 from bookshop_app.services.store_item import StoreItemService
@@ -14,10 +18,7 @@ from bookshop_app.services.store_item import StoreItemService
 __all__ = ["store_items_blueprint"]
 
 store_items_blueprint = Blueprint(
-    name="store_items_blueprint",
-    import_name=__name__,
-    static_folder="static",
-    template_folder="templates"
+    name="store_items_blueprint", import_name=__name__, static_folder="static", template_folder="templates"
 )
 
 

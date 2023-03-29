@@ -3,9 +3,14 @@ from selenium.common import TimeoutException
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 
-from ._elements import AddressInputElement, EmailInputElement, LoginInputElement, NameInputElement,\
-    PasswordInputElement, PhoneInputElement, SubmitButtonElement
 from .._base.pages import BasePage
+from ._elements import AddressInputElement
+from ._elements import EmailInputElement
+from ._elements import LoginInputElement
+from ._elements import NameInputElement
+from ._elements import PasswordInputElement
+from ._elements import PhoneInputElement
+from ._elements import SubmitButtonElement
 
 
 class RegistrationPage(BasePage):
@@ -15,8 +20,15 @@ class RegistrationPage(BasePage):
     given selenium driver.
     """
 
-    __slots__ = ["login_input_element", "password_input_element", "email_input_element", "phone_input_element",
-                 "name_input_element", "address_input_element", "submit_button_element"]
+    __slots__ = [
+        "login_input_element",
+        "password_input_element",
+        "email_input_element",
+        "phone_input_element",
+        "name_input_element",
+        "address_input_element",
+        "submit_button_element",
+    ]
 
     def __init__(self, driver: WebDriver) -> None:
         """Initialize page object with the given driver

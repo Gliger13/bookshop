@@ -1,5 +1,8 @@
 """ORM User Schemas"""
-from marshmallow import EXCLUDE, validate, validates, ValidationError
+from marshmallow import EXCLUDE
+from marshmallow import validate
+from marshmallow import validates
+from marshmallow import ValidationError
 
 from bookshop_app.database.database import db
 from bookshop_app.dependencies import ma

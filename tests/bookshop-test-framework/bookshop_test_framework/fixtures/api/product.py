@@ -11,13 +11,15 @@ from aiohttp import ClientResponse
 
 from bookshop_test_framework.models.product import Product
 from bookshop_test_framework.models.user import User
-from bookshop_test_framework.tools.api import ProductApi, UserApi
+from bookshop_test_framework.tools.api import ProductApi
+from bookshop_test_framework.tools.api import UserApi
 from bookshop_test_framework.tools.data_generator.test_data_generator import TestDataGenerator
 
 
 @pytest.fixture(scope="session")
-async def session_product(products_api: ProductApi, users_api: UserApi, session_manager_user: User,
-                          http_task_group: TaskGroup) -> Product:
+async def session_product(
+    products_api: ProductApi, users_api: UserApi, session_manager_user: User, http_task_group: TaskGroup
+) -> Product:
     """Generate, create and return customer user in session scope
 
     :param products_api: initialized Product API
@@ -29,9 +31,11 @@ async def session_product(products_api: ProductApi, users_api: UserApi, session_
     product = TestDataGenerator.generate_basic_product()
     authentication_headers = await users_api.get_auth_header(session_manager_user)
     create_product_response = await products_api.create(product, headers=authentication_headers)
-    assert create_product_response.ok, "Failed to create session product.\n" \
-                                       f"Request status code: {create_product_response.status}\n" \
-                                       f"Response message: {await create_product_response.text()}"
+    assert create_product_response.ok, (
+        "Failed to create session product.\n"
+        f"Request status code: {create_product_response.status}\n"
+        f"Response message: {await create_product_response.text()}"
+    )
 
     create_product_response_json = await create_product_response.json()
     product.id = create_product_response_json["id"]
@@ -42,8 +46,9 @@ async def session_product(products_api: ProductApi, users_api: UserApi, session_
 
 
 @pytest.fixture(scope="session")
-async def session_get_product_response(products_api: ProductApi, users_api: UserApi, session_customer_user: User,
-                                       session_product: Product) -> ClientResponse:
+async def session_get_product_response(
+    products_api: ProductApi, users_api: UserApi, session_customer_user: User, session_product: Product
+) -> ClientResponse:
     """Get session product with session customer user and return response
 
     :param products_api: initialized Product API
@@ -57,8 +62,9 @@ async def session_get_product_response(products_api: ProductApi, users_api: User
 
 
 @pytest.fixture(scope="session")
-async def session_get_all_products_response(products_api: ProductApi, users_api: UserApi,
-                                            session_customer_user: User) -> ClientResponse:
+async def session_get_all_products_response(
+    products_api: ProductApi, users_api: UserApi, session_customer_user: User
+) -> ClientResponse:
     """Send request to get all products and return response
 
     :param products_api: initialized Product API
@@ -71,8 +77,9 @@ async def session_get_all_products_response(products_api: ProductApi, users_api:
 
 
 @pytest.fixture(scope="session")
-async def session_update_product_response(products_api: ProductApi, users_api: UserApi, session_manager_user: User,
-                                          session_product: Product) -> ClientResponse:
+async def session_update_product_response(
+    products_api: ProductApi, users_api: UserApi, session_manager_user: User, session_product: Product
+) -> ClientResponse:
     """Send request to update given product and return response
 
     :param products_api: initialized Product API
@@ -87,8 +94,13 @@ async def session_update_product_response(products_api: ProductApi, users_api: U
 
 
 @pytest.fixture
-async def created_product_response(products_api: ProductApi, users_api: UserApi, generated_product: Product,
-                                   session_manager_user: User, http_task_group: TaskGroup) -> ClientResponse:
+async def created_product_response(
+    products_api: ProductApi,
+    users_api: UserApi,
+    generated_product: Product,
+    session_manager_user: User,
+    http_task_group: TaskGroup,
+) -> ClientResponse:
     """Create generated product and return response
 
     :param products_api: initialized Product API
@@ -125,8 +137,9 @@ async def created_product(created_product_response: ClientResponse, generated_pr
 
 
 @pytest.fixture
-async def deleted_product_response(products_api: ProductApi, users_api: UserApi, generated_product: Product,
-                                   session_manager_user: User) -> ClientResponse:
+async def deleted_product_response(
+    products_api: ProductApi, users_api: UserApi, generated_product: Product, session_manager_user: User
+) -> ClientResponse:
     """Delete generated and created product and return response
 
     :param products_api: initialized Product API
@@ -137,9 +150,11 @@ async def deleted_product_response(products_api: ProductApi, users_api: UserApi,
     """
     authentication_headers = await users_api.get_auth_header(session_manager_user)
     create_product_response = await products_api.create(generated_product, headers=authentication_headers)
-    assert create_product_response.ok, "Failed to create product to delete later.\n" \
-                                       f"Request status code: {create_product_response.status}\n" \
-                                       f"Response message: {await create_product_response.text()}"
+    assert create_product_response.ok, (
+        "Failed to create product to delete later.\n"
+        f"Request status code: {create_product_response.status}\n"
+        f"Response message: {await create_product_response.text()}"
+    )
 
     create_product_response_json = await create_product_response.json()
     create_product_id = create_product_response_json["id"]

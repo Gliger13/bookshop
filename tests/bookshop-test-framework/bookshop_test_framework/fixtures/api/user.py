@@ -10,7 +10,8 @@ from dataclasses import asdict
 from json import JSONDecodeError
 
 import pytest
-from aiohttp import ClientResponse, ContentTypeError
+from aiohttp import ClientResponse
+from aiohttp import ContentTypeError
 
 from bookshop_test_framework.config.config import Config
 from bookshop_test_framework.models.user import User
@@ -31,9 +32,11 @@ async def session_customer_user(config: Config, users_api: UserApi, http_task_gr
     customer_user.role_id = config.role_name_id_map["customer"]
     create_customer_user_response = await users_api.create(customer_user)
 
-    assert create_customer_user_response.ok, "Failed to create session customer user.\n" \
-                                             f"Request status code: {create_customer_user_response.status}\n" \
-                                             f"Response message: {await create_customer_user_response.text()}"
+    assert create_customer_user_response.ok, (
+        "Failed to create session customer user.\n"
+        f"Request status code: {create_customer_user_response.status}\n"
+        f"Response message: {await create_customer_user_response.text()}"
+    )
 
     create_customer_user_response_json = await create_customer_user_response.json()
     customer_user.id = create_customer_user_response_json["id"]
@@ -57,9 +60,11 @@ async def session_manager_user(config: Config, users_api: UserApi, http_task_gro
     manager_user.role_id = config.role_name_id_map["manager"]
     create_manager_user_response = await users_api.create(manager_user)
 
-    assert create_manager_user_response.ok, "Failed to create session manager user.\n" \
-                                            f"Request status code: {create_manager_user_response.status}\n" \
-                                            f"Response message: {await create_manager_user_response.text()}"
+    assert create_manager_user_response.ok, (
+        "Failed to create session manager user.\n"
+        f"Request status code: {create_manager_user_response.status}\n"
+        f"Response message: {await create_manager_user_response.text()}"
+    )
 
     create_user_response_json = await create_manager_user_response.json()
     manager_user.id = create_user_response_json["id"]
@@ -83,9 +88,11 @@ async def session_admin_user(config: Config, users_api: UserApi, http_task_group
     admin_user.role_id = config.role_name_id_map["admin"]
     create_manager_user_response = await users_api.create(admin_user)
 
-    assert create_manager_user_response.ok, "Failed to create session admin user.\n" \
-                                            f"Request status code: {create_manager_user_response.status}\n" \
-                                            f"Response message: {await create_manager_user_response.text()}"
+    assert create_manager_user_response.ok, (
+        "Failed to create session admin user.\n"
+        f"Request status code: {create_manager_user_response.status}\n"
+        f"Response message: {await create_manager_user_response.text()}"
+    )
 
     create_user_response_json = await create_manager_user_response.json()
     admin_user.id = create_user_response_json["id"]
@@ -174,9 +181,11 @@ async def deleted_user_response(users_api: UserApi, generated_user: User) -> Cli
     """
     create_user_response = await users_api.create(generated_user)
 
-    assert create_user_response.ok, "Failed to create user for deletion test.\n" \
-                                    f"Request status code: {create_user_response.status}\n" \
-                                    f"Response message: {await create_user_response.text()}"
+    assert create_user_response.ok, (
+        "Failed to create user for deletion test.\n"
+        f"Request status code: {create_user_response.status}\n"
+        f"Response message: {await create_user_response.text()}"
+    )
 
     create_user_response_json = await create_user_response.json()
     created_user_id = create_user_response_json["id"]

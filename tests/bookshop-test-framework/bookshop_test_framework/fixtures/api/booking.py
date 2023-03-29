@@ -13,13 +13,19 @@ from bookshop_test_framework.config.config import Config
 from bookshop_test_framework.models.booking import Booking
 from bookshop_test_framework.models.product import Product
 from bookshop_test_framework.models.user import User
-from bookshop_test_framework.tools.api import BookingApi, UserApi
+from bookshop_test_framework.tools.api import BookingApi
+from bookshop_test_framework.tools.api import UserApi
 
 
 @pytest.fixture(scope="session")
-async def session_booking(bookings_api: BookingApi, users_api: UserApi, session_product: Product,
-                          session_customer_user: User, session_manager_user: User,
-                          http_task_group: TaskGroup) -> Booking:
+async def session_booking(
+    bookings_api: BookingApi,
+    users_api: UserApi,
+    session_product: Product,
+    session_customer_user: User,
+    session_manager_user: User,
+    http_task_group: TaskGroup,
+) -> Booking:
     """Generate, create and return booking for customer user in session scope
 
     :param bookings_api: initialized Booking API
@@ -38,9 +44,11 @@ async def session_booking(bookings_api: BookingApi, users_api: UserApi, session_
     )
     customer_authentication_headers = await users_api.get_auth_header(session_customer_user)
     create_booking_response = await bookings_api.create(booking, headers=customer_authentication_headers)
-    assert create_booking_response.ok, "Failed to create session booking.\n" \
-                                       f"Request status code: {create_booking_response.status}\n" \
-                                       f"Response message: {await create_booking_response.text()}"
+    assert create_booking_response.ok, (
+        "Failed to create session booking.\n"
+        f"Request status code: {create_booking_response.status}\n"
+        f"Response message: {await create_booking_response.text()}"
+    )
 
     create_booking_response_json = await create_booking_response.json()
     booking.id = create_booking_response_json["id"]
@@ -52,8 +60,9 @@ async def session_booking(bookings_api: BookingApi, users_api: UserApi, session_
 
 
 @pytest.fixture(scope="session")
-async def session_get_booking_response(bookings_api: BookingApi, users_api: UserApi, session_customer_user: User,
-                                       session_booking: Booking) -> ClientResponse:
+async def session_get_booking_response(
+    bookings_api: BookingApi, users_api: UserApi, session_customer_user: User, session_booking: Booking
+) -> ClientResponse:
     """Get session booking with the session customer user and return response
 
     :param bookings_api: initialized Booking API
@@ -67,8 +76,9 @@ async def session_get_booking_response(bookings_api: BookingApi, users_api: User
 
 
 @pytest.fixture(scope="session")
-async def session_get_all_bookings_response(bookings_api: BookingApi, users_api: UserApi,
-                                            session_manager_user: User) -> ClientResponse:
+async def session_get_all_bookings_response(
+    bookings_api: BookingApi, users_api: UserApi, session_manager_user: User
+) -> ClientResponse:
     """Send request to get all bookings and return response
 
     :param bookings_api: initialized Booking API
@@ -81,8 +91,9 @@ async def session_get_all_bookings_response(bookings_api: BookingApi, users_api:
 
 
 @pytest.fixture(scope="session")
-async def session_update_booking_response(config: Config, bookings_api: BookingApi, users_api: UserApi,
-                                          session_manager_user: User, session_booking: Booking) -> ClientResponse:
+async def session_update_booking_response(
+    config: Config, bookings_api: BookingApi, users_api: UserApi, session_manager_user: User, session_booking: Booking
+) -> ClientResponse:
     """Send request to update given booking and return response
 
     :param config: current environment config for tests
@@ -98,9 +109,14 @@ async def session_update_booking_response(config: Config, bookings_api: BookingA
 
 
 @pytest.fixture
-async def created_booking_response(bookings_api: BookingApi, users_api: UserApi, generated_booking: Booking,
-                                   generated_user: User, session_manager_user: User,
-                                   http_task_group: TaskGroup) -> ClientResponse:
+async def created_booking_response(
+    bookings_api: BookingApi,
+    users_api: UserApi,
+    generated_booking: Booking,
+    generated_user: User,
+    session_manager_user: User,
+    http_task_group: TaskGroup,
+) -> ClientResponse:
     """Create generated booking and return response
 
     :param bookings_api: initialized Booking API
@@ -139,8 +155,9 @@ async def created_booking(created_booking_response: ClientResponse, generated_bo
 
 
 @pytest.fixture
-async def deleted_booking_response(bookings_api: BookingApi, users_api: UserApi, generated_booking: Booking,
-                                   session_admin_user: User) -> ClientResponse:
+async def deleted_booking_response(
+    bookings_api: BookingApi, users_api: UserApi, generated_booking: Booking, session_admin_user: User
+) -> ClientResponse:
     """Delete generated and created booking and return response
 
     :param bookings_api: initialized Booking API
@@ -151,9 +168,11 @@ async def deleted_booking_response(bookings_api: BookingApi, users_api: UserApi,
     """
     authentication_headers = await users_api.get_auth_header(session_admin_user)
     create_booking_response = await bookings_api.create(generated_booking, headers=authentication_headers)
-    assert create_booking_response.ok, "Failed to create booking to delete later.\n" \
-                                       f"Request status code: {create_booking_response.status}\n" \
-                                       f"Response message: {await create_booking_response.text()}"
+    assert create_booking_response.ok, (
+        "Failed to create booking to delete later.\n"
+        f"Request status code: {create_booking_response.status}\n"
+        f"Response message: {await create_booking_response.text()}"
+    )
 
     create_booking_response_json = await create_booking_response.json()
     created_booking_id = create_booking_response_json["id"]

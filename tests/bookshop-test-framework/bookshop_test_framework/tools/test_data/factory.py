@@ -7,11 +7,15 @@ attributes using default values from config and factory.
 import logging
 import os
 from functools import lru_cache
-from typing import Any, Generator, Mapping, Type
+from typing import Any
+from typing import Generator
+from typing import Mapping
+from typing import Type
 
 from .config import TestDataConfig
 from .errors import TestDataError
-from .loaders import TestDataLoader, TestDataYamlFileLoader
+from .loaders import TestDataLoader
+from .loaders import TestDataYamlFileLoader
 from .models import TestData
 
 
@@ -69,9 +73,11 @@ def get_test_data_path(test_path: str, test_data_file_name: str) -> str:
 
 
 @lru_cache
-def get_parametrized_test_data(test_path: str,
-                               test_data_file_name: str = TestDataConfig.DEFAULT_TEST_DATA_FILE_NAME,
-                               loader_type: str = TestDataConfig.DEFAULT_TEST_DATA_FILE_LOADER) -> list[dict]:
+def get_parametrized_test_data(
+    test_path: str,
+    test_data_file_name: str = TestDataConfig.DEFAULT_TEST_DATA_FILE_NAME,
+    loader_type: str = TestDataConfig.DEFAULT_TEST_DATA_FILE_LOADER,
+) -> list[dict]:
     """Load, parse and return parametrized test data
 
     Calculates expected test data file path using given currently running test
@@ -95,8 +101,10 @@ def get_parametrized_test_data(test_path: str,
 
     parametrized_test_data = test_data.get_parametrized_test_data_by_test_set_name(test_set_name)
     if not parametrized_test_data:
-        raise TestDataError(f"No parametrized test data was found for test `{test_set_name}` "
-                            f"in test data file with path `{test_data_path}`")
+        raise TestDataError(
+            f"No parametrized test data was found for test `{test_set_name}` "
+            f"in test data file with path `{test_data_path}`"
+        )
 
     logging.info("Found `%s` test set parameters for test set `%s`", len(parametrized_test_data), test_set_name)
     return parametrized_test_data
@@ -109,5 +117,7 @@ def get_test_data_ids(test_path: str) -> Generator[str, None, None]:
     """
     parametrized_data = get_parametrized_test_data(test_path)
     for test_set_number, test_set in enumerate(parametrized_data):
-        yield test_set.get(TestDataConfig.TEST_DATA_TEST_SET_NAME_ATTRIBUTE,
-                           TestDataConfig.DEFAULT_TEST_SET_NAME_TEMPLATE.format(test_set_number))
+        yield test_set.get(
+            TestDataConfig.TEST_DATA_TEST_SET_NAME_ATTRIBUTE,
+            TestDataConfig.DEFAULT_TEST_SET_NAME_TEMPLATE.format(test_set_number),
+        )

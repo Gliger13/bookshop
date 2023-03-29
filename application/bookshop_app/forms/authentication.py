@@ -6,9 +6,15 @@ registration and update.
 from functools import cached_property
 
 from flask_wtf import FlaskForm
-from wtforms import EmailField, HiddenField, IntegerField, PasswordField, StringField, validators
+from wtforms import EmailField
+from wtforms import HiddenField
+from wtforms import IntegerField
+from wtforms import PasswordField
+from wtforms import StringField
+from wtforms import validators
 
-from bookshop_app.forms._base import BaseForm, FieldProtocol
+from bookshop_app.forms._base import BaseForm
+from bookshop_app.forms._base import FieldProtocol
 from bookshop_app.models.role import UserRole
 
 __all__ = [
@@ -29,7 +35,8 @@ class UserForm:
     password = FieldProtocol(label="Password", validators=[validators.length(min=8, max=256)])
     email = FieldProtocol(label="Email", validators=[])
     phone = FieldProtocol(
-        label="Phone", validators=[validators.regexp(r"(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)*")])
+        label="Phone", validators=[validators.regexp(r"(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)*")]
+    )
     name = FieldProtocol(label="First and Last name", validators=[validators.length(max=256)])
     address = FieldProtocol(label="Address", validators=[validators.length(max=256)])
     role_id = FieldProtocol(label="Role ID", validators=[validators.number_range(1, len(UserRole))])

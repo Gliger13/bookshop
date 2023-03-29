@@ -40,10 +40,7 @@ class DevelopmentConfig(Config):
 
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///dev.db"
-    FILE_MANAGER_CONFIG = {
-        "manager_type": "local",
-        "dir_to_save": files("bookshop_app").joinpath("media")
-    }
+    FILE_MANAGER_CONFIG = {"manager_type": "local", "dir_to_save": files("bookshop_app").joinpath("media")}
     click.echo(SQLALCHEMY_DATABASE_URI)
 
 
@@ -52,10 +49,7 @@ class TestingConfig(Config):
 
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
-    FILE_MANAGER_CONFIG = {
-        "manager_type": "local",
-        "dir_to_save": files("bookshop_app").joinpath("media")
-    }
+    FILE_MANAGER_CONFIG = {"manager_type": "local", "dir_to_save": files("bookshop_app").joinpath("media")}
 
 
 class ProductionConfig(Config):
@@ -63,10 +57,7 @@ class ProductionConfig(Config):
 
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = "sqlite:///production.db"
-    FILE_MANAGER_CONFIG = {
-        "manager_type": "local",
-        "dir_to_save": files("bookshop_app").joinpath("media")
-    }
+    FILE_MANAGER_CONFIG = {"manager_type": "local", "dir_to_save": files("bookshop_app").joinpath("media")}
 
 
 def get_environment_config_reference() -> str:
@@ -85,7 +76,8 @@ def get_environment_config_reference() -> str:
         case _:
             raise EnvironmentError(
                 f"Invalid environment name `{Config.ENV}` specified in environment variables. "
-                f"Please specify any of {[env.name for env in Environment]}")
+                f"Please specify any of {[env.name for env in Environment]}"
+            )
 
 
 @lru_cache

@@ -2,7 +2,8 @@
 
 Module contains base page elements and their divergences.
 """
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
+from abc import abstractmethod
 from functools import cached_property
 
 from selenium.webdriver.remote.webdriver import WebDriver

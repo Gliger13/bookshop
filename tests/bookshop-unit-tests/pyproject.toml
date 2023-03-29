@@ -1,6 +1,6 @@
 [project]
 name = "bookshop-unit-tests"
-version = "0.2.0"
+version = "0.3.0"
 description = "Unit tests for bookshop application"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pylint", "mypy"]
+dev = ["black", "mypy", "pylint"]
 
 [tool.setuptools.package-data]
 "bookshop_unit_tests.endpoints.booking" = ["test_data.yaml"]
@@ -23,3 +23,7 @@ dev = ["pylint", "mypy"]
 
 [project.urls]
 repository = "***REMOVED***"
+
+[tool.black]
+line-length = 120
+target-version = ['py311']

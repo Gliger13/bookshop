@@ -2,8 +2,10 @@
 from flask import Response
 
 from bookshop_app.models.role import UserRole
-from bookshop_app.services.authentication import filter_bookings_by_roles, multi_auth, \
-    required_creating_booking_for_self_or_roles, required_own_given_booking_id_or_roles
+from bookshop_app.services.authentication import filter_bookings_by_roles
+from bookshop_app.services.authentication import multi_auth
+from bookshop_app.services.authentication import required_creating_booking_for_self_or_roles
+from bookshop_app.services.authentication import required_own_given_booking_id_or_roles
 from bookshop_app.services.booking import BookingService
 
 

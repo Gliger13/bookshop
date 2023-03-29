@@ -1,5 +1,6 @@
 """Base Test Result model"""
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
+from dataclasses import dataclass
 from typing import Any
 
 from .test_result_attributes import TestResultAttributes
@@ -19,6 +20,4 @@ class TestResult:
 
     def result(self) -> dict[str, str]:
         """Return result attribute name and string result value as dict"""
-        return {
-            TestResultAttributes.CHECK_MESSAGE: str(self.check_message)
-        }
+        return {TestResultAttributes.CHECK_MESSAGE: str(self.check_message)}

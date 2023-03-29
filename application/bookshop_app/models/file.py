@@ -7,7 +7,8 @@ of file managers depends on the package configuration.
 """
 import logging
 import os
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
+from abc import abstractmethod
 from enum import Enum
 from functools import lru_cache
 from typing import Mapping
@@ -17,7 +18,8 @@ from marshmallow import ValidationError
 from PIL import Image
 from werkzeug.datastructures import FileStorage
 
-from bookshop_app.config import ConfigError, get_environment_config
+from bookshop_app.config import ConfigError
+from bookshop_app.config import get_environment_config
 
 
 class FileMangerType(Enum):
@@ -176,8 +178,10 @@ class FileManagerFactory:
         if raw_file_manager_type in [manager_type.value for manager_type in FileMangerType]:
             file_manager_type = FileMangerType(raw_file_manager_type)
         else:
-            raise ConfigError("File manager type specified in the current environment configuration was not found. "
-                              f"Was specified: `{raw_file_manager_type}`")
+            raise ConfigError(
+                "File manager type specified in the current environment configuration was not found. "
+                f"Was specified: `{raw_file_manager_type}`"
+            )
         file_manager = cls.FILE_MANAGER_TYPE_AND_MANAGER_MAP.get(file_manager_type)(file_manager_config)
         return file_manager
 
