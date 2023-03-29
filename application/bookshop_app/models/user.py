@@ -2,7 +2,9 @@
 import hashlib
 import os
 import time
+from typing import ClassVar
 from typing import Final
+from typing import Optional
 
 import jwt
 from flask_login import UserMixin
@@ -32,7 +34,7 @@ class UserModel(UserMixin, db.Model):
     phone = db.Column(db.String(256), unique=True)
     address = db.Column(db.String(256))
 
-    token: Mapped[str] = None
+    token: ClassVar[Optional[str]] = None
 
     def get_id(self) -> str:
         """Get user ID for Login Manager"""
