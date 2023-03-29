@@ -8,7 +8,6 @@ from typing import Optional
 
 import jwt
 from flask_login import UserMixin
-from sqlalchemy.orm import Mapped
 from werkzeug.exceptions import Unauthorized
 
 from bookshop_app.database.database import db
