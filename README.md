@@ -1,12 +1,19 @@
 # Bookshop Application
 
-[![latest release](***REMOVED***/-/badges/release.svg)](***REMOVED***/-/releases)
 ***REMOVED***
-***REMOVED***
+[![Python Version](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3112)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/PyCQA/pylint)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![security: gitleaks](https://img.shields.io/badge/security-gitleaks-blue.svg)](https://github.com/PyCQA/bandit)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+<br/>
+Main Branch:
+***REMOVED***
+***REMOVED***
+<br/>
+Production Branch:
+[![pipeline status](***REMOVED***/badges/main/pipeline.svg)](***REMOVED***/-/commits/production)
+[![unit tests coverage](***REMOVED***/badges/main/coverage.svg)](***REMOVED***/-/commits/production)
 
 
 ## Table of contents
