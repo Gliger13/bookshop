@@ -11,11 +11,7 @@ def application() -> Flask:
     """Initialize and return bookshop testing application"""
     app = create_app()
     app.config.from_object("bookshop_app.config.TestingConfig")
-    app.config.update(
-        {
-            "TESTING": True,
-        }
-    )
+    app.config.update({"TESTING": True})
     return app
 
 
