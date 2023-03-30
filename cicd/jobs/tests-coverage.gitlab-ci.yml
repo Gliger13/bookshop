@@ -26,7 +26,7 @@ variables:
         echo "Unit Tests Coverage Quality Gate failed. Current: $COVERAGE_PERCENT. Expected: >$MINIMUM_UNIT_TESTS_COVERAGE_SCORE"
         exit 1
       fi
-  coverage: '/Code coverage - \d+\.\d+/'
+  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
   artifacts:
     paths:
       - coverage_metric.txt
