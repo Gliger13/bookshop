@@ -11,7 +11,8 @@ the bookstore application.
   provides asserts, fixtures, configs, tools for executing test cases.
 - [bookshop-unit-tests](bookshop-unit-tests) - unit tests for bookshop
   application package.
-- [bookshop-api-tests](bookshop-api-tests) - test for Bookshop API.
+- [bookshop-api-tests](bookshop-api-tests) - tests for Bookshop API.
+- [bookshop-ui-tests](bookshop-ui-tests) - tests for Bookshop UI.
 
 ## Run
 
@@ -21,7 +22,7 @@ the bookstore application.
 ```shell
 cd bookshop-api-tests
 ```
-3) Run tests with all environment variables and options if needed:
+3) Run tests with test framework environment variables and options:
 ```shell
 ENV="PRODUCTION" pytest . -m smoke
 ```
