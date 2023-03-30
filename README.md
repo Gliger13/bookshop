@@ -12,8 +12,8 @@ Main Branch:
 ***REMOVED***
 <br/>
 Production Branch:
-[![pipeline status](***REMOVED***/badges/main/pipeline.svg)](***REMOVED***/-/commits/production)
-[![unit tests coverage](***REMOVED***/badges/main/coverage.svg)](***REMOVED***/-/commits/production)
+***REMOVED***
+***REMOVED***
 
 
 ## Table of contents
