@@ -5,6 +5,17 @@
 * [Context](#context)
 * [Architecture](#architecture)
   * [Structure](#structure)
+  * [API](#api)
+  * [UI](#ui)
+    * [Products Page](#products-page)
+    * [Registration Page](#registration-page)
+    * [Login Page](#login-page)
+    * [Product Page](#product-page)
+    * [Create Product Page](#create-product-page)
+    * [Bookings Page](#bookings-page)
+    * [Store Items Page](#store-items-page)
+    * [Users Page](#users-page)
+    * [User Page](#user-page)
 * [Installation](#installation)
 * [Run](#run)
   * [Script](#script)
@@ -14,7 +25,70 @@
 ## Context
 
 Bookshop Application - Flask application with MVC framework implementation.
-Provides REST API with basic CRUD operations for users, products, store items and bookings via Swagger.
+Provides REST API with basic CRUD operations for users, products, store items
+and bookings via swagger and UI pages.
+
+## Architecture
+
+### Structure
+
+Bookshop Application implemented using Model View Control framework with
+additional services and data access object layers.
+
+![Bookshop Application Arhitecture](.readme_images/application_architecture.svg)
+
+### API
+
+All API documentation is provided on the swagger web page, which is available
+after the application is launched.
+
+![Bookshop Swagger UI](.readme_images/swagger_ui.png)
+
+### UI
+
+#### Products page
+
+![Products Page](.readme_images/products_page.png)
+
+#### Registration page
+
+![Registration Page](.readme_images/registration_page.png)
+
+
+#### Login page
+
+![Login Page](.readme_images/login_page.png)
+
+
+#### Product page
+
+![Product Page](.readme_images/product_page.png)
+
+
+#### Create product page
+
+![Create Product Page](.readme_images/create_product_page.png)
+
+
+#### Bookings page
+
+![Bookings Page](.readme_images/bookings_page.png)
+
+
+#### Store items page
+
+![Store Items Page](.readme_images/store_items_page.png)
+
+
+#### Users page
+
+![Users Page](.readme_images/users_page.png)
+
+
+#### User page
+
+![User Page](.readme_images/user_page.png)
+
 
 ## Installation
 
@@ -35,11 +109,17 @@ python3.11 -m venv venv
 ```shell
 source venv/bin/activate
 ```
-5) Install application and its base dependencies using [pyproject.toml](pyproject.toml):
+5) Install application dependencies using [requirements.txt](requirements.txt):
 ```shell
-pip install .
+pip install --requirement --no-deps requirement.txt
 ```
-_Note: To install dev version with some code linters use `pip install ".[dev]"`_
+6) Install application [pyproject.toml](pyproject.toml):
+```shell
+pip install --no-deps .
+```
+_Note: To install dev version for contributing please use
+`pip install --requirement --no-deps dev-requirement.txt` and then
+`pip install --no-deps ".[dev]"`_
 
 ## Run
 
@@ -47,7 +127,8 @@ There are two ways to launch application:
 1) Via installed in the virtual environment script `run_bookshop_app`
 2) Via main application file
 
-All launch types must run in an activated Python virtual environment with the application installed.
+All launch types must run in the activated Python virtual environment with the
+application dependencies and application installed.
 
 ### Script
 
@@ -72,7 +153,7 @@ flask run
 All listed launches launch the application in the default, `DEVELOPMENT`, environment.
 To control this behavior use [environment variables](#environment-variables)<br/>
 
-Swagger UI - http://127.0.0.1:5000/api/ui/
+Swagger UI - http://127.0.0.1:5000/api/ui/ <br/>
 Application UI - http://127.0.0.1:5000
 
 ## Environment Variables
