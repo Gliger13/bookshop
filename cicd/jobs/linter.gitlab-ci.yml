@@ -21,7 +21,7 @@ variables:
     - PYLINT_SCORE=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' pylint_parseable_report.txt)
     - echo "pylint-score $PYLINT_SCORE" > ../pylint_metric.txt
     - >
-      if python -c "exit(0 if $PYLINT_SCORE > $MINIMUM_CODE_QUALITY_SCORE else 0)";
+      if python -c "exit(0 if float($PYLINT_SCORE) > float($MINIMUM_CODE_QUALITY_SCORE) else 0)";
       then
         echo "Code Quality Gate passed. Current: $PYLINT_SCORE. Expected: >$MINIMUM_CODE_QUALITY_SCORE"
         exit 0
