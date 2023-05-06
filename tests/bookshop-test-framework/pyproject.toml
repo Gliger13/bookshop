@@ -5,7 +5,7 @@ description = "Test framework for different type of test cases for bookshop appl
 readme = "README.md"
 requires-python = ">=3.11"
 maintainers = [
-    { name = "Andrei Zaneuski", email = "***REMOVED***" }
+    { name = "Andrei Zaneuski", email = "zanevskiyandrey@gmail.com" }
 ]
 
 dependencies = [
@@ -31,9 +31,6 @@ include = ["bookshop_test_framework*"]
 
 [tool.setuptools.package-data]
 "bookshop_test_framework.config" = ["config.yaml"]
-
-[project.urls]
-repository = "***REMOVED***"
 
 [tool.black]
 line-length = 120

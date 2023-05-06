@@ -5,14 +5,11 @@ description = "UI Tests for bookshop application"
 readme = "README.md"
 requires-python = ">=3.11"
 maintainers = [
-    {name = "Andrei Zaneuski", email = "***REMOVED***"}
+    {name = "Andrei Zaneuski", email = "zanevskiyandrey@gmail.com"}
 ]
 
 [project.optional-dependencies]
 dev = ["black", "mypy", "pylint"]
-
-[project.urls]
-repository = "***REMOVED***"
 
 [tool.black]
 line-length = 120
