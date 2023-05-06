@@ -60,6 +60,7 @@ repos:
           - --resolver=backtracking
           - --no-emit-trusted-host
           - --quiet
+          - --upgrade
           - application/pyproject.toml
       - id: pip-compile
         name: "[Auto Dependencies] Pip compile application dev requirements"
@@ -70,6 +71,7 @@ repos:
           - --resolver=backtracking
           - --no-emit-trusted-host
           - --quiet
+          - --upgrade
           - --extra=dev
           - --allow-unsafe
           - application/pyproject.toml
@@ -82,6 +84,7 @@ repos:
           - --resolver=backtracking
           - --no-emit-trusted-host
           - --quiet
+          - --upgrade
           - tests/bookshop-test-framework/pyproject.toml
       - id: pip-compile
         name: "[Auto Dependencies] Pip compile test framework dev requirements"
@@ -92,5 +95,6 @@ repos:
           - --resolver=backtracking
           - --no-emit-trusted-host
           - --quiet
+          - --upgrade
           - --extra=dev
           - tests/bookshop-test-framework/pyproject.toml
