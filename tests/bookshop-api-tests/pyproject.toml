@@ -5,7 +5,7 @@ description = "Test Cases for testing Bookshop API"
 readme = "README.md"
 requires-python = ">=3.11"
 maintainers = [
-    { name = "Andrei Zaneuski", email = "***REMOVED***" }
+    { name = "Andrei Zaneuski", email = "zanevskiyandrey@gmail.com" }
 ]
 
 dependencies = [
@@ -23,9 +23,6 @@ include = ["bookshop_api_tests*"]
 
 [project.optional-dependencies]
 dev = ["black", "mypy", "pylint"]
-
-[project.urls]
-repository = "***REMOVED***"
 
 [tool.black]
 line-length = 120
