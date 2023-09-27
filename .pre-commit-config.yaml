@@ -24,12 +24,12 @@ repos:
         name: "[Check Style] Check python modules have docstrings"
         types: [ python ]
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.16.3
+    rev: v8.18.0
     hooks:
       - id: gitleaks
         name: "[Security] Check for secrets leaks"
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 23.9.1
     hooks:
       - id: black
         name: "[Auto Style] Apply black code style"
@@ -40,7 +40,7 @@ repos:
           - --preview
         types: [ python ]
   - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.9.0
+    rev: v3.11.0
     hooks:
       - id: reorder-python-imports
         args:
@@ -49,7 +49,7 @@ repos:
         name: "[Auto Style] Reorder imports"
         types: [ python ]
   - repo: https://github.com/jazzband/pip-tools
-    rev: 6.13.0
+    rev: 7.3.0
     hooks:
       - id: pip-compile
         name: "[Auto Dependencies] Pip compile application main requirements"
